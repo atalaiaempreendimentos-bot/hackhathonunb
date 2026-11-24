@@ -1,0 +1,6 @@
+﻿grupo,registros_analisados,atende_definicao_sim,atende_definicao_pendente,atende_definicao_nao,reconhecimento_sustentado,nao_reconhecimento_fundamentado,pendente_verificacao,mensuracao_fundamentada,valor_fundamentado_brl,faixa_indicativa,faixa_indicativa_soma,sem_mensuracao_monetaria,mensuracao_pendente,fora_do_escopo
+Arte,479,161,314,4,0,4,475,0,0.0,15,USD 8.700 a 29.160,0,460,4
+Arte contemporânea,162,155,7,0,0,0,162,0,0.0,0,,0,162,0
+Etnográfica,859,195,664,0,0,195,664,0,0.0,0,,859,0,0
+A classificar,697,0,2,695,0,695,2,0,0.0,0,,0,2,695
+TOTAL,2197,511,987,699,0,894,1303,0,0.0,15,USD 8.700 a 29.160,859,624,699

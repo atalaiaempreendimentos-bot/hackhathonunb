@@ -1,0 +1,13 @@
+﻿indicador,valor,descricao
+Registros identificados,2197,Total de registros públicos no portal
+Registros recuperados,2197,Total recuperado e organizado
+Cobertura (%),100.0,Recuperados / identificados no universo digital
+Completude cadastral (%),32.9,Preenchimento médio das 13 variáveis principais
+Registros duplicados,427,Possíveis duplicidades (conferência manual)
+Reconhecimento sustentado,0,Fundamentação suficiente para reconhecer
+Reconhecimento pendente,1303,Necessitam de informações complementares
+Mensuração fundamentada,0,Valores com evidência nível A ou B
+Mensuração pendente,639,Sem evidência suficiente (inclui 15 com faixa indicativa)
+Valor agregado estimado,"R$ 0,00",Soma dos valores fundamentados (detalhe por base e categoria em resultados/demonstrativos/valor_agregado_por_base.csv); não é o valor total do patrimônio da CAL
+Rastreabilidade (%),100.0,"Registros com fonte, decisão de reconhecimento e de mensuração documentadas"
+Validação,9,Casos examinados em profundidade (mínimo de nove)

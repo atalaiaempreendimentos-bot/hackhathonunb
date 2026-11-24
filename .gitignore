@@ -5,3 +5,8 @@ __pycache__/
 dados/imagens/
 *.parcial
 acervo_1565/_to_delete/
+
+# cadastro patrimonial: original com dados pessoais e versão item a item (publicar só com autorização)
+*.numbers
+Lista_da_CAL*
+dados/cadastro_patrimonial_cal.csv

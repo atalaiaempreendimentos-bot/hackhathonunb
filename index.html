@@ -55,6 +55,13 @@ figure{margin:0 0 12px}figure img{width:100%;max-height:60vh;object-fit:contain;
 #pop{position:fixed;z-index:50;max-width:min(420px,92vw);background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:4px;padding:10px 12px;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.18);display:none}
 #pop b{display:block;font:600 14px Archivo,sans-serif;margin-bottom:4px}
 .mens{border:1px solid var(--ln);border-left:4px solid var(--az);padding:10px 12px;margin:0 0 12px;border-radius:4px}.mens h4{margin:0 0 6px;font:600 15px Archivo,sans-serif}
+sup.fn{font-size:.72em;line-height:0;margin-left:1px}sup.fn a{color:var(--ac);text-decoration:none;font-weight:700}sup.fn a:hover{text-decoration:underline}
+th sup.fn a{color:#ffd5cc}
+.notas{padding-left:22px;font-size:15px}.notas li{margin-bottom:10px;max-width:90ch}.notas li:target{background:var(--az2);outline:2px solid var(--ac);outline-offset:4px}
+.rec{min-height:32px;padding:2px 8px;border-radius:4px;border:1px dashed var(--mut);color:var(--ink);background:transparent;font-size:13px;font-weight:600;cursor:help;text-align:left;white-space:normal}
+.rec.s{border-style:solid;border-color:#1b7a43}.rec.n{border-style:solid;border-color:var(--mut)}
+.box{background:var(--card);border:1px solid var(--ln);border-left:5px solid var(--ac);border-radius:4px;padding:14px 16px;margin:14px 0}
+.casos td:nth-child(1){white-space:nowrap}
 footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{max-width:none}
 @media(max-width:600px){table{font-size:13px}.barra{grid-template-columns:7em minmax(0,1fr) 3em}}
 </style>
@@ -66,18 +73,19 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <p>Hackathon CULTIVA UnB 2026: identificação, reconhecimento, mensuração e evidenciação dos ativos culturais da Casa da Cultura da América Latina, com dados recuperados da plataforma Tainacan.</p>
   <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas.</div>
   <div class="aviso">Resultados acadêmicos em construção; não são registros contábeis oficiais da UnB.</div>
-  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#galeria">Galeria</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#limitacoes">Limitações</a></nav>
+  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#galeria">Galeria</a><a href="#evidenciacao">Evidenciação</a><a href="#validacao">Validação</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#notas">Notas metodológicas</a><a href="#limitacoes">Limitações</a></nav>
  </div>
 </header>
 
 <section class="band" id="indicadores">
  <div class="wrap">
-  <h2>O universo digital recuperado</h2>
-  <p class="mut" id="dataConsulta">Carregando indicadores…</p>
+  <h2>Indicadores obrigatórios (Regras, item 15)</h2>
+  <p class="mut"><span id="dataConsulta">Carregando indicadores…</span> Coleta e cobertura na nota<sup class="fn"><a href="#n1">1</a></sup>; valor agregado na nota<sup class="fn"><a href="#n7">7</a></sup>.</p>
   <div class="kpis" id="kpis"></div>
   <div class="duas">
-   <div><h3>Triagem automática por grupo</h3><p class="mut">Sugestão por palavras-chave, sujeita a revisão da equipe.</p><div id="grupos"></div></div>
-   <div><h3>Mensuração (Etapa III)</h3><p class="mut">Situação de cada registro no modelo de mensuração. Valores só com evidência registrada (Regras, item 9.4).</p><div id="mensBar"></div><p class="mut" id="mensAgr"></p></div>
+   <div><h3>Triagem automática por grupo<sup class="fn"><a href="#n2">2</a></sup></h3><p class="mut">Sugestão por subcoleção e palavras-chave, sujeita a revisão da equipe.</p><div id="grupos"></div></div>
+   <div><h3>Reconhecimento (Etapa II)<sup class="fn"><a href="#n3">3</a></sup></h3><p class="mut">Classe de cada registro na matriz de reconhecimento. O controle da UnB não é presumido pela presença no portal (Regras, item 8).</p><div id="recBar"></div></div>
+   <div><h3>Mensuração (Etapa III)<sup class="fn"><a href="#n4">4</a></sup></h3><p class="mut">Situação de cada registro no modelo de mensuração. Valores só com evidência registrada (Regras, item 9.4).</p><div id="mensBar"></div><p class="mut" id="mensAgr"></p></div>
    <div><h3>Coleções do portal</h3><div class="scroll"><table><thead><tr><th>Coleção</th><th>Declarados</th><th>Recuperados</th></tr></thead><tbody id="cols"></tbody></table></div></div>
   </div>
  </div>
@@ -86,7 +94,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 <section class="band alt" id="consulta">
  <div class="wrap">
   <h2>Consulta ao inventário padronizado</h2>
-  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. Clique numa linha para ver o registro completo e o link para o portal da CAL.</p>
+  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
   <div class="ctl">
    <input id="q" type="search" placeholder="Buscar nos 2.197 registros" aria-label="Buscar">
    <select id="fAut" aria-label="Artista ou autor"><option value="">Todos os artistas/autores</option></select>
@@ -94,9 +102,10 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <select id="fGr" aria-label="Grupo sugerido"><option value="">Todos os grupos</option></select>
    <select id="fFoto" aria-label="Foto no portal"><option value="">Com e sem foto no portal</option><option value="1">Com foto no portal</option><option value="0">Sem foto no portal</option></select>
    <select id="fMen" aria-label="Situação da mensuração"><option value="">Todas as situações de mensuração</option><option value="v">Com valor ou faixa</option><option>Pendente de evidência</option><option>Sem mensuração monetária fundamentada</option><option>Fora do escopo (a confirmar no reconhecimento)</option><option>Pendente de classificação</option></select>
+   <select id="fRec" aria-label="Classe de reconhecimento"><option value="">Todas as classes de reconhecimento</option><option>Reconhecimento sustentado pelas evidências</option><option>Não reconhecimento fundamentado</option><option>Pendente de verificação</option></select>
   </div>
   <div class="mut" id="nRes">Carregando inventário…</div>
-  <div class="scroll"><table><thead><tr><th>ID</th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Mensuração (NBC TSP 37/38; IPSAS 45/46)</th></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th>ID</th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Reconhecimento (NBC TSP 37)<sup class="fn"><a href="#n3">3</a></sup></th><th>Mensuração (NBC TSP 38; IPSAS 46)<sup class="fn"><a href="#n4">4</a></sup></th></tr></thead><tbody id="tb"></tbody></table></div>
   <div class="pg"><button id="ant" type="button">Anterior</button><span class="mut" id="pag"></span><button id="prox" type="button">Próxima</button></div>
  </div>
 </section>
@@ -104,21 +113,41 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 <section class="band" id="galeria">
  <div class="wrap">
   <h2>Galeria da coleção Acervo</h2>
-  <p>Fotografias de 1.244 obras da coleção 1565. Clique numa foto para ver os metadados. <span class="mut">Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.</span></p>
+  <p>Fotografias de 1.244 obras da coleção 1565. Clique numa foto para ver os metadados. <span class="mut">Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.<sup class="fn"><a href="#n8">8</a></sup></span></p>
   <div class="ctl"><input id="gq" type="search" placeholder="Buscar por título, autoria, número de registro ou coleção" aria-label="Buscar na galeria"><select id="gAut" aria-label="Artista ou autor na galeria"><option value="">Todos os artistas/autores</option></select><span class="mut" id="gn" style="align-self:center"></span></div>
   <div class="grade" id="grade"></div>
   <div class="pg"><button id="gant" type="button">Anterior</button><span class="mut" id="gpag"></span><button id="gprox" type="button">Próxima</button></div>
  </div>
 </section>
 
+<section class="band alt" id="evidenciacao">
+ <div class="wrap">
+  <h2>Evidenciação (Etapa IV)</h2>
+  <p>Quadro demonstrativo consolidado e minuta de nota explicativa com os conteúdos do item 10 das Regras. Os resultados acadêmicos ficam separados do valor registrado pela contabilidade da UnB.<sup class="fn"><a href="#n6">6</a></sup></p>
+  <div class="scroll"><table id="quadro"><thead><tr><th>Grupo</th><th>Registros</th><th>Atende à definição de ativo</th><th>Reconhecimento sustentado</th><th>Não reconhecimento fundamentado</th><th>Pendente de verificação</th><th>Mensuração fundamentada</th><th>Faixa indicativa<sup class="fn"><a href="#n5">5</a></sup></th><th>Sem mensuração monetária</th><th>Mensuração pendente</th></tr></thead><tbody><tr><td colspan="10">Carregando…</td></tr></tbody></table></div>
+  <div class="box" id="concBox"><h3>Cadastro patrimonial da UnB (valor oficialmente registrado)<sup class="fn"><a href="#n6">6</a></sup></h3><p class="mut">Carregando…</p></div>
+  <p><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/resultados/nota_explicativa/minuta_nota_explicativa.md">Ler a minuta de nota explicativa</a> | <a href="resultados/demonstrativos/quadro_consolidado.csv">quadro_consolidado.csv</a> | <a href="resultados/indicadores/indicadores_item15.csv">indicadores_item15.csv</a> | <a href="resultados/demonstrativos/valor_agregado_por_base.csv">valor_agregado_por_base.csv</a></p>
+ </div>
+</section>
+
+<section class="band" id="validacao">
+ <div class="wrap">
+  <h2>Validação de casos (Produto 4)</h2>
+  <p>Nove bens examinados em profundidade (Regras, item 6.3): três obras de arte, três obras contemporâneas e três objetos etnográficos, um de cada subcoleção Inicial, Galvão e Chocó. O exame é documental; o exame físico na CAL fica indicado como procedimento complementar. Clique no título para abrir o registro.</p>
+  <div class="scroll"><table class="casos"><thead><tr><th>Caso</th><th>Tipo</th><th>Bem</th><th>Reconhecimento</th><th>Mensuração</th><th>Lacunas e procedimentos complementares</th></tr></thead><tbody id="casos"><tr><td colspan="6">Carregando…</td></tr></tbody></table></div>
+  <p><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/resultados/validacao_casos.md">Ler a validação completa</a> | <a href="dados/validacao_casos.csv">validacao_casos.csv</a></p>
+ </div>
+</section>
+
 <section class="band alt" id="etapas">
  <div class="wrap">
-  <h2>As quatro etapas contábeis</h2>
+  <h2>As etapas da solução</h2>
   <div class="etapas">
    <div class="etapa"><small>Concluída em 23/11</small><h3>Identificação</h3><p>Extração de todos os registros públicos pela API do Tainacan, padronização das variáveis do item 7 das Regras, dicionário de dados, diagnóstico de completude e duplicidades.</p></div>
-   <div class="etapa"><small>Em desenvolvimento</small><h3>Reconhecimento</h3><p>Matriz com os critérios da Estrutura Conceitual e da NBC TSP 37: reconhecimento sustentado, não reconhecimento fundamentado ou pendente de verificação.</p></div>
+   <div class="etapa"><small>Matriz aplicada em 23/11</small><h3>Reconhecimento</h3><p>Matriz com os oito critérios do item 8 (Estrutura Conceitual e NBC TSP 37) aplicada aos 2.197 registros, com justificativa, investigação necessária e referência normativa.</p></div>
    <div class="etapa"><small>Modelo aplicado em 23/11; comparáveis em pesquisa</small><h3>Mensuração</h3><p>Base de mensuração (NBC TSP 38 / IPSAS 46), técnica, nível de evidência e situação definidos para os 2.197 registros. Valores entram apenas com evidência documentada, com nota metodológica.</p></div>
-   <div class="etapa"><small>Em desenvolvimento</small><h3>Evidenciação</h3><p>Quadro consolidado, indicadores obrigatórios e minuta de nota explicativa.</p></div>
+   <div class="etapa"><small>Minuta gerada em 23/11</small><h3>Evidenciação</h3><p>Quadro consolidado, indicadores obrigatórios, valor agregado por base e minuta de nota explicativa com notas de rodapé metodológicas.</p></div>
+   <div class="etapa"><small>Fluxo automatizado</small><h3>Inovação tecnológica</h3><p>Um comando reproduz as etapas (<code>python3 codigos/executar_pipeline.py</code>); a opção <code>--base</code> aplica o fluxo a outro acervo Tainacan.</p></div>
   </div>
  </div>
 </section>
@@ -140,16 +169,39 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <li><a href="dados/evidencias_mensuracao.csv">evidencias_mensuracao.csv</a>: evidências e fontes que sustentam os valores</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/mensuracao.py">codigos/mensuracao.py</a>: regras do modelo de mensuração</li>
    <li><a href="dados/comparaveis.csv">comparaveis.csv</a> e <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/comparaveis.py">codigos/comparaveis.py</a>: abordagem de mercado por comparáveis, com fontes</li>
+   <li><a href="dados/reconhecimento.csv">reconhecimento.csv</a>: matriz de reconhecimento (<a href="dados/reconhecimento_resumo.csv">resumo</a>)</li>
+   <li><a href="dados/validacao_casos.csv">validacao_casos.csv</a>: nove casos validados</li>
+   <li><a href="dados/conciliacao_patrimonial.csv">conciliacao_patrimonial.csv</a>: conciliação com o cadastro patrimonial da CAL (agregados)</li>
+   <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/executar_pipeline.py">codigos/executar_pipeline.py</a>: todas as etapas com um comando</li>
+   <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/tree/main/codigos">codigos/</a>: reconhecimento, validação, evidenciação e conciliação patrimonial</li>
+   <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/tree/main/metodologia">metodologia/</a>: as quatro etapas, por escrito</li>
+   <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/relatorio_final/relatorio_tecnico_cientifico.md">relatorio_final/</a>: minuta do relatório técnico-científico</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/extrair_acervo_cal.py">codigos/extrair_acervo_cal.py</a>: extrator</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/baixar_acervo_1565.py">baixar_acervo_1565.py</a>: busca da coleção 1565</li>
   </ul>
  </div>
 </section>
 
+<section class="band" id="notas">
+ <div class="wrap">
+  <h2>Notas metodológicas</h2>
+  <ol class="notas">
+   <li id="n1"><b>Identificação.</b> Registros extraídos pela API REST pública do Tainacan (<code>/wp-json/tainacan/v2</code>) em 23/11/2026, 19h12, com pausa de 1 s entre requisições (Regras, item 17.12), por <code>codigos/extrair_acervo_cal.py</code>. Cobertura = recuperados ÷ identificados no universo digital público (2.197 ÷ 2.197); não equivale ao patrimônio físico da CAL (item 4.4). A Coleção CNRC, citada no item 4.3, não aparece no portal. Completude = preenchimento médio das 13 variáveis principais do item 7. Detalhes em <code>metodologia/identificacao.md</code>.</li>
+   <li id="n2"><b>Triagem por grupo.</b> Subcoleções Inicial, Galvão, Chocó e CNRC: Etnográfica (item 4.3); Triangular: Arte contemporânea; Arte: Arte; demais registros por termos de categoria e técnica. Triagem automática, sujeita a revisão (coluna <code>criterio_grupo</code> do inventário).</li>
+   <li id="n3"><b>Reconhecimento.</b> Matriz com os critérios do item 8: existência, controle, potencial de serviços, benefícios econômicos, evidência de aquisição, natureza, condições de reconhecimento e investigação adicional. Atende à definição de ativo o registro com situação "Localizado" e doação ou transferência com data. Reconhecimento sustentado exige ainda mensuração confiável (nível A ou B). Bens etnográficos que atendem à definição, mas sem mensuração monetária confiável, recebem não reconhecimento fundamentado, com evidenciação qualitativa (item 4.3). Registros de eventos (Memória Institucional) não identificam bem controlado. Fundamento indicado nas Regras (item 19.2): NBC TSP Estrutura Conceitual (R1) e NBC TSP 37, Ativo Imobilizado (convergente à IPSAS 45); parágrafos a conferir no texto das normas. Código: <code>codigos/reconhecimento.py</code>.</li>
+   <li id="n4"><b>Mensuração.</b> A base (custo histórico, valor justo ou valor operacional corrente, conforme NBC TSP 38 / IPSAS 46) é escolhida separadamente da técnica (abordagem de mercado ou de custo), como pede o item 9. Os ingressos registrados no portal são doações e transferências, sem custo histórico. Sem evidência suficiente, o registro recebe a classificação do item 9.4, sem valor arbitrário nem valor gerado por inteligência artificial. Código: <code>codigos/mensuracao.py</code>; metodologia em <code>metodologia/mensuracao.md</code>.</li>
+   <li id="n5"><b>Comparáveis e níveis de evidência.</b> Obras do mesmo artista e da mesma família de técnica, com fonte registrada em <code>dados/comparaveis.csv</code>. Nível A: 3 ou mais transações realizadas e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas; D: sem comparável. Valor central = mediana das transações; intervalo = menor e maior valor. Faixa indicativa (nível C) não constitui valor justo. Moedas não são convertidas sem taxa e fonte, e preço anunciado não é tratado como preço de transação (item 9.2). Código: <code>codigos/comparaveis.py</code>.</li>
+   <li id="n6"><b>Cadastro patrimonial.</b> Lista da CAL (cadastro patrimonial da UnB): 243 bens tombados em 05/01/2021 (termo 209/2021), migrados do SIPAT, sem nota fiscal, empenho ou fornecedor informados. Os valores registrados aparecem como informação oficial, separados dos resultados acadêmicos (item 10), e não são somados a eles. Nenhum tombamento aparece no portal, o que impede o vínculo item a item; por isso a média por obra (R$ 1.765.385,00 ÷ 232 = R$ 7.609,42) não é atribuída a obras individuais. Agregados em <code>dados/conciliacao_patrimonial.csv</code>; a versão item a item fica fora do repositório público até a confirmação da autorização de divulgação (item 12).</li>
+   <li id="n7"><b>Indicadores e valor agregado.</b> Indicadores do item 15 calculados por <code>codigos/evidenciacao.py</code>. O valor agregado soma apenas mensurações fundamentadas, por base e categoria, e não representa o valor total do patrimônio cultural da CAL. Rastreabilidade = registros com URL de origem, data de consulta e decisões de reconhecimento e mensuração documentadas.</li>
+   <li id="n8"><b>Fotografias.</b> Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998). O portal informa que as fotografias não podem ser baixadas e/ou reproduzidas sem autorização; a publicação aqui atende a fins acadêmicos, com autorização declarada pela equipe em 23/11/2026.</li>
+  </ol>
+ </div>
+</section>
+
 <section class="band alt" id="limitacoes">
  <div class="wrap">
   <h2>Limitações e direitos das imagens</h2>
-  <p>A cobertura refere-se ao universo digital público do portal e não equivale ao patrimônio físico da CAL (Regras, item 4.4). Em 23/11/2026 o portal apresentou certificado TLS vencido, e a coleta foi feita sem verificação do certificado, conforme registrado nos logs.</p>
+  <p>A cobertura refere-se ao universo digital público do portal e não equivale ao patrimônio físico da CAL (Regras, item 4.4). Em 23/11/2026 o portal apresentou certificado TLS vencido, e a coleta foi feita sem verificação do certificado, por decisão da equipe. A Coleção CNRC não consta do portal. O cadastro patrimonial e o portal não têm chave comum. Há poucos comparáveis de mercado, e a validação dos nove casos é documental, sem exame físico na CAL.</p>
   <p>As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), com direitos reservados (Lei nº 9.610/1998). O portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização; sua publicação aqui atende a fins acadêmicos, com autorização declarada pela equipe. Os direitos das obras pertencem aos seus autores, e a reprodução por terceiros continua sujeita à autorização da CAL/UnB. Titulares de direitos podem pedir a retirada de uma imagem abrindo uma <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/issues">issue no repositório</a>.</p>
  </div>
 </section>
@@ -174,12 +226,12 @@ function csv(txt){txt=txt.replace(/^﻿/,'');const L=[];let r=[],f='',q=false;
  if(f!==''||r.length){r.push(f);L.push(r)}const h=L.shift()||[];return L.filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]??''])))}
 const pegar=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(csv);
 
+pegar('resultados/indicadores/indicadores_item15.csv').then(I=>{
+ document.getElementById('kpis').innerHTML=I.map(x=>`<div class="kpi" title="${esc(x.descricao)}"><b>${esc(fmt(x.valor))}${/\(%\)/.test(x.indicador)?'%':''}</b><span>${esc(x.indicador.replace(' (%)',''))}</span></div>`).join('')}).catch(()=>{document.getElementById('kpis').innerHTML='<p>Não foi possível carregar os indicadores. Abra o site pelo endereço do GitHub Pages.</p>'});
 pegar('dados/indicadores.csv').then(I=>{const v=n=>(I.find(x=>x.indicador===n)||{}).valor;
- const k=[['Registros identificados','registros públicos no portal'],['Registros recuperados','registros recuperados'],['Cobertura (%)','% de cobertura digital'],['Completude cadastral média (%)','% de completude média'],['Registros com possível duplicidade','possíveis duplicidades'],['Registros com foto no portal','registros com foto no portal']];
- document.getElementById('kpis').innerHTML=k.map(([n,l])=>`<div class="kpi"><b>${esc(fmt(v(n)))}</b><span>${esc(l)}</span></div>`).join('');
  const G=['Arte','Arte contemporânea','Etnográfica','A classificar'].map(g=>[g,Number(v('Registros no grupo sugerido: '+g)||0)]);const mx=Math.max(...G.map(g=>g[1]),1);
  document.getElementById('grupos').innerHTML=G.map(([g,n])=>`<div class="barra"><span>${esc(g)}</span><i style="width:${(100*n/mx).toFixed(1)}%"></i><em>${fmt(n)}</em></div>`).join('');
-}).catch(()=>{document.getElementById('kpis').innerHTML='<p>Não foi possível carregar dados/indicadores.csv. Abra o site pelo endereço do GitHub Pages.</p>'});
+}).catch(()=>{});
 
 pegar('dados/colecoes.csv').then(C=>{document.getElementById('cols').innerHTML=C.map(c=>`<tr><td>${/^https:\/\//.test(c.url)?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.colecao)}</a>`:esc(c.colecao)}</td><td class="n">${fmt(c.itens_publicos_declarados)}</td><td class="n">${fmt(c.itens_recuperados)}</td></tr>`).join('')}).catch(()=>{});
 
@@ -190,6 +242,12 @@ pegar('dados/mensuracao.csv').then(R=>{R.forEach(m=>M[m.id_registro]=m);if(D.len
  document.getElementById('mensBar').innerHTML=ord.map(o=>`<div class="barra"><span>${esc(o)}</span><i style="width:${(100*(c[o]||0)/mx).toFixed(1)}%"></i><em>${fmt(c[o]||0)}</em></div>`).join('');
  const tot=R.filter(m=>m.situacao==='Mensuração fundamentada'&&m.valor_central!=='').reduce((a,m)=>a+Number(m.valor_central),0);
  document.getElementById('mensAgr').textContent=tot>0?'Valor agregado das mensurações fundamentadas: '+tot.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})+'. Não representa o valor total do patrimônio da CAL (Regras, item 15).':'Nenhuma mensuração fundamentada registrada até o momento.'}).catch(()=>{});
+const RC={};
+pegar('dados/reconhecimento.csv').then(R=>{R.forEach(r=>RC[r.id_registro]=r);if(D.length)render();
+ const ord=['Reconhecimento sustentado pelas evidências','Não reconhecimento fundamentado','Pendente de verificação'];const c={};R.forEach(r=>c[r.classe_reconhecimento]=(c[r.classe_reconhecimento]||0)+1);const mx=Math.max(1,...Object.values(c));
+ document.getElementById('recBar').innerHTML=ord.map(o=>`<div class="barra"><span>${esc(o)}</span><i style="width:${(100*(c[o]||0)/mx).toFixed(1)}%"></i><em>${fmt(c[o]||0)}</em></div>`).join('')}).catch(()=>{});
+function celRec(id){const r=RC[id];if(!r)return '<span class="sit">Carregando…</span>';const k=r.classe_reconhecimento.startsWith('Reconhecimento')?'s':r.classe_reconhecimento.startsWith('Não')?'n':'';
+ return `<button type="button" class="rec ${k}" data-id="${esc(id)}" aria-describedby="pop">${esc(r.classe_reconhecimento.replace(' pelas evidências',''))}</button>`}
 function celMens(id){const m=M[id];if(!m)return '<span class="sit">Carregando…</span>';
  return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};let G=[],gpag=0;const GPOR=48;
 pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));
@@ -203,41 +261,49 @@ pegar('dados/inventario.csv').then(R=>{D=R.map(r=>({...r,_s:Object.values(r).joi
  opt('fCol',D.map(d=>d.colecao));opt('fGr',D.map(d=>d.grupo_sugerido));
  const optN=(id,vals)=>{const c={};vals.filter(Boolean).forEach(v=>c[v]=(c[v]||0)+1);const s=document.getElementById(id);Object.keys(c).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v+' ('+c[v]+')';s.appendChild(o)})};
  optN('fAut',D.map(d=>d.autoria_origem));
- const dc=(D[0]||{}).data_consulta;if(dc)document.getElementById('dataConsulta').textContent='Consulta ao portal em '+dc+'.';
+ const dc=(D[0]||{}).data_consulta;if(dc)document.getElementById('dataConsulta').textContent='Consulta ao portal em '+dc.replace(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}).*/,'$3/$2/$1, $4h$5')+'.';
  render()}).catch(()=>{document.getElementById('nRes').textContent='Não foi possível carregar dados/inventario.csv. Abra o site pelo endereço do GitHub Pages.'});
 
-function filtrados(){const q=document.getElementById('q').value.toLowerCase().trim(),c=document.getElementById('fCol').value,g=document.getElementById('fGr').value,f=document.getElementById('fFoto').value,a=document.getElementById('fAut').value,mn=document.getElementById('fMen').value;
- return D.filter(d=>{const m=M[d.id_registro]||{};return(!q||d._s.includes(q))&&(!a||d.autoria_origem===a)&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f))&&(!mn||(mn==='v'?!!m.valor_exibicao:m.situacao===mn))})}
+function filtrados(){const q=document.getElementById('q').value.toLowerCase().trim(),c=document.getElementById('fCol').value,g=document.getElementById('fGr').value,f=document.getElementById('fFoto').value,a=document.getElementById('fAut').value,mn=document.getElementById('fMen').value,rc=document.getElementById('fRec').value;
+ return D.filter(d=>{const m=M[d.id_registro]||{};return(!rc||(RC[d.id_registro]||{}).classe_reconhecimento===rc)&&(!q||d._s.includes(q))&&(!a||d.autoria_origem===a)&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f))&&(!mn||(mn==='v'?!!m.valor_exibicao:m.situacao===mn))})}
 let atual=[];
 function render(){atual=filtrados();const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
  document.getElementById('pag').textContent='Página '+(pagina+1)+' de '+tp;
- document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td><td>${celMens(d.id_registro)}</td></tr>`).join('')}
+ document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td><td>${celRec(d.id_registro)}</td><td>${celMens(d.id_registro)}</td></tr>`).join('')}
 function abrir(i){abrirReg(atual[i])}
 function abrirReg(d){if(!d)return;document.getElementById('dlgT').textContent=(d.titulo||'').split(' | ')[0]||('Registro '+d.id_registro);
  const linhas=Object.keys(ROT).filter(k=>d[k]).map(k=>`<tr><td>${esc(ROT[k])}</td><td>${esc(d[k])}</td></tr>`).join('');
  const link=/^https:\/\//.test(d.url_registro)?`<p><a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Ver a obra no portal da CAL</a></p>`:'';
  const F=FOTOS[d.id_registro];const fig=F?`<figure><img src="acervo_1565/${esc(F.arquivo)}" alt="${esc(F.titulo||d.titulo)}"><figcaption>${esc(F.credito)} <a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Registro original</a></figcaption></figure>`:'';
  const mm=M[d.id_registro];const mb=mm?`<div class="mens"><h4>Mensuração: ${esc(mm.situacao)}${mm.valor_exibicao?' | '+esc(mm.valor_exibicao):''}</h4><table class="det"><tr><td>Categoria</td><td>${esc(mm.categoria_mensuracao)}</td></tr><tr><td>Base de mensuração</td><td>${esc(mm.base_mensuracao)}</td></tr><tr><td>Técnica</td><td>${esc(mm.tecnica)}</td></tr><tr><td>Nível de evidência</td><td>${esc(mm.nivel_evidencia)}</td></tr><tr><td>Nota metodológica</td><td>${esc(mm.nota_metodologica)}</td></tr></table></div>`:'';
- document.getElementById('dlgB').innerHTML=fig+link+mb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
+ const rr=RC[d.id_registro];const rb=rr?`<div class="mens"><h4>Reconhecimento: ${esc(rr.classe_reconhecimento)}</h4><table class="det"><tr><td>Existência</td><td>${esc(rr.existencia)}</td></tr><tr><td>Controle</td><td>${esc(rr.controle)}</td></tr><tr><td>Potencial de serviços</td><td>${esc(rr.potencial_servicos)}</td></tr><tr><td>Atende à definição de ativo</td><td>${esc(rr.atende_definicao_ativo)}</td></tr><tr><td>Condição de mensuração</td><td>${esc(rr.condicao_mensuracao)}</td></tr><tr><td>Justificativa</td><td>${esc(rr.justificativa)}</td></tr><tr><td>Investigação necessária</td><td>${esc(rr.investigacao_necessaria)}</td></tr>${rr.restricoes?`<tr><td>Restrições</td><td>${esc(rr.restricoes)}</td></tr>`:''}<tr><td>Referência normativa</td><td>${esc(rr.referencia_normativa)}</td></tr></table></div>`:'';
+ document.getElementById('dlgB').innerHTML=fig+link+rb+mb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
 const pop=document.getElementById('pop');
-function mostrarNota(el){const m=M[el.dataset.id];if(!m||!m.valor_exibicao)return;
- pop.innerHTML=`<b>${esc(m.situacao)}: ${esc(m.valor_exibicao)}</b>${esc(m.nota_metodologica)}`;pop.style.display='block';
+function mostrarNota(el){if(el.classList.contains('rec')){const r=RC[el.dataset.id];if(!r)return;pop.innerHTML=`<b>${esc(r.classe_reconhecimento)}</b>${esc(r.justificativa)}${r.investigacao_necessaria?'<br><br><i>Investigação necessária:</i> '+esc(r.investigacao_necessaria):''}`}
+ else{const m=M[el.dataset.id];if(!m||!m.valor_exibicao)return;pop.innerHTML=`<b>${esc(m.situacao)}: ${esc(m.valor_exibicao)}</b>${esc(m.nota_metodologica)}`}pop.style.display='block';
  const r=el.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;let x=Math.min(Math.max(8,r.left),innerWidth-pw-8);let y=r.bottom+6;if(y+ph>innerHeight-8)y=Math.max(8,r.top-ph-6);
  pop.style.left=x+'px';pop.style.top=y+'px'}
 function esconderNota(){pop.style.display='none'}
 const tbE=document.getElementById('tb');
-tbE.addEventListener('mouseover',e=>{const v=e.target.closest('.val');if(v)mostrarNota(v)});
-tbE.addEventListener('mouseout',e=>{if(e.target.closest('.val'))esconderNota()});
-tbE.addEventListener('focusin',e=>{const v=e.target.closest('.val');if(v)mostrarNota(v)});
+tbE.addEventListener('mouseover',e=>{const v=e.target.closest('.val,.rec');if(v)mostrarNota(v)});
+tbE.addEventListener('mouseout',e=>{if(e.target.closest('.val,.rec'))esconderNota()});
+tbE.addEventListener('focusin',e=>{const v=e.target.closest('.val,.rec');if(v)mostrarNota(v)});
 tbE.addEventListener('focusout',esconderNota);addEventListener('scroll',esconderNota,{passive:true});
-document.getElementById('tb').addEventListener('click',e=>{const v=e.target.closest('.val');if(v){e.stopPropagation();pop.style.display==='block'?esconderNota():mostrarNota(v);return}const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)});
+document.getElementById('tb').addEventListener('click',e=>{const v=e.target.closest('.val,.rec');if(v){e.stopPropagation();pop.style.display==='block'?esconderNota():mostrarNota(v);return}const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)});
 function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
-['q','fAut','fCol','fGr','fFoto','fMen'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
+['q','fAut','fCol','fGr','fFoto','fMen','fRec'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
 document.getElementById('ant').addEventListener('click',()=>{if(pagina>0){pagina--;render()}});
 document.getElementById('prox').addEventListener('click',()=>{pagina++;render()});
+const brl=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+pegar('resultados/demonstrativos/quadro_consolidado.csv').then(Q=>{document.querySelector('#quadro tbody').innerHTML=Q.map(q=>{const t=q.grupo==='TOTAL';const td=v=>`<td class="n">${t?'<b>':''}${esc(fmt(v))}${t?'</b>':''}</td>`;
+ return `<tr><td>${t?'<b>Total</b>':esc(q.grupo)}</td>${td(q.registros_analisados)}${td(q.atende_definicao_sim)}${td(q.reconhecimento_sustentado)}${td(q.nao_reconhecimento_fundamentado)}${td(q.pendente_verificacao)}${td(q.mensuracao_fundamentada)}<td class="n">${esc(fmt(q.faixa_indicativa))}${q.faixa_indicativa_soma?'<br><span class="mut">'+esc(q.faixa_indicativa_soma)+'</span>':''}</td>${td(q.sem_mensuracao_monetaria)}${td(q.mensuracao_pendente)}</tr>`}).join('')}).catch(()=>{});
+pegar('dados/conciliacao_patrimonial.csv').then(C=>{const v=n=>(C.find(x=>x.indicador===n)||{}).valor;if(!v('Obras de arte no cadastro'))return;
+ document.querySelector('#concBox p').outerHTML=`<p>O cadastro patrimonial da UnB registra, na localidade da CAL, <b>${fmt(v('Obras de arte no cadastro'))} obras de arte</b>: ${fmt(v('Obras de arte próprias (sem marca de bem de terceiro)'))} próprias, com valor registrado de <b>${brl(v('Valor registrado das obras próprias (R$)'))}</b>, e ${fmt(v('Obras marcadas como bem de terceiro'))} marcadas como bem de terceiro (${brl(v('Valor registrado dos bens de terceiro (R$)'))}), que não atendem ao critério de controle. Mediana do valor registrado: ${brl(v('Mediana do valor registrado das obras próprias (R$)'))}. Tombamentos do cadastro encontrados no portal: <b>${fmt(v('Tombamentos do cadastro encontrados no portal'))}</b>, o que impede vincular os valores registrados às obras catalogadas. Esse total é valor oficialmente registrado, não resultado da equipe, e não é somado às estimativas acadêmicas (Regras, item 10).</p>`}).catch(()=>{});
+pegar('dados/validacao_casos.csv').then(V=>{document.getElementById('casos').innerHTML=V.map(c=>`<tr><td class="n">${esc(c.caso)}</td><td>${esc(c.tipo)}</td><td><a href="#" data-id="${esc(c.id_registro)}">${esc(c.titulo)}</a><br><span class="mut">${esc(c.autoria_ou_grupo)} | ${esc(c.subcolecao)} | ${esc(c.numero_registro)}</span></td><td>${esc(c.classe_reconhecimento)}</td><td>${esc(c.situacao_mensuracao)}${c.valor_ou_faixa?'<br><b>'+esc(c.valor_ou_faixa)+'</b> (nível '+esc(c.nivel_evidencia)+')':''}</td><td class="mut">${c.lacunas_documentais?'<b>Lacunas:</b> '+esc(c.lacunas_documentais)+'. ':''}<b>Procedimentos:</b> ${esc(c.procedimentos_complementares)}.${c.questoes_eticas_ou_de_direitos?' '+esc(c.questoes_eticas_ou_de_direitos):''}</td></tr>`).join('')}).catch(()=>{});
+document.getElementById('casos').addEventListener('click',e=>{const a=e.target.closest('a[data-id]');if(a){e.preventDefault();abrirId(a.dataset.id)}});
 document.getElementById('grade').addEventListener('click',e=>{const b=e.target.closest('.ft');if(b)abrirId(b.dataset.id)});
 document.getElementById('gq').addEventListener('input',()=>{gpag=0;grender()});document.getElementById('gAut').addEventListener('input',()=>{gpag=0;grender()});
 document.getElementById('gant').addEventListener('click',()=>{if(gpag>0){gpag--;grender();document.getElementById('galeria').scrollIntoView()}});

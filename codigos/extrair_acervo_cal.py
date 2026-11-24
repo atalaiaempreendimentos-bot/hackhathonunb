@@ -65,7 +65,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSAO = "1.1.2"
+VERSAO = "1.1.3"
 BASE_PADRAO = "https://www.acervocal.unb.br"
 API = "/wp-json/tainacan/v2"
 USER_AGENT = ("CULTIVA-UnB-2026/{} (pesquisa academica PPGCont/UnB; coleta com "
@@ -564,7 +564,12 @@ def carregar_mapa_manual(caminho):
     return mapa
 
 
+SUBCOLECOES_ETNOGRAFICAS = {"inicial", "galvao", "choco", "cnrc"}  # Regras, item 4.3
+
+
 def triagem_grupo(colecao_nome, subcol, categoria, tecnica, materiais, titulo):
+    if normaliza(subcol) in SUBCOLECOES_ETNOGRAFICAS:
+        return "Etnográfica", "subcoleção etnográfica listada nas Regras (item 4.3): " + subcol
     base_col = normaliza(colecao_nome + " " + subcol)
     p = casa(TERMOS_ETNOGRAFICA, base_col)
     if p:
@@ -694,6 +699,22 @@ def main():
            "parametros": vars(args), "verificacao_ssl": not args.sem_verificar_ssl,
            "requisicoes_rede": 0, "requisicoes_cache": 0, "avisos": [], "erros": [],
            "limitacoes": []}
+    # preserva as condições da coleta original quando o reprocessamento é offline (rastreabilidade, item 4.4)
+    anterior = {}
+    try:
+        with open(os.path.join(saida, "log_extracao.json"), encoding="utf-8") as f:
+            anterior = json.load(f)
+    except (OSError, ValueError):
+        pass
+    if args.offline and not args.importar:
+        orig = anterior.get("coleta_original")
+        if not orig and anterior.get("requisicoes_rede"):
+            orig = {k: anterior.get(k) for k in ("inicio", "fim", "versao", "verificacao_ssl", "requisicoes_rede",
+                                                   "data_consulta_portal", "limitacoes", "avisos", "erros")}
+        if orig:
+            log["coleta_original"] = orig
+        log["limitacoes"].append("Reprocessamento offline das respostas brutas guardadas em dados/brutos (sem novas "
+                                 "requisições ao portal); a data da consulta vem dessas respostas.")
     if args.sem_verificar_ssl:
         msg = ("Coleta realizada SEM verificação do certificado TLS do portal (opção "
                "--sem-verificar-ssl), por decisão da equipe.")

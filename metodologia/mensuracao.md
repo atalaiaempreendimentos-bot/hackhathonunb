@@ -57,3 +57,11 @@ Cada evidência pode trazer valor mínimo, central e máximo; o site e `dados/me
 ## Registros sem mensuração monetária fundamentada
 
 Registrados com justificativa na nota metodológica de cada item (item 9.4).
+
+## Valor registrado no cadastro patrimonial (informação de comparação)
+
+O cadastro patrimonial da UnB (Lista da CAL) atribui valor a cada uma das 232 obras de arte próprias, com total de R$ 1.765.385,00, mediana de R$ 5.000,00 e amplitude de R$ 60,00 a R$ 150.000,00. Esses valores não foram usados como mensuração dos registros do portal por três razões: (1) nenhum tombamento do cadastro aparece no portal, o que impede o vínculo item a item; (2) o cadastro não informa a base do valor, pois os campos de nota fiscal, empenho e fornecedor estão vazios e os bens foram migrados do SIPAT em 05/01/2021 (termo 209/2021); (3) o documento de ingresso indicado é um ato administrativo (ATO DO DECANATO DE ADMINISTRAÇÃO 145, ATO DA DGM 87), sem laudo de avaliação anexado. O total registrado aparece na evidenciação como valor oficialmente registrado, separado dos resultados acadêmicos (Regras, item 10). A média de R$ 7.609,42 por obra (R$ 1.765.385,00 ÷ 232) é apenas referência agregada e não é atribuída a obras individuais, pois isso seria estimativa arbitrária (item 9.4).
+
+## Validação de casos (Produto 4)
+
+`codigos/validacao_casos.py` examina nove bens (três de arte, três contemporâneos e três etnográficos, um de cada subcoleção Inicial, Galvão e Chocó) e grava `dados/validacao_casos.csv` e `resultados/validacao_casos.md`, com lacunas documentais, questões éticas ou de direitos, procedimentos complementares e conclusão de cada caso.

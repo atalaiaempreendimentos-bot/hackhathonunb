@@ -1,6 +1,6 @@
 # Dicionário de dados: Acervo Digital da CAL/UnB
 
-Gerado automaticamente por `extrair_acervo_cal.py` v1.1.2 em 2026-11-23 19:12. Fonte: https://www.acervocal.unb.br.
+Gerado automaticamente por `extrair_acervo_cal.py` v1.1.3 em 2026-11-23 19:12. Fonte: https://www.acervocal.unb.br.
 
 ## inventario.csv (base padronizada)
 
