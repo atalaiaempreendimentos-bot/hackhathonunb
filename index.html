@@ -69,6 +69,25 @@ th sup.fn a{color:#ffd5cc}
 .cadv.sem{font-weight:600;color:var(--mut);border-style:dashed;white-space:normal}
 .rec{min-height:32px;padding:2px 8px;border-radius:4px;border:1px dashed var(--mut);color:var(--ink);background:transparent;font-size:13px;font-weight:600;cursor:help;text-align:left;white-space:normal}
 .rec.s{border-style:solid;border-color:#1b7a43}.rec.n{border-style:solid;border-color:var(--mut)}
+.fluxo{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));margin-top:18px}
+.passo{position:relative;background:var(--card);border:1px solid var(--ln);border-top:5px solid var(--az);border-radius:0 0 4px 4px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.passo .num{font:800 13px Archivo,sans-serif;color:var(--ac);letter-spacing:.05em;text-transform:uppercase}
+.passo h3{font-size:24px;font-weight:800}
+.passo .perg{font-size:14.5px;color:var(--mut);font-style:italic;margin:0}
+.passo ul{margin:0;padding-left:18px;font-size:14.5px}.passo li{margin-bottom:3px}
+.passo .res{margin:4px 0 0;padding:10px 12px;background:var(--az2);border-radius:4px;font-size:14.5px}
+.passo .res b{display:block;font:800 26px/1.1 Archivo,sans-serif;color:var(--az)}
+:root:not([data-theme=light]) .passo .res b,:root:not([data-theme=light]) .trilha b{color:light-dark(#003d7a,#9cc3ef)}
+.passo .lk{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px;font-weight:600;margin-top:auto;padding-top:6px}
+@media(min-width:1100px){.fluxo{grid-template-columns:repeat(4,1fr);gap:26px}.passo:not(:last-child)::after{content:"";position:absolute;right:-21px;top:46px;border:9px solid transparent;border-left:12px solid var(--ac)}}
+.trilha{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:8px;padding:0;margin:22px 0 6px}
+.trilha li{background:var(--card);border:1px solid var(--ln);border-left:4px solid var(--az);border-radius:4px;padding:10px 12px;font-size:13.5px;color:var(--mut)}
+.trilha b{display:block;font:800 24px/1.15 Archivo,sans-serif;color:var(--az)}.trilha i{font-style:normal;font-weight:600;color:var(--ink);display:block}
+.etq{display:inline-block;font:600 12.5px Archivo,sans-serif;color:var(--ac);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rastro{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:6px;margin:0 0 14px;padding:0;list-style:none}
+.rastro a{display:block;height:100%;text-decoration:none;border:1px solid var(--ln);border-top:4px solid var(--az);border-radius:4px;padding:6px 8px;font-size:13px;background:var(--card)}
+.rastro a small{display:block;font:700 11.5px Archivo,sans-serif;color:var(--ac);text-transform:uppercase;letter-spacing:.04em}
+#limCorr h3{margin-bottom:8px}
 .box{background:var(--card);border:1px solid var(--ln);border-left:5px solid var(--ac);border-radius:4px;padding:14px 16px;margin:14px 0}
 .casos td:nth-child(1){white-space:nowrap}
 footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{max-width:none}
@@ -82,12 +101,56 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <p>Hackathon CULTIVA UnB 2026: identificação, reconhecimento, mensuração e evidenciação dos ativos culturais da Casa da Cultura da América Latina, com dados recuperados da plataforma Tainacan.</p>
   <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas Moura Nutels.</div>
   <div class="aviso">Resultados acadêmicos em construção; não são registros contábeis oficiais da UnB.</div>
-  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#evidenciacao">Evidenciação</a><a href="#validacao">Validação</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#notas">Notas metodológicas</a><a href="#limitacoes">Limitações</a></nav>
+  <nav aria-label="Seções"><a href="#fluxo">Fluxo</a><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#evidenciacao">Evidenciação</a><a href="#validacao">Validação</a><a href="#dados">Dados e códigos</a><a href="#notas">Notas metodológicas</a><a href="#limitacoes">Limitações</a></nav>
  </div>
 </header>
 
-<section class="band" id="indicadores">
+<section class="band" id="fluxo">
  <div class="wrap">
+  <h2>Fluxo da solução: identificar, reconhecer, mensurar e evidenciar</h2>
+  <p>O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos culturais da CAL/UnB de forma sistemática, fundamentada, transparente e reproduzível (Regras, item 2). Cada etapa responde a uma pergunta orientadora das Regras e parte do resultado da anterior. Na consulta, cada registro mostra a sua trilha pelas quatro etapas.</p>
+  <div class="fluxo">
+   <article class="passo">
+    <div class="num">Etapa I</div><h3>Identificar</h3>
+    <p class="perg">Quais bens culturais estão documentados no Acervo CAL e qual é a qualidade das informações? (Regras, item 7)</p>
+    <ul><li>Extração de todos os registros pela API do Tainacan</li><li>Padronização, dicionário de dados, completude e duplicidades</li><li>Triagem: Arte, Arte contemporânea, Etnográfica e registros de evento<sup class="fn"><a href="#n2">2</a></sup></li><li>Conciliação com o cadastro patrimonial<sup class="fn"><a href="#n11">11</a></sup></li></ul>
+    <div class="res" id="fxI">Carregando…</div>
+    <div class="lk"><a href="#consulta">Consulta</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/metodologia/identificacao.md">Metodologia</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/extrair_acervo_cal.py">Código</a><a href="dados/inventario.csv">Dados</a></div>
+   </article>
+   <article class="passo">
+    <div class="num">Etapa II</div><h3>Reconhecer</h3>
+    <p class="perg">Quais registros apresentam evidências suficientes para o reconhecimento como ativos da UnB? (Regras, item 8)</p>
+    <ul><li>Definição de ativo: recurso, controle e evento passado (Estrutura Conceitual (R1), itens 5.6 a 5.13)</li><li>Critérios do item 6 da NBC TSP 37: potencial de serviços e mensuração confiável</li><li>Item 7: patrimônio cultural sem mensuração confiável não é reconhecido<sup class="fn"><a href="#n3">3</a></sup></li></ul>
+    <div class="res" id="fxII">Carregando…</div>
+    <div class="lk"><a href="#indicadores">Gráfico</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/metodologia/reconhecimento.md">Metodologia</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/reconhecimento.py">Código</a><a href="dados/reconhecimento.csv">Dados</a></div>
+   </article>
+   <article class="passo">
+    <div class="num">Etapa III</div><h3>Mensurar</h3>
+    <p class="perg">Como mensurar os ativos culturais da CAL, considerando características, finalidade e evidências? (Regras, item 9)</p>
+    <ul><li>Doações e transferências: custo atribuído por valor corrente operacional (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 7 e 23 a 25)</li><li>Técnica por categoria e nível de evidência de A a D<sup class="fn"><a href="#n4">4</a>, <a href="#n5">5</a></sup></li><li>Valor só com evidência registrada (Regras, item 9.4)</li></ul>
+    <div class="res" id="fxIII">Carregando…</div>
+    <div class="lk"><a href="#indicadores">Gráfico</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/metodologia/mensuracao.md">Metodologia</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/mensuracao.py">Código</a><a href="dados/mensuracao.csv">Dados</a></div>
+   </article>
+   <article class="passo">
+    <div class="num">Etapa IV</div><h3>Evidenciar</h3>
+    <p class="perg">Como apresentar as informações dos bens culturais da CAL de forma transparente e útil à gestão pública? (Regras, item 10)</p>
+    <ul><li>Quadro consolidado e indicadores obrigatórios (item 15)</li><li>Minuta de nota explicativa: NBC TSP 37, itens 69 e 77; NBC TSP 38, itens 54 e 55</li><li>Valores oficiais separados das estimativas acadêmicas<sup class="fn"><a href="#n7">7</a></sup></li></ul>
+    <div class="res" id="fxIV">Carregando…</div>
+    <div class="lk"><a href="#evidenciacao">Quadro</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/resultados/nota_explicativa/minuta_nota_explicativa.md">Nota explicativa</a><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/evidenciacao.py">Código</a><a href="resultados/demonstrativos/quadro_consolidado.csv">Dados</a></div>
+   </article>
+  </div>
+  <h3 style="margin-top:26px">O que acontece com os registros em cada etapa</h3>
+  <ol class="trilha" id="trilha"><li>Carregando…</li></ol>
+  <p class="mut">O critério 6(b) do reconhecimento usa a condição de mensuração; por isso o código calcula a Etapa III antes de concluir a II. Etapa V, inovação tecnológica: um comando reproduz as quatro etapas (<code>python3 codigos/executar_pipeline.py</code>), e a opção <code>--base</code> aplica o fluxo a outro acervo Tainacan.</p>
+  <div class="box" id="limCorr"><h3>Limitação: acervo digital sem chave patrimonial<sup class="fn"><a href="#n11">11</a></sup></h3>
+   <p>O Acervo Digital da CAL, instância do Tainacan, identifica as obras pelo número de registro museológico (CAL.xxxx, CE.xxx) e não informa o tombamento do sistema patrimonial da UnB. A Lista da CAL identifica cada obra só pelo tombamento, sem título ou autoria. <span id="limTxt">Nenhum dos 243 tombamentos da lista aparece nos metadados do portal.</span> A limitação é de catalogação, não do software, que admite metadados definidos pela instituição: a coleção Mobiliário moderno já tem o campo "Código patrimonial".</p>
+   <p><b>Efeito no reconhecimento:</b> o cadastro não pode ser usado como evidência de controle nem de custo atribuído obra a obra. Os bens que satisfazem a definição de ativo seguem o item 7 da NBC TSP 37 (não reconhecimento e divulgação pelo item 77) até que os atos de doação liguem cada tombamento a um registro do portal.</p></div>
+ </div>
+</section>
+
+<section class="band alt" id="indicadores">
+ <div class="wrap">
+  <div class="etq">Etapas I a IV em números</div>
   <h2>Indicadores obrigatórios (Regras, item 15)<sup class="fn"><a href="#n9">9</a></sup></h2>
   <p class="mut"><span id="dataConsulta">Carregando indicadores…</span> Coleta e cobertura na nota<sup class="fn"><a href="#n1">1</a></sup>; valor agregado na nota<sup class="fn"><a href="#n7">7</a></sup>.</p>
   <div class="kpis" id="kpis"></div>
@@ -100,8 +163,9 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </section>
 
-<section class="band alt" id="consulta">
+<section class="band" id="consulta">
  <div class="wrap">
+  <div class="etq">Etapas I a IV, registro a registro</div>
   <h2>Consulta ao inventário padronizado</h2>
   <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. A coluna Imagem da Obra mostra cada obra da coleção Acervo em 3×4 cm, sem cortar a imagem; as obras com imagem aparecem primeiro. Clique no título de uma coluna para ordenar (▲ crescente, ▼ decrescente; clique de novo para inverter). Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
   <div class="ctl">
@@ -121,6 +185,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 </section>
 <section class="band alt" id="evidenciacao">
  <div class="wrap">
+  <div class="etq">Etapa IV</div>
   <h2>Evidenciação (Etapa IV)</h2>
   <p>Quadro demonstrativo consolidado e minuta de nota explicativa com os conteúdos do item 10 das Regras. Os resultados acadêmicos ficam separados do valor registrado pela contabilidade da UnB.<sup class="fn"><a href="#n6">6</a></sup></p>
   <div class="scroll"><table id="quadro"><thead><tr><th>Grupo</th><th>Registros</th><th>Atende à definição de ativo</th><th>Reconhecimento sustentado</th><th>Não reconhecimento fundamentado</th><th>Pendente de verificação</th><th>Mensuração fundamentada</th><th>Faixa indicativa<sup class="fn"><a href="#n5">5</a></sup></th><th>Sem mensuração monetária</th><th>Mensuração pendente</th></tr></thead><tbody><tr><td colspan="10">Carregando…</td></tr></tbody></table></div>
@@ -138,20 +203,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </section>
 
-<section class="band alt" id="etapas">
- <div class="wrap">
-  <h2>As etapas da solução</h2>
-  <div class="etapas">
-   <div class="etapa"><small>Concluída em 23/11</small><h3>Identificação</h3><p>Extração de todos os registros públicos pela API do Tainacan, padronização das variáveis do item 7 das Regras, dicionário de dados, diagnóstico de completude e duplicidades.</p></div>
-   <div class="etapa"><small>Ajustada às normas em 24/11</small><h3>Reconhecimento</h3><p>Definição de ativo (Estrutura Conceitual (R1), itens 5.6 a 5.13) e critérios da NBC TSP 37 (itens 6 e 7) aplicados aos 2.197 registros, com enquadramento normativo, divulgação exigida e investigação necessária.</p></div>
-   <div class="etapa"><small>Modelo aplicado em 23/11; comparáveis em pesquisa</small><h3>Mensuração</h3><p>Base de mensuração (NBC TSP 38 / IPSAS 46), técnica, nível de evidência e situação definidos para os 2.197 registros. Valores entram apenas com evidência documentada, com nota metodológica.</p></div>
-   <div class="etapa"><small>Minuta gerada em 23/11</small><h3>Evidenciação</h3><p>Quadro consolidado, indicadores obrigatórios, valor agregado por base e minuta de nota explicativa com notas de rodapé metodológicas.</p></div>
-   <div class="etapa"><small>Fluxo automatizado</small><h3>Inovação tecnológica</h3><p>Um comando reproduz as etapas (<code>python3 codigos/executar_pipeline.py</code>); a opção <code>--base</code> aplica o fluxo a outro acervo Tainacan.</p></div>
-  </div>
- </div>
-</section>
-
-<section class="band" id="dados">
+<section class="band alt" id="dados">
  <div class="wrap">
   <h2>Dados e códigos</h2>
   <p>Tudo pode ser reproduzido a partir deste repositório. Instruções completas no <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb#readme">README</a>.</p>
@@ -196,6 +248,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <li id="n8"><b>Fotografias.</b> Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998). O portal informa que as fotografias não podem ser baixadas e/ou reproduzidas sem autorização; a publicação aqui atende a fins acadêmicos e foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe (declaração em 23/11/2026, registrada em 24/11/2026).</li>
    <li id="n9"><b>Normas consultadas.</b> Texto publicado, conferido em 24/11/2026: NBC TSP Estrutura Conceitual (R1), de 13/11/2025 (DOU de 07/04/2026); NBC TSP 37, Ativo Imobilizado, de 11/12/2025 (DOU de 17/03/2026); NBC TSP 38, Mensuração, de 09/04/2026 (DOU de 17/04/2026). As três vigoram a partir de 1º/01/2027 e foram aplicadas antecipadamente, como pedem as Regras (item 19.2). Itens usados e links em <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/metodologia/fundamentacao_normativa.md">metodologia/fundamentacao_normativa.md</a>.</li>
    <li id="n10"><b>Valor no cadastro da UnB.</b> Relatório de bens da UnB com as obras de arte (código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026: 1.127 bens, dos quais 1.009 nas localidades da CAL (R$ 2.266.832,63), 303 deles com valor de R$ 0,01. Nomes e matrículas do relatório foram descartados. Vínculo com o portal: <i>confirmado</i> quando o número de registro do portal é igual ao tombamento ou ao registro do SIPAT (27 registros, 33 tombamentos); <i>provável</i> quando a procedência do portal corresponde à sigla de origem do SIPAT (correspondência interpretada pela equipe) e todos os bens dessa origem na CAL têm o mesmo valor (249 registros), com ressalva quando o portal tem mais registros que o cadastro; <i>sem vínculo</i> nos demais casos, sem atribuição de valor (Regras, item 9.4). O valor de R$ 0,01 é simbólico e não constitui custo histórico nem custo atribuído (NBC TSP 37, itens 12 e 13). Código: <code>codigos/cadastro_unb_relatorio.py</code>; resultado em <code>dados/valores_cadastro_unb.csv</code> e <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/resultados/conciliacao_cadastro_unb.md">resultados/conciliacao_cadastro_unb.md</a>.</li>
+   <li id="n11"><b>Correlação entre o acervo digital e o cadastro patrimonial.</b> O Tainacan é um software livre, gratuito e de código aberto, desenvolvido como plugin para WordPress pela Universidade de Brasília, com apoio da UFG, do IBICT e do Ibram, para a gestão e a publicação de acervos digitais (TAINACAN, 2026). No Acervo Digital da CAL, o identificador das obras é o número de registro museológico; o tombamento patrimonial só aparece na coleção Mobiliário moderno ("Código patrimonial"). Os 243 tombamentos da Lista da CAL foram procurados em todos os metadados dos 2.197 registros do portal (<code>codigos/cadastro_patrimonial.py</code>, <code>dados/conciliacao_patrimonial.csv</code>), sem coincidência; no relatório de bens da UnB, 27 registros têm chave comum (nota 10). Indícios de grupo, que não substituem o vínculo obra a obra: as obras da lista têm origem "pessoa física" no SIPAT e ingressaram por 87 atos de 2019 e 2020; no portal, os únicos registros adquiridos a partir de 2016 são 155 doações da subcoleção Triangular. Encaminhamentos: obter os atos de doação na CAL ou na DGM e incluir o metadado "Número de tombamento" nas coleções da CAL no Tainacan. Detalhes em <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/metodologia/identificacao.md">metodologia/identificacao.md</a>. Referência: TAINACAN. <b>Tainacan</b>: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: <a href="https://tainacan.org/" target="_blank" rel="noopener">https://tainacan.org/</a>. Acesso em: 24 nov. 2026.</li>
   </ol>
  </div>
 </section>
@@ -203,6 +256,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 <section class="band alt" id="limitacoes">
  <div class="wrap">
   <h2>Limitações e direitos das imagens</h2>
+  <p>O acervo digital não registra o tombamento patrimonial, e a Lista da CAL não registra título ou autoria; sem chave comum, o cadastro não serve de evidência de controle nem de custo atribuído obra a obra (<a href="#limCorr">quadro no fluxo</a>; nota<sup class="fn"><a href="#n11">11</a></sup>).</p>
   <p>A cobertura refere-se ao universo digital público do portal e não equivale ao patrimônio físico da CAL (Regras, item 4.4). Em 23/11/2026 o portal apresentou certificado TLS vencido, e a coleta foi feita sem verificação do certificado, por decisão da equipe. A Coleção CNRC não consta do portal. O cadastro patrimonial e o portal não têm chave comum. Há poucos comparáveis de mercado, e a validação dos nove casos é documental, sem exame físico na CAL.</p>
   <p>As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), com direitos reservados (Lei nº 9.610/1998). O portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização; sua publicação aqui atende a fins acadêmicos e foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe. Os direitos das obras pertencem aos seus autores, e a reprodução por terceiros continua sujeita à autorização da CAL/UnB. Titulares de direitos podem pedir a retirada de uma imagem abrindo uma <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/issues">issue no repositório</a>.</p>
  </div>
@@ -227,6 +281,27 @@ function csv(txt){txt=txt.replace(/^﻿/,'');const L=[];let r=[],f='',q=false;
   else if(c==='"')q=true;else if(c===','){r.push(f);f=''}else if(c==='\n'){r.push(f);L.push(r);r=[];f=''}else if(c!=='\r')f+=c}
  if(f!==''||r.length){r.push(f);L.push(r)}const h=L.shift()||[];return L.filter(x=>x.length>1).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]??''])))}
 const pegar=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(csv);
+
+Promise.all([pegar('dados/indicadores.csv'),pegar('dados/reconhecimento_resumo.csv'),pegar('dados/mensuracao_resumo.csv'),pegar('dados/conciliacao_patrimonial.csv')]).then(([ID,RR,MR,CP])=>{
+ const g=(A,k)=>{const x=A.find(r=>r.indicador===k||(k.endsWith('*')&&r.indicador.startsWith(k.slice(0,-1))));return x?Number(x.valor):0};
+ const tot=g(ID,'Registros recuperados'),ev=g(ID,'Registros no grupo sugerido: Registro de evento (não é bem)'),bens=tot-ev,comp=fmt(g(ID,'Completude cadastral média (%)'));
+ const sus=g(RR,'Reconhecimento sustentado pelas evidências'),pend=g(RR,'Pendente de verificação'),def=g(RR,'Atende à definição de ativo: sim'),i7=g(RR,'Enquadramento: Não reconhecer*');
+ const mf=g(MR,'Registros: Mensuração fundamentada'),fx=g(MR,'Registros: Faixa indicativa'),mp=g(MR,'Registros: Pendente de evidência'),ms=g(MR,'Registros: Sem mensuração monetária fundamentada');
+ const cad=g(CP,'Bens no cadastro patrimonial localizados na CAL'),ach=g(CP,'Tombamentos do cadastro encontrados no portal'),vp=g(CP,'Valor registrado das obras próprias (R$)');
+ const R$=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ document.getElementById('fxI').innerHTML=`<b>${fmt(tot)}</b>registros recuperados: ${fmt(bens)} bens do acervo e ${fmt(ev)} registros de evento; completude média de ${comp}%.`;
+ document.getElementById('fxII').innerHTML=`<b>${fmt(sus)}</b>com reconhecimento sustentado; ${fmt(def)} satisfazem a definição de ativo, mas sem mensuração confiável (item 7); ${fmt(pend)} pendentes de verificação.`;
+ document.getElementById('fxIII').innerHTML=`<b>${fmt(mf)}</b>com mensuração fundamentada; ${fmt(fx)} com faixa indicativa (nível C), ${fmt(mp)} pendentes de evidência e ${fmt(ms)} sem mensuração monetária (etnográficos).`;
+ document.getElementById('fxIV').innerHTML=`<b>${fmt(i7)}</b>itens divulgados em nota pelo item 77 e ${fmt(pend)} como pendentes; o valor da Lista da CAL (${R$(vp)}) aparece à parte, sem soma às estimativas.`;
+ document.getElementById('trilha').innerHTML=[
+  [tot,'registros identificados','todo o acervo digital público (Etapa I)'],
+  [bens,'bens do acervo',`${fmt(ev)} registros de evento saem: não são bens (Etapa I)`],
+  [def,'satisfazem a definição de ativo',`${fmt(pend)} ainda sem evidência de existência ou controle (Etapa II)`],
+  [mf,'com mensuração confiável',`${fmt(fx)} com faixa indicativa, insuficiente para o item 6(b) (Etapa III)`],
+  [sus,'reconhecidos como ativo',`${fmt(i7)} divulgados em nota pelo item 77 (Etapa IV)`]
+ ].map(([n,t,d])=>`<li><b>${fmt(n)}</b><i>${t}</i>${d}</li>`).join('');
+ if(ach===0)document.getElementById('limTxt').textContent=`Nenhum dos ${fmt(cad)} tombamentos da lista aparece nos metadados do portal.`;
+}).catch(()=>{['fxI','fxII','fxIII','fxIV'].forEach(i=>document.getElementById(i).textContent='Não foi possível carregar os números. Abra o site pelo endereço do GitHub Pages.')});
 
 pegar('resultados/indicadores/indicadores_item15.csv').then(I=>{
  document.getElementById('kpis').innerHTML=I.map(x=>`<div class="kpi" title="${esc(x.descricao)}"><b>${esc(fmt(x.valor))}${/\(%\)/.test(x.indicador)?'%':''}</b><span>${esc(x.indicador.replace(' (%)',''))}</span></div>`).join('')}).catch(()=>{document.getElementById('kpis').innerHTML='<p>Não foi possível carregar os indicadores. Abra o site pelo endereço do GitHub Pages.</p>'});
@@ -299,11 +374,15 @@ function abrirReg(d){if(!d)return;document.getElementById('dlgT').textContent=(d
  const linhas=Object.keys(ROT).filter(k=>d[k]).map(k=>`<tr><td>${esc(ROT[k])}</td><td>${esc(d[k])}</td></tr>`).join('');
  const link=/^https:\/\//.test(d.url_registro)?`<p><a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Ver a obra no portal da CAL</a></p>`:'';
  const F=FOTOS[d.id_registro];const fig=F?`<figure><img src="acervo_1565/${esc(F.arquivo)}" alt="${esc(F.titulo||d.titulo)}"><figcaption>${esc(F.credito)} <a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Registro original</a></figcaption></figure>`:'';
- const mm=M[d.id_registro];const mb=mm?`<div class="mens"><h4>Mensuração: ${esc(mm.situacao)}${mm.valor_exibicao?' | '+esc(mm.valor_exibicao):''}</h4><table class="det"><tr><td>Categoria</td><td>${esc(mm.categoria_mensuracao)}</td></tr><tr><td>Base de mensuração</td><td>${esc(mm.base_mensuracao)}</td></tr><tr><td>Técnica</td><td>${esc(mm.tecnica)}</td></tr><tr><td>Nível de evidência</td><td>${esc(mm.nivel_evidencia)}</td></tr><tr><td>Nota metodológica</td><td>${esc(mm.nota_metodologica)}</td></tr></table></div>`:'';
- const rr=RC[d.id_registro];const rb=rr?`<div class="mens"><h4>Reconhecimento: ${esc(rr.classe_reconhecimento)}</h4><table class="det"><tr><td>Enquadramento normativo</td><td>${esc(rr.enquadramento_normativo)}</td></tr><tr><td>Recurso (EC 5.6A, 5.8)</td><td>${esc(rr.recurso_potencial_servicos)}</td></tr><tr><td>Controle: propriedade legal (EC 5.12a)</td><td>${esc(rr.controle_propriedade_legal)}</td></tr><tr><td>Controle: acesso (EC 5.12b)</td><td>${esc(rr.controle_acesso)}</td></tr><tr><td>Evento passado (EC 5.13)</td><td>${esc(rr.evento_passado)}</td></tr><tr><td>Classificação contábil</td><td>${esc(rr.classificacao_contabil)}</td></tr><tr><td>Critério 6(a)</td><td>${esc(rr.criterio_6a)}</td></tr><tr><td>Critério 6(b)</td><td>${esc(rr.criterio_6b)}</td></tr><tr><td>Divulgação exigida</td><td>${esc(rr.divulgacao_exigida)}</td></tr><tr><td>Atende à definição de ativo</td><td>${esc(rr.atende_definicao_ativo)}</td></tr><tr><td>Justificativa</td><td>${esc(rr.justificativa)}</td></tr><tr><td>Investigação necessária</td><td>${esc(rr.investigacao_necessaria)}</td></tr>${rr.restricoes?`<tr><td>Restrições</td><td>${esc(rr.restricoes)}</td></tr>`:''}<tr><td>Referência normativa</td><td>${esc(rr.referencia_normativa)}</td></tr></table></div>`:'';
+ const mm=M[d.id_registro];const mb=mm?`<div class="mens" id="eIII"><h4>Etapa III · Mensuração: ${esc(mm.situacao)}${mm.valor_exibicao?' | '+esc(mm.valor_exibicao):''}</h4><table class="det"><tr><td>Categoria</td><td>${esc(mm.categoria_mensuracao)}</td></tr><tr><td>Base de mensuração</td><td>${esc(mm.base_mensuracao)}</td></tr><tr><td>Técnica</td><td>${esc(mm.tecnica)}</td></tr><tr><td>Nível de evidência</td><td>${esc(mm.nivel_evidencia)}</td></tr><tr><td>Nota metodológica</td><td>${esc(mm.nota_metodologica)}</td></tr></table></div>`:'';
+ const rr=RC[d.id_registro];const rb=rr?`<div class="mens" id="eII"><h4>Etapa II · Reconhecimento: ${esc(rr.classe_reconhecimento)}</h4><table class="det"><tr><td>Enquadramento normativo</td><td>${esc(rr.enquadramento_normativo)}</td></tr><tr><td>Recurso (EC 5.6A, 5.8)</td><td>${esc(rr.recurso_potencial_servicos)}</td></tr><tr><td>Controle: propriedade legal (EC 5.12a)</td><td>${esc(rr.controle_propriedade_legal)}</td></tr><tr><td>Controle: acesso (EC 5.12b)</td><td>${esc(rr.controle_acesso)}</td></tr><tr><td>Evento passado (EC 5.13)</td><td>${esc(rr.evento_passado)}</td></tr><tr><td>Classificação contábil</td><td>${esc(rr.classificacao_contabil)}</td></tr><tr><td>Critério 6(a)</td><td>${esc(rr.criterio_6a)}</td></tr><tr><td>Critério 6(b)</td><td>${esc(rr.criterio_6b)}</td></tr><tr><td>Divulgação exigida</td><td>${esc(rr.divulgacao_exigida)}</td></tr><tr><td>Atende à definição de ativo</td><td>${esc(rr.atende_definicao_ativo)}</td></tr><tr><td>Justificativa</td><td>${esc(rr.justificativa)}</td></tr><tr><td>Investigação necessária</td><td>${esc(rr.investigacao_necessaria)}</td></tr>${rr.restricoes?`<tr><td>Restrições</td><td>${esc(rr.restricoes)}</td></tr>`:''}<tr><td>Referência normativa</td><td>${esc(rr.referencia_normativa)}</td></tr></table></div>`:'';
  const cc=CAD[d.id_registro];const cb=cc&&(cc.valor_exibicao||cc.observacao)?`<div class="mens"><h4>Cadastro patrimonial da UnB: ${cc.valor_exibicao?esc(cc.valor_exibicao)+' ('+esc(cc.confianca.toLowerCase())+')':'sem vínculo'}</h4><p>${esc(cc.criterio_vinculo)}.${cc.tombamentos?' Tombamento(s): '+esc(cc.tombamentos)+'.':''} ${esc(cc.observacao)}</p></div>`:'';
  const du=DUP[d.id_registro];const db=du?`<div class="mens"><h4>Verificação de duplicidade: ${esc(du.classificacao)}</h4><p>${esc(du.criterio)}. Registros do mesmo grupo: ${esc(du.outros.join(', '))}. ${esc(du.observacao)}</p></div>`:'';
- document.getElementById('dlgB').innerHTML=fig+link+db+rb+mb+cb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
+ const ev4=!rr?'':rr.classe_reconhecimento.startsWith('Reconhecimento')?'NBC TSP 37, item 69':rr.enquadramento_normativo.startsWith('Não reconhecer')?'Nota explicativa, item 77':rr.classe_reconhecimento.startsWith('Pendente')?'Nota: registro pendente':'Não divulgado como ativo';
+ const ib=`<div class="mens" id="eI"><h4>Etapa I · Identificação: ${esc(d.grupo_sugerido)}</h4><p>${esc(d.criterio_grupo)}. Completude de ${esc(fmt(d.completude_pct))}% nas variáveis principais. Dados do portal no fim desta ficha.</p></div>`;
+ const eb=rr?`<div class="mens" id="eIV"><h4>Etapa IV · Evidenciação: ${esc(ev4)}</h4><p>${esc(rr.divulgacao_exigida)}.</p></div>`:'';
+ const tr=`<ol class="rastro" aria-label="Trilha do registro nas etapas">${[['eI','I. Identificação',d.grupo_sugerido],['eII','II. Reconhecimento',rr?rr.classe_reconhecimento.replace(' pelas evidências',''):'…'],['eIII','III. Mensuração',mm?mm.situacao:'…'],['eIV','IV. Evidenciação',ev4||'…']].map(([a,t,v])=>`<li><a href="#${a}" data-ir="${a}"><small>${t}</small>${esc(v)}</a></li>`).join('')}</ol>`;
+ document.getElementById('dlgB').innerHTML=tr+fig+link+ib+db+rb+mb+eb+cb+`<h4 style="font:600 15px Archivo,sans-serif;margin:4px 0 6px">Dados do portal (Etapa I)</h4><table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
 const pop=document.getElementById('pop');
 function mostrarNota(el){if(el.classList.contains('cadv')){const c=CAD[el.dataset.id];if(!c)return;pop.innerHTML=`<b>${c.valor_exibicao?esc(c.valor_exibicao)+' ('+esc(c.confianca.toLowerCase())+')':'Sem vínculo com o relatório de bens'}</b>${esc(c.criterio_vinculo)}.${c.tombamentos?' Tombamento(s): '+esc(c.tombamentos)+'.':''}${c.origem_sipat?' Origem SIPAT: '+esc(c.origem_sipat)+'.':''}${c.status_cadastro?' Status: '+esc(c.status_cadastro)+'.':''}${c.observacao?' '+esc(c.observacao):''}${c.valor_registrado!==''&&Number(c.valor_registrado)<=0.05?' Valor simbólico: não é custo histórico nem custo atribuído (NBC TSP 37, itens 12 e 13).':''}`}
  else if(el.classList.contains('rec')){const r=RC[el.dataset.id];if(!r)return;pop.innerHTML=`<b>${esc(r.classe_reconhecimento)}</b><i>${esc(r.enquadramento_normativo)}.</i><br>${esc(r.justificativa)}${r.investigacao_necessaria?'<br><br><i>Investigação necessária:</i> '+esc(r.investigacao_necessaria):''}`}
@@ -320,6 +399,7 @@ document.getElementById('tb').addEventListener('click',e=>{const v=e.target.clos
 function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
+document.getElementById('dlgB').addEventListener('click',e=>{const a=e.target.closest('a[data-ir]');if(!a)return;e.preventDefault();const t=document.getElementById(a.dataset.ir);if(t)t.scrollIntoView({block:'start',behavior:'smooth'})});
 document.querySelector('#consulta thead').addEventListener('click',e=>{const b=e.target.closest('.ord');if(!b)return;const k=b.dataset.k;
  if(ordK===k){ordDir=-ordDir}else{ordK=k;ordDir=1}
  document.querySelectorAll('#consulta thead th').forEach(th=>{const on=th.dataset.k===ordK;th.setAttribute('aria-sort',on?(ordDir>0?'ascending':'descending'):'none');th.querySelector('.seta').textContent=on?(ordDir>0?'▲':'▼'):'↕'});

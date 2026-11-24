@@ -59,6 +59,28 @@ cultiva-unb-trio/
 
 ## Fluxo completo (todas as etapas)
 
+O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos culturais da CAL/UnB de forma sistemática, fundamentada, transparente e reproduzível (Regras, item 2). Cada etapa responde a uma pergunta orientadora das Regras e tem metodologia, código e resultados próprios:
+
+```mermaid
+flowchart LR
+  I["<b>I. Identificar</b><br/>Quais bens estão documentados<br/>e com que qualidade?<br/>2.197 registros: 1.498 bens<br/>e 699 registros de evento"]
+  R["<b>II. Reconhecer</b><br/>Há evidência para reconhecer<br/>como ativo da UnB?<br/>EC 5.6 a 5.13; NBC TSP 37, itens 6 e 7<br/>0 sustentado, 1.211 não, 986 pendentes"]
+  M["<b>III. Mensurar</b><br/>Com que base e com que<br/>evidência mensurar?<br/>NBC TSP 37, itens 11 a 13; NBC TSP 38<br/>0 fundamentada, 15 faixas indicativas"]
+  E["<b>IV. Evidenciar</b><br/>Como apresentar de forma<br/>transparente e útil?<br/>NBC TSP 37, itens 69 e 77<br/>512 itens divulgados pelo item 77"]
+  I --> R --> M --> E
+  M -. "condição de mensuração<br/>alimenta o critério 6(b)" .-> R
+```
+
+| Etapa | Pergunta orientadora (Regras) | Metodologia | Código | Resultado principal |
+|---|---|---|---|---|
+| I. Identificar | Quais bens culturais estão documentados e qual a qualidade das informações? (item 7) | [`identificacao.md`](metodologia/identificacao.md) | `extrair_acervo_cal.py`, `verificar_duplicidades.py`, `cadastro_patrimonial.py`, `cadastro_unb_relatorio.py` | `dados/inventario.csv` |
+| II. Reconhecer | Quais registros têm evidência suficiente para o reconhecimento como ativos da UnB? (item 8) | [`reconhecimento.md`](metodologia/reconhecimento.md) | `reconhecimento.py` | `dados/reconhecimento.csv` |
+| III. Mensurar | Como mensurar, considerando características, finalidade e evidências? (item 9) | [`mensuracao.md`](metodologia/mensuracao.md) | `comparaveis.py`, `mensuracao.py` | `dados/mensuracao.csv` |
+| IV. Evidenciar | Como apresentar as informações de forma transparente e útil à gestão pública? (item 10) | [`evidenciacao.md`](metodologia/evidenciacao.md) | `evidenciacao.py` | `resultados/nota_explicativa/minuta_nota_explicativa.md` |
+| V. Inovação | Como tornar os procedimentos eficientes, atualizáveis e reproduzíveis? (item 11) | este README | `executar_pipeline.py` | um comando reproduz I a IV |
+
+O critério 6(b) do reconhecimento (mensuração confiável) depende da Etapa III; por isso o código calcula a mensuração antes de concluir o reconhecimento, como mostra a seta tracejada. Números de 24/11/2026; os atualizados estão no site e em `resultados/indicadores/indicadores_item15.csv`.
+
 Dependências: Python 3.8 ou superior, apenas biblioteca padrão. Opcional: `openpyxl`, para a planilha `.xlsx`. O site é estático (HTML e JavaScript), sem bibliotecas externas além das fontes do Google.
 
 ```bash
@@ -202,6 +224,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 
 ## Fontes
 
+- TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
 - UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. Acervo Digital da CAL. Disponível em: https://www.acervocal.unb.br/. Data de acesso: registrada em `dados/log_extracao.json`.
 - Regras do Hackathon CULTIVA UnB 2026 (PPGCont/UnB, 2026).
 
@@ -213,6 +236,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Fluxo das etapas no site e no README; documentação da falta de chave comum entre o acervo digital e o cadastro patrimonial, com indicadores de grupo em `dados/conciliacao_patrimonial.csv` | Texto da limitação redigido a partir de parágrafo do Hugo; descrição do Tainacan conferida em tainacan.org; indícios de grupo não usados como vínculo obra a obra |
 | 24/11/2026 | Claude (Anthropic) | Árvore de decisão da triagem por grupo (extrator 1.2.0): natureza do registro, grupo do bem e resíduo pela sequência do número de registro | Critério gravado em cada registro; inferência pela sequência marcada como provável; versão 1.1.3 preservada em `codigos/versoes_anteriores/` |
 | 24/11/2026 | Claude (Anthropic) | Leitura do relatório de bens da UnB (obras de arte), vínculo com os registros do portal e coluna "Valor no cadastro da UnB" no site (`codigos/cadastro_unb_relatorio.py`) | Vínculo confirmado só por identificador; vínculo por procedência marcado como provável; nenhum valor atribuído a registros sem vínculo; nomes e matrículas descartados |
 | 24/11/2026 | Claude (Anthropic) | Verificação de duplicidades (`codigos/verificar_duplicidades.py`); retirada da seção Galeria do site; ordenação por coluna na consulta | Grupos a conferir listados por ID e número de registro, para checagem na CAL |
@@ -226,7 +250,17 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 
 - O portal apresentou certificado TLS vencido em 23/11/2026; a coleta foi feita sem verificação do certificado, por decisão da equipe. As respostas brutas (`dados/brutos/`) registram URL e horário de cada consulta; os reprocessamentos posteriores são offline e constam de `dados/log_extracao.json`.
 - A Coleção CNRC, listada no item 4.3 das Regras, não aparece em nenhum registro público do portal.
-- A Lista da CAL e o portal não têm chave comum (tombamento ou registro do SIPAT). No relatório de bens da UnB, só 27 registros do portal têm chave comum (vínculo confirmado); 249 têm vínculo provável por procedência, e os demais não podem ser conciliados item a item.
+- **Acervo digital sem chave patrimonial.** O Acervo Digital da CAL, instância do Tainacan (TAINACAN, 2026), identifica as obras pelo número de registro museológico (CAL.xxxx, CE.xxx) e não informa o tombamento do sistema patrimonial da UnB, salvo na coleção Mobiliário moderno ("Código patrimonial"). A Lista da CAL identifica cada obra só pelo tombamento, sem título ou autoria. Nenhum dos 243 tombamentos aparece nos metadados do portal; no relatório de bens da UnB, 27 registros têm chave comum. A limitação é de catalogação, não do software. Efeito: o cadastro não serve de evidência de controle nem de custo atribuído obra a obra, e os bens que satisfazem a definição de ativo seguem o item 7 da NBC TSP 37. Detalhes, indícios de que a lista corresponde à subcoleção Triangular e encaminhamentos em [`metodologia/identificacao.md`](metodologia/identificacao.md) e [`metodologia/reconhecimento.md`](metodologia/reconhecimento.md).
+
+```mermaid
+flowchart LR
+  P["Acervo Digital da CAL (Tainacan)<br/>2.197 registros<br/>chave: nº de registro CAL.xxxx ou CE.xxx"]
+  L["Lista da CAL (sala 107)<br/>243 bens<br/>chave: tombamento"]
+  R["Relatório de bens da UnB<br/>1.127 obras de arte<br/>chave: tombamento e registro SIPAT"]
+  P -- "0 coincidências" --- L
+  P -- "27 confirmados e 249 prováveis" --- R
+  L -- "241 de 243 coincidem" --- R
+```
 - A cobertura refere-se ao universo digital público: 2.197 registros em 3 coleções (Acervo, 1.497; Memória Institucional, 699; Mobiliário moderno da UnB, 1), todos recuperados. Isso não equivale ao patrimônio físico da CAL (Regras, item 4.4).
 - Completude cadastral média de 32,9% nas 13 variáveis principais. Duplicidades: nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir na CAL (`resultados/verificacao_duplicidades.md`).
 - A triagem por grupo (árvore de decisão do extrator 1.2.0) não deixa registro "A classificar": os 699 da Memória Institucional são registros de evento, não bens; a Cadeira UnB vai para Arte (design autoral); o ID 25320, com "Coleção = False", vai para Etnográfica como provável, pela sequência do número de registro (`metodologia/identificacao.md`). A triagem continua sujeita a revisão da equipe.

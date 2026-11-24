@@ -159,7 +159,12 @@ def main():
         cad=conc.get("Bens no cadastro patrimonial localizados na CAL", "?"), dt_tomb=conc.get("Data de tombamento no sistema atual", "?"),
         termo=termo, p_ex=n(p_ex), p_ct=n(p_ct), p_ambos=n(p_ambos),
         nloc=n(sum(1 for r in pend if r["existencia"].startswith("não confirmado"))),
-        nemp=n(sum(1 for r in pend if r["existencia"].startswith("a verificar"))))
+        nemp=n(sum(1 for r in pend if r["existencia"].startswith("a verificar"))),
+        achados_txt=("nenhum aparece" if str(conc.get("Tombamentos do cadastro encontrados no portal", "?")) == "0"
+                     else "{} aparecem".format(conc.get("Tombamentos do cadastro encontrados no portal", "?"))),
+        pesfis=conc.get("Obras de arte com origem PESFIS (pessoa física)", "?"),
+        atos=conc.get("Atos de ingresso distintos das obras próprias", "?"),
+        recentes=conc.get("Registros do portal com aquisição a partir de 2016", "?"))
     nota = """# Minuta de nota explicativa: acervos do patrimônio cultural sob guarda da Casa da Cultura da América Latina (CAL/UnB)
 
 **Resultado acadêmico do Hackathon CULTIVA UnB 2026. Não constitui registro contábil oficial da Universidade de Brasília (Regras, item 17.13).**
@@ -203,6 +208,8 @@ Nenhum número de tombamento dessa lista aparece no acervo digital. {rel_txt}Ess
 | Obras de arte contemporânea | {c77} | Ausência de comparáveis diretos; obras em suporte digital, fotográfico ou de performance, com autenticidade e direitos dependentes de documentação do artista | Idem |
 | Objetos etnográficos | {e77} | Nenhuma técnica aplicável sem tratar o objeto como mercadoria, o que as Regras vedam (item 4.3): a abordagem de custo exige substituto de utilidade comparável, inexistente para objeto único (NBC TSP 38, itens 43 e 44) | Documentação da cultura material de povos indígenas e comunidades tradicionais, com restrições culturais e éticas |
 
+Dificuldade comum às três classes (item 77(a)): o acervo digital, mantido no software Tainacan, identifica as obras pelo número de registro museológico e não informa o número de tombamento patrimonial; o cadastro patrimonial, por sua vez, identifica as obras apenas pelo tombamento, sem título ou autoria. Dos {cad} tombamentos da Lista da CAL, {achados_txt} no acervo digital. Sem essa correspondência, o valor registrado no ingresso de cada obra ({vp} para {proprias} obras próprias) não pode ser atribuído ao registro catalogado e não serve de evidência de custo atribuído obra a obra (NBC TSP 37, itens 11 a 13). Há indícios de que a lista corresponde, em grande parte, à subcoleção de arte contemporânea: as {pesfis} obras da lista têm origem "pessoa física" no SIPAT, as próprias ingressaram por {atos} atos de ingresso, e os únicos registros do acervo digital adquiridos a partir de 2016 são {recentes} doações dessa subcoleção. O vínculo obra a obra depende dos atos de doação.[^9]
+
 Não foram identificados gastos subsequentes reconhecidos com esses itens (NBC TSP 37, item 78). Os demais {mem_n} registros de não reconhecimento são eventos e atividades da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6).
 
 ## 5 Registros pendentes de verificação [g]
@@ -221,7 +228,7 @@ Bens etnográficos sujeitos a restrições culturais e éticas (Regras, item 4.3
 
 ## 8 Limitações dos resultados [j]
 
-Certificado TLS do portal vencido na data da coleta ({data}), feita sem verificação do certificado. Triagem de grupos automática e sujeita a revisão. Apêndices de orientação de aplicação da NBC TSP 37 e da NBC TSP 38 não consultados. Regras de decisão propostas pela equipe, a validar com a CAL e com a contabilidade da UnB.[^2][^3][^4]
+Certificado TLS do portal vencido na data da coleta ({data}), feita sem verificação do certificado. Triagem de grupos automática e sujeita a revisão. Ausência de chave comum entre o acervo digital e o cadastro patrimonial (seção 4). Apêndices de orientação de aplicação da NBC TSP 37 e da NBC TSP 38 não consultados. Regras de decisão propostas pela equipe, a validar com a CAL e com a contabilidade da UnB.[^2][^3][^4]
 
 ---
 
@@ -233,6 +240,7 @@ Certificado TLS do portal vencido na data da coleta ({data}), feita sem verifica
 [^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
 [^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Conversão para reais só com taxa e fonte da data de referência.
 [^8]: Relatório de bens da UnB (obras de arte, código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026; vínculo em `dados/valores_cadastro_unb.csv` e conciliação em `resultados/conciliacao_cadastro_unb.md` (`codigos/cadastro_unb_relatorio.py`). Vínculo confirmado: número de registro do portal igual ao tombamento ou ao registro do SIPAT. Vínculo provável: procedência do portal correspondente à sigla de origem do SIPAT, com valor único no grupo. Nomes e matrículas do relatório foram descartados.
+[^9]: Correlação entre fontes: `metodologia/identificacao.md` e `dados/conciliacao_patrimonial.csv`. Os tombamentos foram procurados em todos os metadados de todos os registros do acervo digital (`codigos/cadastro_patrimonial.py`). Sobre o software: TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
 """.format(**V)
     os.makedirs(os.path.join(RES, "nota_explicativa"), exist_ok=True)
     with open(os.path.join(RES, "nota_explicativa", "minuta_nota_explicativa.md"), "w", encoding="utf-8") as f:

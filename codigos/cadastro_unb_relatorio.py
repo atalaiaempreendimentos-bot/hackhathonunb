@@ -52,6 +52,12 @@ PROCEDENCIA_ORIGEM = {
 }
 
 
+# Procedência institucional (sem sigla no relatório): o bem pode não estar tombado. As demais procedências são,
+# em regra, nomes de pessoas; doações de pessoas físicas aparecem no relatório com a origem PESFIS.
+INSTITUICAO = re.compile(r"\b(embaixada|governo|banco|fundac|instituto|iphan|funai|museu|universidade|ministerio|secretaria|"
+                         r"prefeitura|cedoc|dex|fub|flaac|finatec|associac|centro|consulado)")
+
+
 def norm(t):
     t = unicodedata.normalize("NFKD", str(t or ""))
     return re.sub(r"\s+", " ", "".join(c for c in t if not unicodedata.combining(c)).lower()).strip()
@@ -148,6 +154,8 @@ def main():
     portal_proc = Counter(norm(meta[r["id_registro"]].get("Procedência")) for r in inv
                           if r["colecao"] == "Acervo" and r["id_registro"] not in por_id)
 
+    pesfis = grupo.get("PESFIS", [])
+    vpes = [b["valor"] for b in pesfis if b["valor"] is not None]
     saida = []
     for r in inv:
         i = r["id_registro"]; m = meta.get(i, {})
@@ -187,9 +195,14 @@ def main():
                          observacao="Grupo de origem {} na CAL: {} tombamentos, de {} a {} (total {}); a faixa não é atribuída ao bem.".format(
                              sig, len(g), brl(vals[0]), brl(vals[-1]), brl(sum(b["valor"] or 0 for b in g))))
             else:
-                o.update(confianca="Sem vínculo", criterio_vinculo="Sem identificador nem procedência correspondente no cadastro",
-                         observacao=("Procedência sem sigla correspondente no relatório de bens: o bem pode não estar tombado."
-                                     if proc and not sig else ""))
+                o.update(confianca="Sem vínculo", criterio_vinculo="Sem identificador nem procedência correspondente no cadastro")
+                if proc and not sig and INSTITUICAO.search(proc):
+                    o["observacao"] = "Procedência institucional sem sigla correspondente no relatório de bens: o bem pode não estar tombado."
+                elif proc and not sig:
+                    o["observacao"] = ("Procedência sem sigla de origem no relatório. Doações de pessoas físicas aparecem no relatório "
+                                       "com a origem PESFIS: {} bens nas localidades da CAL, de {} a {}. Sem identificador comum com "
+                                       "o portal, o valor individual não é identificável.").format(
+                        len(pesfis), brl(min(vpes)) if vpes else "?", brl(max(vpes)) if vpes else "?")
         saida.append(o)
 
     cols = list(saida[0].keys())

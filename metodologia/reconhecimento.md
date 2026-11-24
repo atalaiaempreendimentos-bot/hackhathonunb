@@ -53,6 +53,16 @@ O cadastro patrimonial da UnB (Lista da CAL, termo 209/2021) registra 242 obras 
 
 O relatório de bens da UnB com todas as obras de arte (código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026, permitiu vincular 27 registros do portal a 33 tombamentos, porque o número de registro desses registros é o próprio tombamento ou o registro do SIPAT; outros 249 têm vínculo provável por procedência (`codigos/cadastro_unb_relatorio.py`, `resultados/conciliacao_cadastro_unb.md`). O tombamento confirmado é evidência de propriedade legal (EC, item 5.12(a)) e passou a atender ao critério de controle; o vínculo provável não identifica o tombamento individual e não é usado como evidência de controle. Quase todos os bens vinculados estão registrados por R$ 0,01, valor simbólico que não constitui custo atribuído (NBC TSP 37, itens 12 e 13).
 
+## Efeito da ausência de chave comum entre o portal e o cadastro
+
+O acervo digital não registra o número de tombamento, e a Lista da CAL não registra título, autoria ou número do portal (`metodologia/identificacao.md`). Isso afeta o teste de reconhecimento em três pontos:
+
+1. **Controle e existência.** O cadastro patrimonial é a principal evidência de propriedade legal (EC, item 5.12(a)) e de localização. Sem chave comum, o registro do portal não pode usá-la, e as Regras vedam presumir o controle pela presença no portal (item 8). Só os 27 registros com tombamento confirmado no relatório de bens ganharam essa evidência; boa parte dos 986 pendentes decorre dessa lacuna.
+2. **Mensuração confiável (NBC TSP 37, item 6(b)).** A Lista da CAL traz valores registrados no ingresso por doação, com ato de ingresso: R$ 1.765.385,00 para 232 obras próprias. Com o vínculo obra a obra, o valor seria evidência de custo atribuído (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 7, 10 e 12(b)). Sem ele, o critério 6(b) não é atendido no registro, e os bens que satisfazem a definição de ativo seguem o item 7: não reconhecimento e divulgação pelo item 77. É o caso de 155 das 162 obras da subcoleção Triangular, a provável contrapartida da lista.
+3. **Unidade de reconhecimento e dupla contagem.** As obras da lista já constam do cadastro da UnB com valor. Reconhecer registros do portal com valoração própria poderia contar o mesmo objeto duas vezes ou omitir obras que não estão no portal. Por isso os valores oficiais não são somados às estimativas acadêmicas (Regras, item 10).
+
+A situação é reversível: o item 7 da NBC TSP 37 manda reconhecer o bem a partir da data em que o custo ou o valor corrente estiver disponível, e o item 87(a) admite o custo atribuído na aplicação inicial. Com os atos de doação, parte das obras da Triangular poderia passar a "Reconhecimento sustentado pelas evidências", hoje sem nenhum registro.
+
 ## Reprodução
 
 `python3 codigos/reconhecimento.py` (lê `dados/inventario.csv`, `dados/metadados_completos.csv` e `dados/mensuracao.csv`; gera `dados/reconhecimento.csv` e `dados/reconhecimento_resumo.csv`).

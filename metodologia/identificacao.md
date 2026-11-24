@@ -62,6 +62,34 @@ Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv
 
 Indicador do item 15 (registros possivelmente duplicados): 48, sendo 4 em provável duplicidade e 44 a conferir (um registro aparece nos dois critérios do Acervo). Lista em `dados/verificacao_duplicidades.csv`; relatório em `resultados/verificacao_duplicidades.md`.
 
+## Correlação entre o acervo digital e o cadastro patrimonial
+
+O Tainacan é um software livre, gratuito e de código aberto, desenvolvido como plugin para WordPress pela Universidade de Brasília, com apoio da UFG, do IBICT e do Ibram, para a gestão e a publicação de acervos digitais (TAINACAN, 2026). O Acervo Digital da CAL é uma instância desse software (UNIVERSIDADE DE BRASÍLIA, 2026), na qual a própria instituição define coleções, metadados e taxonomias. Nesse acervo, o identificador das obras é o número de registro museológico (CAL.xxxx e, na subcoleção Triangular, CE.xxx); o número de tombamento do sistema patrimonial da UnB não é informado, salvo na coleção Mobiliário moderno, que possui o metadado "Código patrimonial". A Lista da CAL, relação dos bens patrimoniais da UnB localizados na CAL, identifica cada obra apenas pelo tombamento, pela denominação genérica "obra de arte", pelo ato de ingresso e pelo valor. Os 243 tombamentos da lista foram procurados em todos os metadados dos 2.197 registros do portal, sem coincidência. Não há, portanto, chave comum que permita a conciliação obra a obra. A limitação decorre da forma de catalogação, e não do software, que admite metadados definidos pela instituição.
+
+| Fonte | Conteúdo | Identificador disponível | Título, autoria e técnica | Valor |
+|---|---|---|---|---|
+| Acervo Digital da CAL (Tainacan) | 2.197 registros | Número de registro museológico (CAL.xxxx, CE.xxx); numérico em 41 registros | Sim | Não |
+| Lista da CAL (cadastro patrimonial, sala 107) | 243 bens, 242 obras de arte | Tombamento, igual ao registro do SIPAT; ato de ingresso | Não ("OBRA DE ARTE") | Sim |
+| Relatório de bens da UnB (obras de arte) | 1.127 bens | Tombamento, registro do SIPAT e origem | Não | Sim |
+
+Resultado da conciliação (`codigos/cadastro_patrimonial.py`, `codigos/cadastro_unb_relatorio.py`):
+
+| Par de fontes | Vínculos |
+|---|---|
+| Acervo Digital e Lista da CAL | Nenhum tombamento coincide (`dados/conciliacao_patrimonial.csv`) |
+| Acervo Digital e relatório de bens | 27 registros confirmados por identificador (33 tombamentos); 249 prováveis por procedência; 1.221 sem vínculo (`resultados/conciliacao_cadastro_unb.md`) |
+| Lista da CAL e relatório de bens | 241 dos 243 bens coincidem, com os mesmos valores |
+
+Indícios de grupo, que não substituem o vínculo obra a obra: as 242 obras da Lista da CAL têm origem PESFIS (doação de pessoa física) e ingressaram por 87 atos da DGM ou do Decanato de Administração, de 2019 e 2020; no portal, os únicos registros com aquisição a partir de 2016 são 155 doações da subcoleção Triangular, de 86 doadores. O registro de evento 15117 descreve a exposição "Triangular: arte deste século", na Casa Niemeyer, a partir de 06/12/2019, como mostra das aquisições recentes incorporadas ao acervo da CAL. A lista, porém, tem mais obras que a subcoleção: o maior ato de ingresso reúne 90 obras (80 de R$ 5.000,00), sem doação equivalente no portal, onde nenhuma doação passa de 14 obras. A tentativa de parear obra a obra pela ordem dos atos e das doações não superou o resultado de ordenações aleatórias e foi descartada.
+
+Encaminhamento: (1) solicitar à CAL ou à DGM os atos de doação, que nomeiam doador e obras, para vincular cada tombamento a um registro do portal; (2) incluir nas coleções da CAL no Tainacan o metadado "Número de tombamento", como já existe na coleção Mobiliário moderno, e registrar o ato de ingresso. A divergência entre registros patrimoniais e bens localizados é um dos problemas que motivam o desafio (Regras, item 2), e o metadado tornaria a conciliação automática para novos registros (item 11). O efeito sobre o reconhecimento está em `metodologia/reconhecimento.md`.
+
+Referências:
+
+TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
+
+UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. **Acervo Digital da CAL**. Brasília, 2026. Disponível em: https://www.acervocal.unb.br/. Acesso em: 23 nov. 2026.
+
 ## Produtos
 
 `dados/inventario.csv` (base padronizada), `dados/metadados_completos.csv` (todos os campos), `dados/dicionario_dados.md`, `dados/diagnostico_qualidade.csv`, `dados/duplicidades.csv`, `dados/indicadores.csv`, `dados/colecoes.csv`, `dados/log_extracao.json`.

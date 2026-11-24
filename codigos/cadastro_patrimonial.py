@@ -44,7 +44,7 @@ def main():
     for l in L:
         tomb = l.get("Tombamento", "")
         m = re.search(r"\d+", tomb)
-        doc = re.search(r"TIPO DE DOC\. INGRESSO: \d+ (.+?)(?:Empenho|$)", l.get("Observação", ""))
+        doc = re.search(r"TIPO DE DOC\. INGRESSO: (\d+) (.+?)(?:Empenho|$)", l.get("Observação", ""))
         origem = re.search(r"Origem: ([A-Z]+?)(?:Dados|\s|$)", l.get("Observação", ""))
         linhas.append({
             "tombamento": m.group(0) if m else tomb,
@@ -55,7 +55,8 @@ def main():
             "status": l.get("Status", ""),
             "depreciavel": l.get("Depreciável/Amortizável", ""),
             "vida_util_meses": l.get("Vida Útil", ""),
-            "documento_ingresso": doc.group(1).strip() if doc else "não informado",
+            "documento_ingresso": doc.group(2).strip() if doc else "não informado",
+            "numero_ato_ingresso": doc.group(1) if doc else "",
             "origem_sipat": origem.group(1) if origem else "",
             "data_tombamento": l.get("Data Tombamento", ""),
             "_doc_custo": any((l.get(c) or "").strip() not in ("", "Não informado") for c in ("Nota Fiscal", "Empenho", "Fornecedor")),
@@ -85,6 +86,27 @@ def main():
     terceiros = [x for x in obras if x["bem_de_terceiro"] == "sim"]
     vp = [num(x["valor_registrado"]) for x in proprias if num(x["valor_registrado"]) is not None]
     vt = [num(x["valor_registrado"]) for x in terceiros if num(x["valor_registrado"]) is not None]
+    # estrutura de ingresso (um ato por doação) e registros do portal adquiridos no mesmo período
+    atos = {}
+    for x in proprias:
+        if x["numero_ato_ingresso"]:
+            atos.setdefault((x["documento_ingresso"], x["numero_ato_ingresso"]), []).append(x)
+    tam = [len(v) for v in atos.values()]
+    faixa = lambda a, b: sum(1 for t in tam if a <= t <= b)
+    grandes = sorted((t for t in tam if t > 5), reverse=True)
+    maior = max(atos.items(), key=lambda kv: len(kv[1])) if atos else None
+    vmaior = [num(x["valor_registrado"]) or 0 for x in maior[1]] if maior else []
+    moda = max(set(vmaior), key=vmaior.count) if vmaior else 0
+    pesfis = sum(1 for x in obras if x["origem_sipat"] == "PESFIS")
+    recentes, doadores, subs = 0, set(), set()
+    if os.path.exists(arq_meta):
+        for r in csv.DictReader(open(arq_meta, encoding="utf-8-sig")):
+            anos = [int(a) for a in re.findall(r"\b(19\d\d|20\d\d)\b", r.get("Data de aquisição") or "")]
+            if anos and max(anos) >= 2016:
+                recentes += 1
+                doadores.add((r.get("Procedência") or "").strip())
+                subs.add((r.get("Coleção") or "").strip())
+    br = lambda v: "R$ " + "{:,.2f}".format(v).replace(",", "X").replace(".", ",").replace("X", ".")
     portal_acervo = 0
     arq_inv = os.path.join(DADOS, "inventario.csv")
     if os.path.exists(arq_inv):
@@ -109,6 +131,16 @@ def main():
          "; ".join(sorted({x["estado"] for x in obras if x["estado"].strip() != "Em uso"}))),
         ("Obras com nota fiscal, empenho ou fornecedor informados", sum(1 for x in obras if x["_doc_custo"]),
          "Documento de custo histórico (NBC TSP 38, item 6)"),
+        ("Obras de arte com origem PESFIS (pessoa física)", pesfis, "Origem informada na migração do SIPAT"),
+        ("Atos de ingresso distintos das obras próprias", len(atos),
+         "Ato da DGM ou do Decanato de Administração, informado na observação do cadastro"),
+        ("Atos de ingresso por número de obras", "{} com 1 obra; {} com 2; {} com 3 a 5; {} com mais de 5 ({} obras)".format(
+            faixa(1, 1), faixa(2, 2), faixa(3, 5), len(grandes), " e ".join(str(g) for g in grandes)), ""),
+        ("Maior ato de ingresso", "{} obras; {}".format(len(maior[1]), br(sum(vmaior))) if maior else "",
+         "{} {}; {} obras de {}".format(maior[0][0], maior[0][1], vmaior.count(moda), br(moda)) if maior else ""),
+        ("Registros do portal com aquisição a partir de 2016", recentes,
+         "Subcoleção: " + ", ".join(sorted(x for x in subs if x)) if subs else ""),
+        ("Doadores distintos desses registros (procedência no portal)", len(doadores - {""}), ""),
     ]
     with open(os.path.join(DADOS, "conciliacao_patrimonial.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f); w.writerow(["indicador", "valor", "observacao"]); w.writerows(resumo)
