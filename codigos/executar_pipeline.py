@@ -7,7 +7,7 @@ Executa as cinco etapas do Hackathon CULTIVA UnB 2026, em ordem, a partir da rai
   python3 codigos/executar_pipeline.py --atualizar     # baixa de novo o portal antes de reprocessar
   python3 codigos/executar_pipeline.py --cadastro Lista_da_CAL.numbers   # inclui o cadastro patrimonial
 
-Etapas: I identificação (extrair_acervo_cal.py e verificar_duplicidades.py) → II reconhecimento (reconhecimento.py) →
+Etapas: I identificação (extrair_acervo_cal.py, verificar_duplicidades.py e identificacao_inbcm.py) → II reconhecimento (reconhecimento.py) →
 III mensuração (comparaveis.py, que chama mensuracao.py) → validação de casos (validacao_casos.py) →
 IV evidenciação (evidenciacao.py). O cadastro patrimonial é opcional e nunca vai para o repositório na
 forma original, pois contém dados pessoais.
@@ -45,6 +45,7 @@ def main():
     if a.relatorio_bens:
         rodar("cadastro_unb_relatorio.py", a.relatorio_bens)
     rodar("verificar_duplicidades.py")
+    rodar("identificacao_inbcm.py")
     rodar("comparaveis.py")
     rodar("reconhecimento.py")
     rodar("validacao_casos.py")

@@ -32,6 +32,7 @@ cultiva-unb-trio/
 │   ├── executar_pipeline.py       executa todas as etapas, em ordem
 │   ├── extrair_acervo_cal.py      Etapa I: extrator (API REST do Tainacan), sem dependências externas
 │   ├── verificar_duplicidades.py  Etapa I: verificação de registros duplicados
+│   ├── identificacao_inbcm.py     Etapa I: elementos do INBCM (Resolução Normativa Ibram nº 6/2021) e classificação pelo Tesauro
 │   ├── reconhecimento.py          Etapa II: matriz de reconhecimento
 │   ├── mensuracao.py              Etapa III: modelo de mensuração
 │   ├── comparaveis.py             Etapa III: abordagem de mercado por comparáveis
@@ -73,7 +74,7 @@ flowchart LR
 
 | Etapa | Pergunta orientadora (Regras) | Metodologia | Código | Resultado principal |
 |---|---|---|---|---|
-| I. Identificar | Quais bens culturais estão documentados e qual a qualidade das informações? (item 7) | [`identificacao.md`](metodologia/identificacao.md) | `extrair_acervo_cal.py`, `verificar_duplicidades.py`, `cadastro_patrimonial.py`, `cadastro_unb_relatorio.py` | `dados/inventario.csv` |
+| I. Identificar | Quais bens culturais estão documentados e qual a qualidade das informações? (item 7). Padrão de referência: INBCM (Resolução Normativa Ibram nº 6/2021) | [`identificacao.md`](metodologia/identificacao.md) | `extrair_acervo_cal.py`, `verificar_duplicidades.py`, `identificacao_inbcm.py`, `cadastro_patrimonial.py`, `cadastro_unb_relatorio.py` | `dados/inventario.csv`, `dados/identificacao_inbcm.csv` |
 | II. Reconhecer | Quais registros têm evidência suficiente para o reconhecimento como ativos da UnB? (item 8) | [`reconhecimento.md`](metodologia/reconhecimento.md) | `reconhecimento.py` | `dados/reconhecimento.csv` |
 | III. Mensurar | Como mensurar, considerando características, finalidade e evidências? (item 9) | [`mensuracao.md`](metodologia/mensuracao.md) | `comparaveis.py`, `mensuracao.py` | `dados/mensuracao.csv` |
 | IV. Evidenciar | Como apresentar as informações de forma transparente e útil à gestão pública? (item 10) | [`evidenciacao.md`](metodologia/evidenciacao.md) | `evidenciacao.py` | `resultados/nota_explicativa/minuta_nota_explicativa.md` |
@@ -150,6 +151,9 @@ As duas opções produzem as mesmas tabelas.
 | Arquivo | Conteúdo |
 |---|---|
 | `inventario.csv` | Base padronizada com as variáveis do item 7 das Regras (identificador, coleção, categoria, título, autoria ou grupo de origem, ano, técnica, materiais, dimensões, proveniência, forma de aquisição, localização, estado de conservação, nº de patrimônio, descrição, fonte e URL), mais triagem de grupo, completude e duplicidade |
+| `identificacao_inbcm.csv` | Para cada bem, os elementos do INBCM (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º) presentes e ausentes, outros números propostos e classificação proposta pelo Tesauro de Objetos (FERREZ, 2016); resumo em `identificacao_inbcm_resumo.csv` |
+| `vocabulario_tesauro.csv` | Vocabulário revisável: denominação do portal, termo e código do Tesauro, verificação |
+| `bens_recentes_cadastro.csv` | Subgrupo da triagem: 27 bens do relatório de bens da UnB com denominação descritiva, tombados de 2024 a 2026, sem registro no acervo digital |
 | `inventario_excel.csv` | A mesma base com separador `;` (Excel em português) |
 | `inventario_bruto_longo.csv` | Todos os metadados de todos os itens, um valor por linha, sem perda de informação |
 | `por_colecao/*.csv` | Uma planilha por coleção, com os campos originais do portal |
@@ -225,6 +229,8 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 ## Fontes
 
 - TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
+- FERREZ, Helena Dodd. **Tesauro de Objetos do Patrimônio Cultural nos Museus Brasileiros**. [S. l.], 2016.
+- INSTITUTO BRASILEIRO DE MUSEUS. Resolução Normativa Ibram nº 6, de 31 de agosto de 2021. Normatiza o Inventário Nacional dos Bens Culturais Musealizados. **Diário Oficial da União**: seção 1, Brasília, DF, 2 set. 2021.
 - UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. Acervo Digital da CAL. Disponível em: https://www.acervocal.unb.br/. Data de acesso: registrada em `dados/log_extracao.json`.
 - Regras do Hackathon CULTIVA UnB 2026 (PPGCont/UnB, 2026).
 
@@ -236,6 +242,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Identificação pelo INBCM (Resolução Normativa Ibram nº 6/2021), classificação pelo Tesauro de Objetos e subgrupo dos 27 bens recentes do cadastro (`codigos/identificacao_inbcm.py`, `codigos/cadastro_unb_relatorio.py`) | Texto da norma conferido no portal do Ibram; termos do Tesauro conferidos no texto publicado, com equivalências a confirmar marcadas; nada é completado além do que está escrito na denominação |
 | 24/11/2026 | Claude (Anthropic) | Fluxo das etapas no site e no README; documentação da falta de chave comum entre o acervo digital e o cadastro patrimonial, com indicadores de grupo em `dados/conciliacao_patrimonial.csv` | Texto da limitação redigido a partir de parágrafo do Hugo; descrição do Tainacan conferida em tainacan.org; indícios de grupo não usados como vínculo obra a obra |
 | 24/11/2026 | Claude (Anthropic) | Árvore de decisão da triagem por grupo (extrator 1.2.0): natureza do registro, grupo do bem e resíduo pela sequência do número de registro | Critério gravado em cada registro; inferência pela sequência marcada como provável; versão 1.1.3 preservada em `codigos/versoes_anteriores/` |
 | 24/11/2026 | Claude (Anthropic) | Leitura do relatório de bens da UnB (obras de arte), vínculo com os registros do portal e coluna "Valor no cadastro da UnB" no site (`codigos/cadastro_unb_relatorio.py`) | Vínculo confirmado só por identificador; vínculo por procedência marcado como provável; nenhum valor atribuído a registros sem vínculo; nomes e matrículas descartados |
@@ -250,6 +257,7 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 
 - O portal apresentou certificado TLS vencido em 23/11/2026; a coleta foi feita sem verificação do certificado, por decisão da equipe. As respostas brutas (`dados/brutos/`) registram URL e horário de cada consulta; os reprocessamentos posteriores são offline e constam de `dados/log_extracao.json`.
 - A Coleção CNRC, listada no item 4.3 das Regras, não aparece em nenhum registro público do portal.
+- **Identificação frente ao INBCM.** Pela Resolução Normativa Ibram nº 6/2021, nenhum dos 1.498 bens tem os 9 elementos de descrição obrigatórios, e o portal não tem os incisos II (outros números, onde caberia o tombamento) e VII (classificação por vocabulário controlado). A classificação proposta pelo Tesauro de Objetos alcança 938 bens; 560 ficam a classificar. Há ainda 27 bens recentes no cadastro patrimonial (R$ 113.800,00) sem registro no acervo digital (`metodologia/identificacao.md`).
 - **Acervo digital sem chave patrimonial.** O Acervo Digital da CAL, instância do Tainacan (TAINACAN, 2026), identifica as obras pelo número de registro museológico (CAL.xxxx, CE.xxx) e não informa o tombamento do sistema patrimonial da UnB, salvo na coleção Mobiliário moderno ("Código patrimonial"). A Lista da CAL identifica cada obra só pelo tombamento, sem título ou autoria. Nenhum dos 243 tombamentos aparece nos metadados do portal; no relatório de bens da UnB, 27 registros têm chave comum. A limitação é de catalogação, não do software. Efeito: o cadastro não serve de evidência de controle nem de custo atribuído obra a obra, e os bens que satisfazem a definição de ativo seguem o item 7 da NBC TSP 37. Detalhes, indícios de que a lista corresponde à subcoleção Triangular e encaminhamentos em [`metodologia/identificacao.md`](metodologia/identificacao.md) e [`metodologia/reconhecimento.md`](metodologia/reconhecimento.md).
 
 ```mermaid

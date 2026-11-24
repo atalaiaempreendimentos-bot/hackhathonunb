@@ -1,0 +1,19 @@
+﻿inciso,elemento,obrigatorio,campo_portal,bens_com_o_elemento,percentual,bens
+I,Número de registro,sim,Número de Registro,1497,99.9,1498
+II,Outros números,não,Código patrimonial,1,0.1,1498
+III,Situação,sim,Situação,698,46.6,1498
+IV,Denominação,sim,Denominação,1498,100.0,1498
+V,Título,não,Título,178,11.9,1498
+VI,Autor,sim,Autoria ou Grupo indígena,1217,81.2,1498
+VII,Classificação,não,não existe no portal,0,0.0,1498
+VIII,Resumo descritivo,sim,Description ou Descrição,1,0.1,1498
+IX,Dimensões,sim,Dimensões,260,17.4,1498
+X,Material/técnica,sim,Material/Técnica/Suporte ou Material e técnica,659,44.0,1498
+XI,Estado de conservação,sim,Estado de conservação,153,10.2,1498
+XII,Local de produção,não,Local de produção,620,41.4,1498
+XIII,Data de produção,não,Data de produção,172,11.5,1498
+XIV,Condições de reprodução,sim,Condições de reprodução,1240,82.8,1498
+XV,Mídias relacionadas,não,imagem do item,1246,83.2,1498
+II*,Outros números (proposta: tombamento confirmado no relatório de bens),não,proposta da equipe,27,1.8,1498
+VII*,"Classificação (proposta: Tesauro de Objetos, FERREZ, 2016)",não,proposta da equipe,938,62.6,1498
+,Bens com os 9 elementos obrigatórios,,,0,0.0,1498

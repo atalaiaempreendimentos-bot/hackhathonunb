@@ -136,10 +136,13 @@ def main():
     rel_txt = ("No relatório de bens da UnB com todas as obras de arte, há {} bens nas localidades da CAL ({}), {} deles registrados por "
                "R$ 0,01, valor simbólico que não constitui custo atribuído (NBC TSP 37, itens 12 e 13). Desse relatório, {} tombamentos "
                "têm o mesmo número de registro de {} registros do portal; outros {} registros têm vínculo provável por procedência, todos "
-               "com valor de R$ 0,01.[^8] ".format(rq("Bens nas localidades da CAL"), rv("Bens nas localidades da CAL"),
+               "com valor de R$ 0,01. Outros {} bens, tombados mais recentemente, têm denominação que descreve a obra (título, ano, "
+               "material e técnica) e não têm registro no acervo digital ({}).[^8] ".format(rq("Bens nas localidades da CAL"), rv("Bens nas localidades da CAL"),
                                                    rq("Bens da CAL com valor de R$ 0,01"), rq("Tombamentos vinculados por identificador"),
                                                    rq("Registros do Acervo com vínculo confirmado"),
-                                                   rq("Registros do Acervo com vínculo provável (procedência)"))) if rel else ""
+                                                   rq("Registros do Acervo com vínculo provável (procedência)"),
+                                                   rq("Bens com denominação descritiva (recentes, sem registro no acervo digital)"),
+                                                   rv("Bens com denominação descritiva (recentes, sem registro no acervo digital)"))) if rel else ""
     V = dict(rel_txt=rel_txt,
         reg=n(len(inv)), acervo=n(sum(1 for r in inv if r["colecao"] == "Acervo")), mem=n(sum(1 for r in inv if r["colecao"] == "Memória Institucional")),
         cob=str(ind.get("Cobertura (%)", "")).replace(".", ","), comp=str(ind.get("Completude cadastral média (%)", "")).replace(".", ","),

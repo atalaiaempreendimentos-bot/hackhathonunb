@@ -36,6 +36,7 @@ Fonte: relatório de bens da UnB, código de material 5244000000001 (obras de ar
 | Tombamentos vinculados por identificador | 33 |  |
 | Registros do Acervo com vínculo provável (procedência) | 249 | R$ 2,49 |
 | Registros do Acervo sem vínculo | 1.221 |  |
+| Bens com denominação descritiva (recentes, sem registro no acervo digital) | 27 | R$ 113.800,00 |
 
 ## Registros do Acervo sem vínculo, por procedência
 

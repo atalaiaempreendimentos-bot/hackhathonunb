@@ -11,6 +11,9 @@ Gera dados/valores_cadastro_unb.csv   (um registro do portal por linha: valor re
      dados/cadastro_unb_resumo.csv    (totais por localidade e por origem, sem dados pessoais)
      resultados/conciliacao_cadastro_unb.md
      dados/cadastro_unb_sanitizado.csv (relatório sem nomes e matrículas; fica fora do repositório público)
+     dados/bens_recentes_cadastro.csv  (bens com denominação descritiva, isto é, diferente de "OBRA DE ARTE":
+                                       título, série, ano, material e técnica lidos da denominação, segundo os
+                                       elementos do INBCM, Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º)
 
 Privacidade: nomes do responsável pela localidade e do detentor, lotação do detentor e o texto da
 observação (que traz matrículas) são descartados; da observação aproveitam-se só o número de registro
@@ -56,6 +59,31 @@ PROCEDENCIA_ORIGEM = {
 # em regra, nomes de pessoas; doações de pessoas físicas aparecem no relatório com a origem PESFIS.
 INSTITUICAO = re.compile(r"\b(embaixada|governo|banco|fundac|instituto|iphan|funai|museu|universidade|ministerio|secretaria|"
                          r"prefeitura|cedoc|dex|fub|flaac|finatec|associac|centro|consulado)")
+
+
+def descrever(den):
+    """Lê da denominação patrimonial os elementos do INBCM que ela traz (título, série, data de produção,
+    material/técnica, dimensões). Não completa nada que não esteja escrito."""
+    t = re.sub(r"\s+", " ", str(den).replace("\x93", '"').replace("\x94", '"').replace("“", '"').replace("”", '"')).strip()
+    corpo = re.sub(r"^(OBRA DE ARTE\s*)+", "", t, flags=re.I).strip(" -:")
+    corpo = re.sub(r"^-?\s*ESPECIFICA[ÇC][ÃA]O DAS OBRAS?\s*:\s*\*?\s*", "", corpo, flags=re.I).strip()
+    ano = re.search(r"\bANO\s*:?\s*(\d{4}(?:\s*-\s*\d{4})?)", corpo)
+    tec = re.search(r"T[ÉE]CNICA/MATERIAL/SUPORTE\s*:?\s*(.+?)(?:\s*\*|\s+DIMENS|$)", corpo)
+    if not tec and ano:
+        resto = corpo[ano.end():]
+        m = re.match(r"\s*(.+?)(?:\s+DIMENS|\s*\*|$)", resto)
+        tec = m if m and m.group(1).strip() else None
+    dim = re.search(r"DIMENS(?:ÃO|AO|ÕES|OES)\s*:?\s*(.+?)(?:\s*\*|$)", corpo)
+    serie = re.search(r'S[ÉE]RIE\s*"([^"]+)"', corpo) or re.search(r"DA S[ÉE]RIE\s+(.+)$", corpo)
+    tit = re.split(r"\bANO\b|T[ÉE]CNICA/|,\s*S[ÉE]RIE|/\s*DA S[ÉE]RIE", corpo)[0]
+    tit = re.sub(r"^\d+\.\s*", "", tit).strip(' "*-:,')
+    texto = t.upper()
+    nome = ("instalação" if "INSTALA" in texto else "maquete" if "MAQUETE" in texto
+            else "obra de arte (nome do objeto não informado)")
+    return {"titulo": tit, "serie": serie.group(1).strip(' "') if serie else "",
+            "data_producao": ano.group(1).replace(" ", "") if ano else "",
+            "material_tecnica": tec.group(1).strip(" *:") if tec else "", "dimensoes": dim.group(1).strip(" *:") if dim else "",
+            "denominacao_inbcm": nome, "denominacao_cadastro": t}
 
 
 def norm(t):
@@ -209,6 +237,35 @@ def main():
     with open(os.path.join(DADOS, "valores_cadastro_unb.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols); w.writeheader(); w.writerows(saida)
 
+    # bens com denominação descritiva: em regra, os ingressos mais recentes, sem registro no acervo digital
+    titulos = {}
+    for r in inv:
+        mm = meta.get(r["id_registro"], {})
+        for x in (mm.get("Título") or "", mm.get("titulo_item") or ""):
+            for p in x.split(" | "):
+                if len(norm(p)) >= 6 and norm(p) not in ("sem titulo",):
+                    titulos.setdefault(norm(p), set()).add(r["id_registro"])
+    recentes = []
+    for b in bens:
+        if norm(b["denominacao"]) in ("obra de arte", ""):
+            continue
+        d = descrever(b["denominacao"])
+        ids = sorted(titulos.get(norm(d["titulo"]), set())) if norm(d["titulo"]) not in ("sem titulo", "") else []
+        anos = [int(a) for a in re.findall(r"\d{4}", d["data_producao"])]
+        indicio = ("sim: instalação" if d["denominacao_inbcm"] == "instalação"
+                   else "sim: data de produção {}".format(d["data_producao"]) if anos and max(anos) >= 2000 else "")
+        loc = b["localidade"] or ""
+        recentes.append(dict(tombamento=b["tombamento"], data_tombamento=b["data_tombamento"], termo=b["termo"],
+                             localidade=re.sub(r"^\d+_\d+ - ", "", loc) if loc else "não informada",
+                             status=b["status"], estado=b["estado"], valor_registrado=b["valor"], valor_exibicao=brl(b["valor"] or 0),
+                             grupo_sugerido="Arte",
+                             criterio_grupo="classe patrimonial 52.44, obras de arte e peças para exposição (código de material 5244000000001)",
+                             indicio_contemporanea=indicio, registro_acervo_digital=("; ".join(ids) if ids else "nenhum"), **d))
+    recentes.sort(key=lambda x: (x["data_tombamento"][6:] + x["data_tombamento"][3:5] + x["data_tombamento"][:2], x["tombamento"]))
+    if recentes:
+        with open(os.path.join(DADOS, "bens_recentes_cadastro.csv"), "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(recentes[0].keys())); w.writeheader(); w.writerows(recentes)
+
     # resumo (sem dados pessoais)
     res = [("Bens no relatório (obras de arte da UnB)", len(bens), round(sum(b["valor"] or 0 for b in bens), 2)),
            ("Bens nas localidades da CAL", len(cal), round(sum(b["valor"] or 0 for b in cal), 2)),
@@ -223,7 +280,10 @@ def main():
     res += [("Registros do Acervo com vínculo confirmado", len(conf), round(sum(s["valor_registrado"] for s in conf), 2)),
             ("Tombamentos vinculados por identificador", sum(len(s["tombamentos"].split("; ")) for s in conf), ""),
             ("Registros do Acervo com vínculo provável (procedência)", len(prov), round(sum(s["valor_registrado"] for s in prov), 2)),
-            ("Registros do Acervo sem vínculo", len(saida) - len(conf) - len(prov), "")]
+            ("Registros do Acervo sem vínculo", len(saida) - len(conf) - len(prov), ""),
+            ("Bens com denominação descritiva (recentes, sem registro no acervo digital)",
+             sum(1 for x in recentes if x["registro_acervo_digital"] == "nenhum"),
+             round(sum(x["valor_registrado"] or 0 for x in recentes if x["registro_acervo_digital"] == "nenhum"), 2))]
     with open(os.path.join(DADOS, "cadastro_unb_resumo.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f); w.writerow(["indicador", "quantidade", "valor_registrado_rs"]); w.writerows(res)
 
