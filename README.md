@@ -24,6 +24,7 @@ cultiva-unb-trio/
 ├── index.html                      site do projeto (GitHub Pages)
 ├── codigos/
 │   ├── extrair_acervo_cal.py      extrator (API REST do Tainacan), sem dependências externas
+│   ├── mensuracao.py              modelo de mensuração (Etapa III)
 │   ├── versoes_anteriores/        versões anteriores do extrator
 │   └── coletar_no_navegador.js    coleta alternativa pelo Console do navegador
 ├── dados/                          saída do extrator (ver dicionario_dados.md após rodar)
@@ -86,6 +87,9 @@ As duas opções produzem as mesmas tabelas.
 | `dicionario_dados.md` | Dicionário de dados gerado automaticamente |
 | `log_extracao.json` | Data, parâmetros, requisições, avisos, erros e limitações |
 | `brutos/` | Respostas originais da API (JSON) com URL e data de consulta |
+| `mensuracao.csv` | Modelo de mensuração aplicado a cada registro: categoria, base, técnica, nível de evidência, situação, valor (quando houver evidência) e nota metodológica |
+| `mensuracao_resumo.csv` | Contagem por situação e valor agregado por base e categoria |
+| `evidencias_mensuracao.csv` | Evidências preenchidas pela equipe (fonte obrigatória) |
 
 ### Pelo VS Code
 
@@ -93,6 +97,10 @@ As duas opções produzem as mesmas tabelas.
 - Coleta de todas as coleções com o pacote completo de tabelas: `python3 rodar_no_vscode.py`, ou Terminal > Run Task > CULTIVA.
 
 Cada obra fica ligada à sua foto pelos links (`url_foto_original`/`url_foto`, `url_foto_1024px`/`url_foto_grande`) e pela galeria (`galeria_acervo_1565.html`, `dados/galeria.html`), que exibe a foto do portal ao lado de todos os metadados.
+
+### Etapa III: mensuração
+
+`python3 codigos/mensuracao.py` aplica o modelo de mensuração a todos os registros de `dados/inventario.csv` e gera `dados/mensuracao.csv` e `dados/mensuracao_resumo.csv`. Valores entram somente por `dados/evidencias_mensuracao.csv`, com fonte e nível de evidência (A a D); sem evidência, o registro fica com a situação justificada (pendente, sem mensuração monetária fundamentada, fora do escopo ou pendente de classificação). Metodologia em `metodologia/mensuracao.md`. No site, a coluna de mensuração mostra o valor quando ele existe, com a nota metodológica ao passar o mouse.
 
 ### Direitos das imagens
 
@@ -128,6 +136,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | Data | Ferramenta | Uso | Verificação pela equipe |
 |---|---|---|---|
 | 23/11/2026 | Claude (Anthropic) | Rascunho do extrator, do trecho para navegador, deste README e do roteiro de trabalho | Código testado contra API simulada no formato do Tainacan |
+| 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 

@@ -48,6 +48,12 @@ code{font-size:.92em;overflow-wrap:anywhere}
 .ft img{width:100%;aspect-ratio:1/1;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}
 .ft span{padding:8px 10px;font-size:14px;line-height:1.3}.ft small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
 figure{margin:0 0 12px}figure img{width:100%;max-height:60vh;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}figcaption{font-size:13px;color:var(--mut);margin-top:4px}
+.val{min-height:32px;padding:2px 10px;border-radius:4px;border:1px solid var(--az);color:var(--az);background:transparent;font-weight:700;white-space:nowrap;cursor:help}
+:root:not([data-theme=light]) .val{color:light-dark(#003d7a,#9cc3ef);border-color:light-dark(#003d7a,#9cc3ef)}
+.sit{font-size:13px;color:var(--mut);white-space:normal}
+#pop{position:fixed;z-index:50;max-width:min(420px,92vw);background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:4px;padding:10px 12px;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.18);display:none}
+#pop b{display:block;font:600 14px Archivo,sans-serif;margin-bottom:4px}
+.mens{border:1px solid var(--ln);border-left:4px solid var(--az);padding:10px 12px;margin:0 0 12px;border-radius:4px}.mens h4{margin:0 0 6px;font:600 15px Archivo,sans-serif}
 footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{max-width:none}
 @media(max-width:600px){table{font-size:13px}.barra{grid-template-columns:7em minmax(0,1fr) 3em}}
 </style>
@@ -70,6 +76,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <div class="kpis" id="kpis"></div>
   <div class="duas">
    <div><h3>Triagem automática por grupo</h3><p class="mut">Sugestão por palavras-chave, sujeita a revisão da equipe.</p><div id="grupos"></div></div>
+   <div><h3>Mensuração (Etapa III)</h3><p class="mut">Situação de cada registro no modelo de mensuração. Valores só com evidência registrada (Regras, item 9.4).</p><div id="mensBar"></div><p class="mut" id="mensAgr"></p></div>
    <div><h3>Coleções do portal</h3><div class="scroll"><table><thead><tr><th>Coleção</th><th>Declarados</th><th>Recuperados</th></tr></thead><tbody id="cols"></tbody></table></div></div>
   </div>
  </div>
@@ -86,7 +93,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <select id="fFoto" aria-label="Foto no portal"><option value="">Com e sem foto no portal</option><option value="1">Com foto no portal</option><option value="0">Sem foto no portal</option></select>
   </div>
   <div class="mut" id="nRes">Carregando inventário…</div>
-  <div class="scroll"><table><thead><tr><th>ID</th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th>ID</th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Mensuração (NBC TSP 37/38; IPSAS 45/46)</th></tr></thead><tbody id="tb"></tbody></table></div>
   <div class="pg"><button id="ant" type="button">Anterior</button><span class="mut" id="pag"></span><button id="prox" type="button">Próxima</button></div>
  </div>
 </section>
@@ -107,7 +114,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <div class="etapas">
    <div class="etapa"><small>Concluída em 23/11</small><h3>Identificação</h3><p>Extração de todos os registros públicos pela API do Tainacan, padronização das variáveis do item 7 das Regras, dicionário de dados, diagnóstico de completude e duplicidades.</p></div>
    <div class="etapa"><small>Em desenvolvimento</small><h3>Reconhecimento</h3><p>Matriz com os critérios da Estrutura Conceitual e da NBC TSP 37: reconhecimento sustentado, não reconhecimento fundamentado ou pendente de verificação.</p></div>
-   <div class="etapa"><small>Em desenvolvimento</small><h3>Mensuração</h3><p>Bases e técnicas conforme a NBC TSP 38, com níveis de evidência, memória de cálculo e análise de incerteza.</p></div>
+   <div class="etapa"><small>Modelo aplicado em 23/11; valores em pesquisa</small><h3>Mensuração</h3><p>Base de mensuração (NBC TSP 38 / IPSAS 46), técnica, nível de evidência e situação definidos para os 2.197 registros. Valores entram apenas com evidência documentada, com nota metodológica.</p></div>
    <div class="etapa"><small>Em desenvolvimento</small><h3>Evidenciação</h3><p>Quadro consolidado, indicadores obrigatórios e minuta de nota explicativa.</p></div>
   </div>
  </div>
@@ -126,6 +133,9 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <li><a href="dados/diagnostico_qualidade.csv">diagnostico_qualidade.csv</a> e <a href="dados/duplicidades.csv">duplicidades.csv</a></li>
    <li><a href="dados/indicadores.csv">indicadores.csv</a> e <a href="dados/colecoes.csv">colecoes.csv</a></li>
    <li><a href="dados/log_extracao.json">log_extracao.json</a>: data, parâmetros e limitações da coleta</li>
+   <li><a href="dados/mensuracao.csv">mensuracao.csv</a>: modelo de mensuração aplicado (<a href="dados/mensuracao_resumo.csv">resumo</a>)</li>
+   <li><a href="dados/evidencias_mensuracao.csv">evidencias_mensuracao.csv</a>: evidências e fontes que sustentam os valores</li>
+   <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/mensuracao.py">codigos/mensuracao.py</a>: regras do modelo de mensuração</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/extrair_acervo_cal.py">codigos/extrair_acervo_cal.py</a>: extrator</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/baixar_acervo_1565.py">baixar_acervo_1565.py</a>: busca da coleção 1565</li>
   </ul>
@@ -146,6 +156,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </footer>
 
+<div id="pop" role="tooltip"></div>
 <dialog id="dlg" aria-labelledby="dlgT"><header><h3 id="dlgT"></h3><button type="button" id="fechar">Fechar</button></header><div class="dbody" id="dlgB"></div></dialog>
 
 <script>
@@ -168,7 +179,15 @@ pegar('dados/indicadores.csv').then(I=>{const v=n=>(I.find(x=>x.indicador===n)||
 
 pegar('dados/colecoes.csv').then(C=>{document.getElementById('cols').innerHTML=C.map(c=>`<tr><td>${/^https:\/\//.test(c.url)?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.colecao)}</a>`:esc(c.colecao)}</td><td class="n">${fmt(c.itens_publicos_declarados)}</td><td class="n">${fmt(c.itens_recuperados)}</td></tr>`).join('')}).catch(()=>{});
 
-let D=[],pagina=0;const POR=50;const FOTOS={};let G=[],gpag=0;const GPOR=48;
+let D=[],pagina=0;const POR=50;const M={};
+pegar('dados/mensuracao.csv').then(R=>{R.forEach(m=>M[m.id_registro]=m);if(D.length)render();
+ const ord=['Mensuração fundamentada','Faixa indicativa','Pendente de evidência','Sem mensuração monetária fundamentada','Fora do escopo (a confirmar no reconhecimento)','Pendente de classificação'];
+ const c={};R.forEach(m=>c[m.situacao]=(c[m.situacao]||0)+1);const mx=Math.max(1,...Object.values(c));
+ document.getElementById('mensBar').innerHTML=ord.map(o=>`<div class="barra"><span>${esc(o)}</span><i style="width:${(100*(c[o]||0)/mx).toFixed(1)}%"></i><em>${fmt(c[o]||0)}</em></div>`).join('');
+ const tot=R.filter(m=>m.situacao==='Mensuração fundamentada'&&m.valor_central!=='').reduce((a,m)=>a+Number(m.valor_central),0);
+ document.getElementById('mensAgr').textContent=tot>0?'Valor agregado das mensurações fundamentadas: '+tot.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})+'. Não representa o valor total do patrimônio da CAL (Regras, item 15).':'Nenhuma mensuração fundamentada registrada até o momento.'}).catch(()=>{});
+function celMens(id){const m=M[id];if(!m)return '<span class="sit">Carregando…</span>';
+ return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};let G=[],gpag=0;const GPOR=48;
 pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));grender()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
 function grender(){const q=document.getElementById('gq').value.toLowerCase().trim();const L=G.filter(f=>!q||f._s.includes(q));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
  document.getElementById('gn').textContent=L.length.toLocaleString('pt-BR')+' fotos';document.getElementById('gpag').textContent='Página '+(gpag+1)+' de '+tp;
@@ -186,14 +205,26 @@ let atual=[];
 function render(){atual=filtrados();const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
  document.getElementById('pag').textContent='Página '+(pagina+1)+' de '+tp;
- document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td></tr>`).join('')}
+ document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td><td>${celMens(d.id_registro)}</td></tr>`).join('')}
 function abrir(i){abrirReg(atual[i])}
 function abrirReg(d){if(!d)return;document.getElementById('dlgT').textContent=(d.titulo||'').split(' | ')[0]||('Registro '+d.id_registro);
  const linhas=Object.keys(ROT).filter(k=>d[k]).map(k=>`<tr><td>${esc(ROT[k])}</td><td>${esc(d[k])}</td></tr>`).join('');
  const link=/^https:\/\//.test(d.url_registro)?`<p><a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Ver a obra no portal da CAL</a></p>`:'';
  const F=FOTOS[d.id_registro];const fig=F?`<figure><img src="acervo_1565/${esc(F.arquivo)}" alt="${esc(F.titulo||d.titulo)}"><figcaption>${esc(F.credito)} <a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Registro original</a></figcaption></figure>`:'';
- document.getElementById('dlgB').innerHTML=fig+link+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
-document.getElementById('tb').addEventListener('click',e=>{const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)});
+ const mm=M[d.id_registro];const mb=mm?`<div class="mens"><h4>Mensuração: ${esc(mm.situacao)}${mm.valor_exibicao?' | '+esc(mm.valor_exibicao):''}</h4><table class="det"><tr><td>Categoria</td><td>${esc(mm.categoria_mensuracao)}</td></tr><tr><td>Base de mensuração</td><td>${esc(mm.base_mensuracao)}</td></tr><tr><td>Técnica</td><td>${esc(mm.tecnica)}</td></tr><tr><td>Nível de evidência</td><td>${esc(mm.nivel_evidencia)}</td></tr><tr><td>Nota metodológica</td><td>${esc(mm.nota_metodologica)}</td></tr></table></div>`:'';
+ document.getElementById('dlgB').innerHTML=fig+link+mb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
+const pop=document.getElementById('pop');
+function mostrarNota(el){const m=M[el.dataset.id];if(!m||!m.valor_exibicao)return;
+ pop.innerHTML=`<b>${esc(m.situacao)}: ${esc(m.valor_exibicao)}</b>${esc(m.nota_metodologica)}`;pop.style.display='block';
+ const r=el.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;let x=Math.min(Math.max(8,r.left),innerWidth-pw-8);let y=r.bottom+6;if(y+ph>innerHeight-8)y=Math.max(8,r.top-ph-6);
+ pop.style.left=x+'px';pop.style.top=y+'px'}
+function esconderNota(){pop.style.display='none'}
+const tbE=document.getElementById('tb');
+tbE.addEventListener('mouseover',e=>{const v=e.target.closest('.val');if(v)mostrarNota(v)});
+tbE.addEventListener('mouseout',e=>{if(e.target.closest('.val'))esconderNota()});
+tbE.addEventListener('focusin',e=>{const v=e.target.closest('.val');if(v)mostrarNota(v)});
+tbE.addEventListener('focusout',esconderNota);addEventListener('scroll',esconderNota,{passive:true});
+document.getElementById('tb').addEventListener('click',e=>{const v=e.target.closest('.val');if(v){e.stopPropagation();pop.style.display==='block'?esconderNota():mostrarNota(v);return}const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)});
 function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
