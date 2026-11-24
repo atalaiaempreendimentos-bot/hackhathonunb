@@ -36,11 +36,14 @@ def main():
     ap.add_argument("--base", help="endereço da API Tainacan de outro acervo")
     ap.add_argument("--sem-verificar-ssl", action="store_true", help="repassado ao extrator (fica registrado no log)")
     ap.add_argument("--cadastro", help="arquivo do cadastro patrimonial (.numbers ou .csv) para a conciliação")
+    ap.add_argument("--relatorio-bens", help="relatório de bens da UnB (.xlsx, obras de arte) para o valor de cada registro")
     a = ap.parse_args()
     ext = ["--saida", "dados"] + (["--base", a.base] if a.base else []) + (["--sem-verificar-ssl"] if a.sem_verificar_ssl else [])
     rodar("extrair_acervo_cal.py", *(ext + ([] if a.atualizar else ["--offline"])))
     if a.cadastro:
         rodar("cadastro_patrimonial.py", a.cadastro)
+    if a.relatorio_bens:
+        rodar("cadastro_unb_relatorio.py", a.relatorio_bens)
     rodar("verificar_duplicidades.py")
     rodar("comparaveis.py")
     rodar("reconhecimento.py")

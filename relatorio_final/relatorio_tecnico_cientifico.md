@@ -45,14 +45,14 @@ Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497
 | Completude cadastral | 32,9% |
 | Registros duplicados (possíveis) | 48 (4 prováveis e 44 a conferir) |
 | Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 987 |
+| Reconhecimento pendente | 986 |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 639 (inclui 15 com faixa indicativa) |
 | Valor agregado estimado | R$ 0,00 |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
 
-Não reconhecimento fundamentado: 1.210 registros: 699 eventos da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6), e 511 bens que satisfazem a definição, mas não têm mensuração confiável (161 de arte, 155 de arte contemporânea e 195 etnográficos), tratados pelo item 7 da NBC TSP 37: não reconhecidos e divulgados conforme o item 77. Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
+Não reconhecimento fundamentado: 1.211 registros: 699 eventos da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6), e 512 bens que satisfazem a definição, mas não têm mensuração confiável (161 de arte, 155 de arte contemporânea e 196 etnográficos), tratados pelo item 7 da NBC TSP 37: não reconhecidos e divulgados conforme o item 77. Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
 
 ## vii. Discussão
 

@@ -38,6 +38,7 @@ cultiva-unb-trio/
 │   ├── validacao_casos.py         Produto 4: validação de nove casos
 │   ├── evidenciacao.py            Etapa IV: nota explicativa, quadro consolidado e indicadores
 │   ├── cadastro_patrimonial.py    conciliação com o cadastro patrimonial da UnB (Lista da CAL)
+│   ├── cadastro_unb_relatorio.py  valor de cada registro no relatório de bens da UnB (obras de arte)
 │   ├── ler_numbers.py             leitor de planilhas Apple Numbers, sem dependências
 │   ├── versoes_anteriores/        versões anteriores do extrator
 │   └── coletar_no_navegador.js    coleta alternativa pelo Console do navegador
@@ -64,6 +65,7 @@ Dependências: Python 3.8 ou superior, apenas biblioteca padrão. Opcional: `ope
 python3 codigos/executar_pipeline.py                     # reprocessa as respostas já baixadas (dados/brutos)
 python3 codigos/executar_pipeline.py --atualizar         # baixa de novo o portal antes de reprocessar
 python3 codigos/executar_pipeline.py --cadastro Lista_da_CAL.numbers   # inclui a conciliação patrimonial
+python3 codigos/executar_pipeline.py --relatorio-bens relatorio_bens_UnB_Total.xlsx   # valor de cada registro no cadastro da UnB
 ```
 
 Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), conciliação patrimonial (opcional), Etapa III (`comparaveis.py`, que chama `mensuracao.py`), Etapa II (`reconhecimento.py`, que usa a condição de mensuração), validação (`validacao_casos.py`) e Etapa IV (`evidenciacao.py`). O resultado é determinístico: a mesma entrada produz os mesmos arquivos.
@@ -83,14 +85,14 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 | Completude cadastral | 32,9% |
 | Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
 | Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 987 (outros 1.210 com não reconhecimento fundamentado: 511 pelo item 7 da NBC TSP 37 e 699 eventos) |
+| Reconhecimento pendente | 986 (outros 1.211 com não reconhecimento fundamentado: 512 pelo item 7 da NBC TSP 37 e 699 eventos) |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 639, dos quais 15 com faixa indicativa (nível C) |
 | Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
 
-Cadastro patrimonial da UnB, localidade CAL: 242 obras de arte, 232 próprias com valor registrado de R$ 1.765.385,00 e 10 de terceiros (R$ 173.015,00); nenhum tombamento aparece no portal. Detalhes em `resultados/nota_explicativa/minuta_nota_explicativa.md`.
+Cadastro patrimonial da UnB: a Lista da CAL (sala 107) tem 242 obras de arte, 232 próprias com valor registrado de R$ 1.765.385,00 e 10 de terceiros (R$ 173.015,00), sem tombamento em comum com o portal. O relatório de bens da UnB com todas as obras de arte (1.127 bens; 1.009 nas localidades da CAL, R$ 2.266.832,63) vincula 27 registros do portal por identificador e 249 por procedência; o valor de cada registro aparece na coluna "Valor no cadastro da UnB" do site (`dados/valores_cadastro_unb.csv`, `resultados/conciliacao_cadastro_unb.md`). Detalhes em `resultados/nota_explicativa/minuta_nota_explicativa.md`.
 
 ## Etapa I: como reproduzir a extração
 
@@ -211,6 +213,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Leitura do relatório de bens da UnB (obras de arte), vínculo com os registros do portal e coluna "Valor no cadastro da UnB" no site (`codigos/cadastro_unb_relatorio.py`) | Vínculo confirmado só por identificador; vínculo por procedência marcado como provável; nenhum valor atribuído a registros sem vínculo; nomes e matrículas descartados |
 | 24/11/2026 | Claude (Anthropic) | Verificação de duplicidades (`codigos/verificar_duplicidades.py`); retirada da seção Galeria do site; ordenação por coluna na consulta | Grupos a conferir listados por ID e número de registro, para checagem na CAL |
 | 24/11/2026 | Claude (Anthropic) | Consulta ao texto publicado da Estrutura Conceitual (R1), da NBC TSP 37 e da NBC TSP 38 (legisweb.com.br e legismap.com.br); ajuste dos modelos de reconhecimento, mensuração e evidenciação aos itens conferidos (`metodologia/fundamentacao_normativa.md`); coluna de fotos 3 × 4 no site; relatório de aderência v2 | Itens citados conferidos no texto das normas; apêndices de orientação não consultados; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |

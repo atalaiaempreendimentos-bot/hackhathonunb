@@ -29,23 +29,23 @@ O cadastro patrimonial da UnB registra, na localidade da CAL, 242 obras de arte,
 | (d) valor contábil bruto e depreciação acumulada | R$ 1.765.385,00 (obras próprias); sem depreciação; saldos de início e fim de período não constam da Lista |
 | (e) conciliação do período | Não disponível: a Lista não traz movimentações |
 
-Nenhum número de tombamento desse cadastro aparece no acervo digital, o que impede vincular os valores registrados às obras catalogadas. Esse total é valor oficialmente registrado e não é somado às estimativas acadêmicas desta nota (Regras, item 10).
+Nenhum número de tombamento dessa lista aparece no acervo digital. No relatório de bens da UnB com todas as obras de arte, há 1.009 bens nas localidades da CAL (R$ 2.266.832,63), 303 deles registrados por R$ 0,01, valor simbólico que não constitui custo atribuído (NBC TSP 37, itens 12 e 13). Desse relatório, 33 tombamentos têm o mesmo número de registro de 27 registros do portal; outros 249 registros têm vínculo provável por procedência, todos com valor de R$ 0,01.[^8] Esses totais são valores oficialmente registrados e não são somados às estimativas acadêmicas desta nota (Regras, item 10).
 
 ## 4 Itens do patrimônio cultural não reconhecidos [e, g, h] (NBC TSP 37, itens 7 e 77)
 
-511 registros satisfazem a definição de ativo, com localização confirmada e ingresso documentado, mas não têm mensuração confiável e, por isso, não são reconhecidos.[^3]
+512 registros satisfazem a definição de ativo, com localização confirmada e ingresso documentado, mas não têm mensuração confiável e, por isso, não são reconhecidos.[^3]
 
 | Classe | Itens | (a) Dificuldades na obtenção de mensuração confiável | (b) Relevância para os objetivos da entidade |
 |---|---:|---|---|
 | Obras de arte | 161 | Poucas transações realizadas de obras comparáveis; portal sem dimensões e tiragem de muitas obras; preços em moeda estrangeira e sem indicação de prêmio do comprador, que integra o preço de entrada (NBC TSP 38, item 25(a)) | Acervo de referência para exposições da CAL e para atividades de ensino, pesquisa e extensão da Universidade[^6] |
 | Obras de arte contemporânea | 155 | Ausência de comparáveis diretos; obras em suporte digital, fotográfico ou de performance, com autenticidade e direitos dependentes de documentação do artista | Idem |
-| Objetos etnográficos | 195 | Nenhuma técnica aplicável sem tratar o objeto como mercadoria, o que as Regras vedam (item 4.3): a abordagem de custo exige substituto de utilidade comparável, inexistente para objeto único (NBC TSP 38, itens 43 e 44) | Documentação da cultura material de povos indígenas e comunidades tradicionais, com restrições culturais e éticas |
+| Objetos etnográficos | 196 | Nenhuma técnica aplicável sem tratar o objeto como mercadoria, o que as Regras vedam (item 4.3): a abordagem de custo exige substituto de utilidade comparável, inexistente para objeto único (NBC TSP 38, itens 43 e 44) | Documentação da cultura material de povos indígenas e comunidades tradicionais, com restrições culturais e éticas |
 
 Não foram identificados gastos subsequentes reconhecidos com esses itens (NBC TSP 37, item 78). Os demais 699 registros de não reconhecimento são eventos e atividades da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6).
 
 ## 5 Registros pendentes de verificação [g]
 
-987 registros ainda não permitem concluir se satisfazem a definição de ativo: 751 têm ingresso documentado, mas localização atual não confirmada (entre eles, 39 não localizados e 11 emprestados ou a verificar); 138 estão localizados, mas sem forma ou data de ingresso; 98 carecem das duas informações. Pendências de mensuração: 639 registros.[^3]
+986 registros ainda não permitem concluir se satisfazem a definição de ativo: 776 têm ingresso documentado, mas localização atual não confirmada (entre eles, 39 não localizados e 11 emprestados ou a verificar); 137 estão localizados, mas sem forma ou data de ingresso; 73 carecem das duas informações. Pendências de mensuração: 639 registros.[^3]
 
 ## 6 Mensuração: base, técnicas, dados de entrada e incerteza [d, e, f, h] (NBC TSP 38, itens 54 e 55)
 
@@ -70,3 +70,4 @@ Certificado TLS do portal vencido na data da coleta (23/11/2026, 19h12), feita s
 [^5]: Cadastro patrimonial: Lista da CAL fornecida pela equipe, com 243 bens tombados em 05/01/2021 (termo 209/2021), migrados do SIPAT; conciliação agregada em `dados/conciliacao_patrimonial.csv` (`codigos/cadastro_patrimonial.py`); a versão item a item, sem dados pessoais, fica fora do repositório público até a confirmação da autorização de divulgação (Regras, item 12).
 [^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
 [^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Conversão para reais só com taxa e fonte da data de referência.
+[^8]: Relatório de bens da UnB (obras de arte, código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026; vínculo em `dados/valores_cadastro_unb.csv` e conciliação em `resultados/conciliacao_cadastro_unb.md` (`codigos/cadastro_unb_relatorio.py`). Vínculo confirmado: número de registro do portal igual ao tombamento ou ao registro do SIPAT. Vínculo provável: procedência do portal correspondente à sigla de origem do SIPAT, com valor único no grupo. Nomes e matrículas do relatório foram descartados.

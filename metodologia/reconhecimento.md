@@ -11,7 +11,7 @@ Fundamentação conferida em 24/11/2026 no texto publicado da NBC TSP Estrutura 
 | Componente | Evidência usada | Fundamento | Coluna em `dados/reconhecimento.csv` |
 |---|---|---|---|
 | Recurso com potencial de serviços | Função museológica do acervo; o patrimônio cultural é exemplo de ativo com potencial de serviços | EC, itens 5.6A, 5.8 e 5.9 | `recurso_potencial_servicos` |
-| Controle: propriedade legal | Ingresso por doação ou transferência, com data | EC, item 5.12(a) | `controle_propriedade_legal` |
+| Controle: propriedade legal | Ingresso por doação ou transferência, com data, ou tombamento confirmado no relatório de bens da UnB | EC, item 5.12(a) | `controle_propriedade_legal` |
 | Controle: acesso | Situação "Localizado"; "Não localizado" e "Emprestado" ficam a verificar | EC, item 5.12(b) | `controle_acesso` |
 | Controle: meios que assegurem o uso | Guarda, documentação e exposição pela CAL | EC, item 5.12(c) | `controle_meios_uso` |
 | Evento passado | Doação ou transferência (transação sem contraprestação) | EC, item 5.13 | `evento_passado` |
@@ -37,17 +37,21 @@ Classificação contábil: ativo imobilizado tangível (NBC TSP 37, item 5), cla
 |---|---:|---:|---:|
 | Arte | 0 | 165 (161 pelo item 7 e 4 eventos) | 314 |
 | Arte contemporânea | 0 | 155 | 7 |
-| Etnográfica | 0 | 195 | 664 |
+| Etnográfica | 0 | 196 | 663 |
 | A classificar | 0 | 695 (eventos) | 2 |
-| **Total** | **0** | **1.210** | **987** |
+| **Total** | **0** | **1.211** | **986** |
 
-Satisfazem a definição de ativo 511 registros (161 de arte, 155 de arte contemporânea e 195 etnográficos); todos ficam fora do balanço pelo item 7 da NBC TSP 37, porque nenhum tem, até aqui, três transações comparáveis realizadas (nível B). Dos 987 pendentes, 751 têm ingresso documentado mas localização não confirmada, 138 estão localizados sem forma ou data de ingresso e 98 carecem das duas informações.
+Satisfazem a definição de ativo 512 registros (161 de arte, 155 de arte contemporânea e 196 etnográficos); todos ficam fora do balanço pelo item 7 da NBC TSP 37, porque nenhum tem, até aqui, três transações comparáveis realizadas (nível B). Dos 986 pendentes, 776 têm ingresso documentado mas localização não confirmada, 137 estão localizados sem forma ou data de ingresso e 73 carecem das duas informações.
 
 Mudança em relação à versão de 23/11/2026: as 316 obras de arte e de arte contemporânea que satisfazem a definição de ativo passaram de "Pendente de verificação" para "Não reconhecimento fundamentado", porque o item 7 da NBC TSP 37 dá o tratamento exato desse caso (não reconhecer, divulgar pelo item 77 e reconhecer quando houver mensuração confiável).
 
 ## Conciliação com o cadastro patrimonial
 
 O cadastro patrimonial da UnB (Lista da CAL, termo 209/2021) registra 242 obras de arte na localidade da CAL: 232 próprias, com valor registrado de R$ 1.765.385,00, e 10 marcadas como bem de terceiro (R$ 173.015,00). Os bens de terceiro não atendem ao critério de controle (EC, item 5.11). A denominação de todos os itens é genérica ("OBRA DE ARTE") e nenhum número de tombamento ou de registro do SIPAT aparece no portal. Se um registro do portal corresponder a um tombamento, o bem já está reconhecido pela UnB, e o valor registrado pode ser tratado como custo atribuído na aplicação inicial da NBC TSP 37 (item 87(a)); a conciliação item a item é, por isso, investigação indicada em todos os registros do Acervo. Arquivos: `codigos/cadastro_patrimonial.py` e `dados/conciliacao_patrimonial.csv` (agregados). A versão item a item, sem dados pessoais (`dados/cadastro_patrimonial_cal.csv`), fica fora do repositório público até a equipe confirmar a autorização de divulgação (Regras, item 12).
+
+## Vínculo com o relatório de bens da UnB
+
+O relatório de bens da UnB com todas as obras de arte (código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026, permitiu vincular 27 registros do portal a 33 tombamentos, porque o número de registro desses registros é o próprio tombamento ou o registro do SIPAT; outros 249 têm vínculo provável por procedência (`codigos/cadastro_unb_relatorio.py`, `resultados/conciliacao_cadastro_unb.md`). O tombamento confirmado é evidência de propriedade legal (EC, item 5.12(a)) e passou a atender ao critério de controle; o vínculo provável não identifica o tombamento individual e não é usado como evidência de controle. Quase todos os bens vinculados estão registrados por R$ 0,01, valor simbólico que não constitui custo atribuído (NBC TSP 37, itens 12 e 13).
 
 ## Reprodução
 

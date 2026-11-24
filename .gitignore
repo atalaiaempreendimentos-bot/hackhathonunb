@@ -10,3 +10,8 @@ acervo_1565/_to_delete/
 *.numbers
 Lista_da_CAL*
 dados/cadastro_patrimonial_cal.csv
+
+# relatório de bens da UnB: original com nomes e matrículas e versão sanitizada completa (publicar só agregados e vínculos)
+relatorio_bens*
+*.xlsx.orig
+dados/cadastro_unb_sanitizado.csv

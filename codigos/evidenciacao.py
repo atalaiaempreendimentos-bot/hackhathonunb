@@ -45,6 +45,7 @@ def main():
     mens = {r["id_registro"]: r for r in ler("mensuracao.csv")}
     ind = kv("indicadores.csv"); conc = kv("conciliacao_patrimonial.csv")
     dup = {r["criterio"]: r["registros"] for r in ler("verificacao_duplicidades_resumo.csv")}
+    rel = {r["indicador"]: (r["quantidade"], r["valor_registrado_rs"]) for r in ler("cadastro_unb_resumo.csv")}
     val = ler("validacao_casos.csv")
     log_data = (inv[0]["data_consulta"] if inv else "")
     if len(log_data) >= 16 and log_data[4] == "-":
@@ -130,7 +131,16 @@ def main():
     p_ambos = len(pend) - p_ex - p_ct
     faixa_obs = sum(1 for m in mens.values() if m.get("situacao") == "Faixa indicativa" and "observáveis (preços" in m.get("tecnica", ""))
     faixa_nobs = T["faixa_indicativa"] - faixa_obs
-    V = dict(
+    rq = lambda k: n(rel.get(k, ("?", ""))[0])
+    rv = lambda k: brl(rel.get(k, ("", "0"))[1] or 0)
+    rel_txt = ("No relatório de bens da UnB com todas as obras de arte, há {} bens nas localidades da CAL ({}), {} deles registrados por "
+               "R$ 0,01, valor simbólico que não constitui custo atribuído (NBC TSP 37, itens 12 e 13). Desse relatório, {} tombamentos "
+               "têm o mesmo número de registro de {} registros do portal; outros {} registros têm vínculo provável por procedência, todos "
+               "com valor de R$ 0,01.[^8] ".format(rq("Bens nas localidades da CAL"), rv("Bens nas localidades da CAL"),
+                                                   rq("Bens da CAL com valor de R$ 0,01"), rq("Tombamentos vinculados por identificador"),
+                                                   rq("Registros do Acervo com vínculo confirmado"),
+                                                   rq("Registros do Acervo com vínculo provável (procedência)"))) if rel else ""
+    V = dict(rel_txt=rel_txt,
         reg=n(len(inv)), acervo=n(sum(1 for r in inv if r["colecao"] == "Acervo")), mem=n(sum(1 for r in inv if r["colecao"] == "Memória Institucional")),
         cob=str(ind.get("Cobertura (%)", "")).replace(".", ","), comp=str(ind.get("Completude cadastral média (%)", "")).replace(".", ","),
         sust=n(T["reconhecimento_sustentado"]), nao=n(T["nao_reconhecimento_fundamentado"]), pend=n(T["pendente_verificacao"]),
@@ -181,7 +191,7 @@ O cadastro patrimonial da UnB registra, na localidade da CAL, {obras_cad} obras 
 | (d) valor contábil bruto e depreciação acumulada | {vp} (obras próprias); sem depreciação; saldos de início e fim de período não constam da Lista |
 | (e) conciliação do período | Não disponível: a Lista não traz movimentações |
 
-Nenhum número de tombamento desse cadastro aparece no acervo digital, o que impede vincular os valores registrados às obras catalogadas. Esse total é valor oficialmente registrado e não é somado às estimativas acadêmicas desta nota (Regras, item 10).
+Nenhum número de tombamento dessa lista aparece no acervo digital. {rel_txt}Esses totais são valores oficialmente registrados e não são somados às estimativas acadêmicas desta nota (Regras, item 10).
 
 ## 4 Itens do patrimônio cultural não reconhecidos [e, g, h] (NBC TSP 37, itens 7 e 77)
 
@@ -222,6 +232,7 @@ Certificado TLS do portal vencido na data da coleta ({data}), feita sem verifica
 [^5]: Cadastro patrimonial: Lista da CAL fornecida pela equipe, com {cad} bens tombados em {dt_tomb} (termo {termo}), migrados do SIPAT; conciliação agregada em `dados/conciliacao_patrimonial.csv` (`codigos/cadastro_patrimonial.py`); a versão item a item, sem dados pessoais, fica fora do repositório público até a confirmação da autorização de divulgação (Regras, item 12).
 [^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
 [^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Conversão para reais só com taxa e fonte da data de referência.
+[^8]: Relatório de bens da UnB (obras de arte, código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026; vínculo em `dados/valores_cadastro_unb.csv` e conciliação em `resultados/conciliacao_cadastro_unb.md` (`codigos/cadastro_unb_relatorio.py`). Vínculo confirmado: número de registro do portal igual ao tombamento ou ao registro do SIPAT. Vínculo provável: procedência do portal correspondente à sigla de origem do SIPAT, com valor único no grupo. Nomes e matrículas do relatório foram descartados.
 """.format(**V)
     os.makedirs(os.path.join(RES, "nota_explicativa"), exist_ok=True)
     with open(os.path.join(RES, "nota_explicativa", "minuta_nota_explicativa.md"), "w", encoding="utf-8") as f:

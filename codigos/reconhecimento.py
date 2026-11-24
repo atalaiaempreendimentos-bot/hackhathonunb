@@ -63,6 +63,22 @@ def main():
     tem_cadastro = os.path.exists(arq_c)
     vinculo_txt = ("não vinculado: os tombamentos da Lista da CAL não aparecem no portal" if tem_cadastro
                    else "cadastro patrimonial não consultado")
+    arq_v = os.path.join(DADOS, "valores_cadastro_unb.csv")
+    cad = {r["id_registro"]: r for r in csv.DictReader(open(arq_v, encoding="utf-8-sig"))} if os.path.exists(arq_v) else {}
+
+    def vinculo(i):
+        c = cad.get(i)
+        if not c:
+            return vinculo_txt, ""
+        if c["confianca"] == "Confirmado":
+            t = "confirmado: tombamento(s) {}, valor registrado {}".format(c["tombamentos"], c["valor_exibicao"])
+        elif c["confianca"] == "Provável":
+            t = "provável: origem SIPAT {}, valor registrado {} (vínculo por procedência)".format(c["origem_sipat"], c["valor_exibicao"])
+        else:
+            return "sem vínculo com o relatório de bens da UnB" + (": " + c["observacao"] if c["observacao"] else ""), ""
+        simb = (" O bem consta do cadastro patrimonial da UnB por {}, valor simbólico que não constitui custo histórico nem custo "
+                "atribuído (NBC TSP 37, itens 12 e 13).".format(c["valor_exibicao"])) if float(c["valor_registrado"] or 0) <= 0.05 else ""
+        return t, simb
 
     saida = []
     for l in inv:
@@ -117,6 +133,12 @@ def main():
             prop, evento = "não documentado (EC 5.12(a))", "não documentado (EC 5.13)"
             ct, ct_ok = "não documentado", False
             falta.append("documentar a forma de aquisição (doação, transferência ou compra)")
+        c_cad = cad.get(i, {})
+        if not ct_ok and c_cad.get("confianca") == "Confirmado" and c_cad.get("status_cadastro") not in ("ALIENADO",):
+            prop = "indício forte: tombamento {} no cadastro patrimonial da UnB (EC 5.12(a))".format(c_cad["tombamentos"])
+            evento = "atendido: incorporação ao patrimônio da UnB registrada no cadastro (EC 5.13)"
+            ct, ct_ok = "atendido (tombamento {} no cadastro patrimonial)".format(c_cad["tombamentos"]), True
+            falta = [f for f in falta if not f.startswith(("documentar a data", "documentar a forma"))]
         if l["colecao"] == "Mobiliário moderno da UnB":
             ex, ex_ok, acesso = "a verificar (código patrimonial informado no portal)", False, "a verificar (EC 5.12(b))"
             falta = ["localizar o código patrimonial no cadastro da UnB (não consta da Lista da CAL)"]
@@ -183,8 +205,8 @@ def main():
                  atende_definicao_ativo=definicao, classificacao_contabil=classe_cont,
                  criterio_6a=("atendido: provável potencial de serviços (NBC TSP 37, item 6(a))" if definicao == "sim"
                               else "a confirmar com a existência e o controle"),
-                 criterio_6b=c6b, condicao_mensuracao=cm, vinculo_cadastro=vinculo_txt, classe_reconhecimento=classe,
-                 enquadramento_normativo=enq, divulgacao_exigida=div, justificativa=just,
+                 criterio_6b=c6b, condicao_mensuracao=cm, vinculo_cadastro=vinculo(i)[0], classe_reconhecimento=classe,
+                 enquadramento_normativo=enq, divulgacao_exigida=div, justificativa=just + vinculo(i)[1],
                  investigacao_necessaria="; ".join(falta + [CONC]), restricoes="; ".join(restr), referencia_normativa=refs)
         saida.append(r)
 
