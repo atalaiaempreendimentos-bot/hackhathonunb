@@ -6,7 +6,7 @@ Objeto: identificação, reconhecimento, mensuração e evidenciação dos ativo
 
 Objetivo: processar todos os registros públicos do portal nas quatro etapas contábeis (Regras, item 6.2), com fundamentação na Estrutura Conceitual, na NBC TSP 37 e na NBC TSP 38, rastreabilidade de cada decisão e um fluxo automatizado que pode ser aplicado a novos registros e a outros acervos Tainacan.
 
-Site do projeto: https://atalaiaempreendimentos-bot.github.io/hackhathonunb/ (indicadores, consulta com reconhecimento e mensuração de cada registro, galeria, evidenciação, validação de casos e notas metodológicas).
+Site do projeto: https://atalaiaempreendimentos-bot.github.io/hackhathonunb/ (indicadores, consulta com imagem da obra, ordenação por coluna, reconhecimento e mensuração de cada registro, evidenciação, validação de casos e notas metodológicas).
 
 Resultados acadêmicos; não constituem registro contábil oficial da UnB (Regras, item 17.13).
 
@@ -31,6 +31,7 @@ cultiva-unb-trio/
 ├── codigos/
 │   ├── executar_pipeline.py       executa todas as etapas, em ordem
 │   ├── extrair_acervo_cal.py      Etapa I: extrator (API REST do Tainacan), sem dependências externas
+│   ├── verificar_duplicidades.py  Etapa I: verificação de registros duplicados
 │   ├── reconhecimento.py          Etapa II: matriz de reconhecimento
 │   ├── mensuracao.py              Etapa III: modelo de mensuração
 │   ├── comparaveis.py             Etapa III: abordagem de mercado por comparáveis
@@ -65,7 +66,7 @@ python3 codigos/executar_pipeline.py --atualizar         # baixa de novo o porta
 python3 codigos/executar_pipeline.py --cadastro Lista_da_CAL.numbers   # inclui a conciliação patrimonial
 ```
 
-Ordem: Etapa I (`extrair_acervo_cal.py`), conciliação patrimonial (opcional), Etapa III (`comparaveis.py`, que chama `mensuracao.py`), Etapa II (`reconhecimento.py`, que usa a condição de mensuração), validação (`validacao_casos.py`) e Etapa IV (`evidenciacao.py`). O resultado é determinístico: a mesma entrada produz os mesmos arquivos.
+Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), conciliação patrimonial (opcional), Etapa III (`comparaveis.py`, que chama `mensuracao.py`), Etapa II (`reconhecimento.py`, que usa a condição de mensuração), validação (`validacao_casos.py`) e Etapa IV (`evidenciacao.py`). O resultado é determinístico: a mesma entrada produz os mesmos arquivos.
 
 ### Aplicação a novos registros e a outros acervos (Etapa V)
 
@@ -80,7 +81,7 @@ Ordem: Etapa I (`extrair_acervo_cal.py`), conciliação patrimonial (opcional), 
 | Registros identificados e recuperados | 2.197 e 2.197 |
 | Cobertura | 100,0% do universo digital |
 | Completude cadastral | 32,9% |
-| Registros duplicados (possíveis) | 427 |
+| Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
 | Reconhecimento sustentado | 0 |
 | Reconhecimento pendente | 987 (outros 1.210 com não reconhecimento fundamentado: 511 pelo item 7 da NBC TSP 37 e 699 eventos) |
 | Mensuração fundamentada | 0 |
@@ -137,7 +138,7 @@ As duas opções produzem as mesmas tabelas.
 | `metadados_completos.csv` | Uma linha por item com todos os metadados de todas as coleções e os links e arquivos das fotos |
 | `galeria.html` | Galeria para o navegador: foto e todos os metadados, com busca e filtros |
 | `imagens/` | Fotos, somente com autorização da CAL registrada (`--autorizacao`) |
-| `miniaturas_3x4/` | Miniaturas das 1.244 fotos (até 240 × 320 px, a obra inteira, sem corte), exibidas em 3 × 4 cm na consulta e na galeria do site |
+| `miniaturas_3x4/` | Miniaturas das 1.244 fotos (até 240 × 320 px, a obra inteira, sem corte), exibidas em 3 × 4 cm na coluna Imagem da Obra da consulta do site |
 | `dicionario_dados.md` | Dicionário de dados gerado automaticamente |
 | `log_extracao.json` | Data, parâmetros, requisições, avisos, erros e limitações |
 | `brutos/` | Respostas originais da API (JSON) com URL e data de consulta |
@@ -210,6 +211,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Verificação de duplicidades (`codigos/verificar_duplicidades.py`); retirada da seção Galeria do site; ordenação por coluna na consulta | Grupos a conferir listados por ID e número de registro, para checagem na CAL |
 | 24/11/2026 | Claude (Anthropic) | Consulta ao texto publicado da Estrutura Conceitual (R1), da NBC TSP 37 e da NBC TSP 38 (legisweb.com.br e legismap.com.br); ajuste dos modelos de reconhecimento, mensuração e evidenciação aos itens conferidos (`metodologia/fundamentacao_normativa.md`); coluna de fotos 3 × 4 no site; relatório de aderência v2 | Itens citados conferidos no texto das normas; apêndices de orientação não consultados; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
@@ -222,7 +224,7 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 - A Coleção CNRC, listada no item 4.3 das Regras, não aparece em nenhum registro público do portal.
 - O cadastro patrimonial da UnB e o portal não têm chave comum (tombamento ou registro do SIPAT), o que impede a conciliação item a item.
 - A cobertura refere-se ao universo digital público: 2.197 registros em 3 coleções (Acervo, 1.497; Memória Institucional, 699; Mobiliário moderno da UnB, 1), todos recuperados. Isso não equivale ao patrimônio físico da CAL (Regras, item 4.4).
-- Completude cadastral média de 32,9% nas 13 variáveis principais e 427 registros com possível duplicidade, ainda a conferir manualmente.
+- Completude cadastral média de 32,9% nas 13 variáveis principais. Duplicidades: nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir na CAL (`resultados/verificacao_duplicidades.md`).
 - A triagem automática de grupos deixou 697 registros como "A classificar" (695 da Memória Institucional, o registro do Mobiliário moderno e o ID 25320, com "Coleção = False").
 - Poucos comparáveis de mercado (dois), em dólar e sem conversão; o portal não informa dimensões e tiragem de muitas obras. A validação dos nove casos é documental, sem exame físico na CAL.
 - Na coleção 1565, 252 obras não têm foto no portal (181 da coleção Inicial, 39 da Galvão, 21 da Arte, 10 da Triangular e 1 sem coleção informada). Há inconsistências cadastrais: o ID 11924 (Videoarte, CE.008) consta "Com imagem? = Sim" sem foto; os IDs 1715 e 25973 têm o campo vazio; o ID 25320 tem "Coleção = False".

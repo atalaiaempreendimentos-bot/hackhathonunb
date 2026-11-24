@@ -34,7 +34,18 @@ Resultado: Arte 479 (475 do Acervo e 4 da Memória Institucional), Arte contempo
 
 ## Qualidade cadastral
 
-Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 32,9% no total; Arte 45,6%; Arte contemporânea 66,3%; Etnográfica 24,6%; A classificar 26,7%. Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%). O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. Possíveis duplicidades: 427 registros, por chave título + autoria + coleção (`dados/duplicidades.csv`), a conferir manualmente, pois séries de gravuras e objetos etnográficos homônimos são frequentes.
+Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 32,9% no total; Arte 45,6%; Arte contemporânea 66,3%; Etnográfica 24,6%; A classificar 26,7%. Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%). O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. A triagem inicial do extrator (título, autoria e dimensões, mesmo vazias) apontou 427 registros (`dados/duplicidades.csv`), mas essa chave agrupa homônimos. Em 24/11/2026, `codigos/verificar_duplicidades.py` refinou a verificação:
+
+| Critério | Grupos | Registros | Classificação |
+|---|---:|---:|---|
+| ID, URL, número de registro da CAL ou código patrimonial repetido | 0 | 0 | Nenhuma duplicidade de identificador |
+| Memória Institucional: mesmo evento, datas, artista e local, descrição quase igual | 2 | 4 | Provável duplicidade (IDs 3963 e 3966; 4395 e 4409) |
+| Memória Institucional: mesmo evento e datas, artista ou local diferentes | 3 | 6 | Registros distintos do mesmo evento |
+| Acervo: mesma imagem com números de registro diferentes | 7 | 15 | A conferir (foto de conjunto ou cópia) |
+| Acervo: mesma descrição (título, autoria, técnica, dimensões, tiragem) com números diferentes | 10 | 30 | A conferir (série ou catalogação repetida) |
+| Acervo: mesmo título e autoria com números diferentes | 156 | 1.032 | Homônimos: objetos distintos |
+
+Indicador do item 15 (registros possivelmente duplicados): 48, sendo 4 em provável duplicidade e 44 a conferir (um registro aparece nos dois critérios do Acervo). Lista em `dados/verificacao_duplicidades.csv`; relatório em `resultados/verificacao_duplicidades.md`.
 
 ## Produtos
 

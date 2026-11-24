@@ -44,6 +44,7 @@ def main():
     inv = ler("inventario.csv"); rec = {r["id_registro"]: r for r in ler("reconhecimento.csv")}
     mens = {r["id_registro"]: r for r in ler("mensuracao.csv")}
     ind = kv("indicadores.csv"); conc = kv("conciliacao_patrimonial.csv")
+    dup = {r["criterio"]: r["registros"] for r in ler("verificacao_duplicidades_resumo.csv")}
     val = ler("validacao_casos.csv")
     log_data = (inv[0]["data_consulta"] if inv else "")
     if len(log_data) >= 16 and log_data[4] == "-":
@@ -90,7 +91,9 @@ def main():
         ("Registros recuperados", ind.get("Registros recuperados", ""), "Total recuperado e organizado"),
         ("Cobertura (%)", ind.get("Cobertura (%)", ""), "Recuperados / identificados no universo digital"),
         ("Completude cadastral (%)", ind.get("Completude cadastral média (%)", ""), "Preenchimento médio das 13 variáveis principais"),
-        ("Registros duplicados", ind.get("Registros com possível duplicidade", ""), "Possíveis duplicidades (conferência manual)"),
+        ("Registros duplicados", dup.get("Registros possivelmente duplicados (indicador do item 15)", ind.get("Registros com possível duplicidade", "")),
+         "Registros possivelmente duplicados: {} em provável duplicidade (Memória Institucional) e {} a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)".format(
+             dup.get("Registros em provável duplicidade", "?"), dup.get("Registros a conferir", "?"))),
         ("Reconhecimento sustentado", T["reconhecimento_sustentado"], "Fundamentação suficiente para reconhecer"),
         ("Reconhecimento pendente", T["pendente_verificacao"], "Necessitam de informações complementares"),
         ("Mensuração fundamentada", T["mensuracao_fundamentada"], "Valores com evidência nível A ou B"),

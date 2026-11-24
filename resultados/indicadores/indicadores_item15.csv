@@ -3,7 +3,7 @@ Registros identificados,2197,Total de registros públicos no portal
 Registros recuperados,2197,Total recuperado e organizado
 Cobertura (%),100.0,Recuperados / identificados no universo digital
 Completude cadastral (%),32.9,Preenchimento médio das 13 variáveis principais
-Registros duplicados,427,Possíveis duplicidades (conferência manual)
+Registros duplicados,48,Registros possivelmente duplicados: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)
 Reconhecimento sustentado,0,Fundamentação suficiente para reconhecer
 Reconhecimento pendente,987,Necessitam de informações complementares
 Mensuração fundamentada,0,Valores com evidência nível A ou B

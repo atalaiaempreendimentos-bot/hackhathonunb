@@ -43,7 +43,6 @@ dialog header button{background:transparent;color:#fff;border-color:#fff;min-hei
 .etapa small{display:block;font-weight:600;color:var(--ac);margin-bottom:4px}
 .arqs{columns:2 300px;padding-left:18px}.arqs li{margin-bottom:6px;break-inside:avoid}
 code{font-size:.92em;overflow-wrap:anywhere}
-.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:12px}
 .ft{background:var(--card);border:1px solid var(--ln);border-radius:4px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;min-height:0;font-weight:400}
 .ft img{width:100%;aspect-ratio:3/4;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}
 td.f34{width:3cm;padding:4px 8px}
@@ -51,13 +50,17 @@ td.f34{width:3cm;padding:4px 8px}
 .f34 .semfoto{display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mut);padding:4px}
 .ft span{padding:8px 10px;font-size:14px;line-height:1.3}.ft small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
 figure{margin:0 0 12px}figure img{width:100%;max-height:60vh;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}figcaption{font-size:13px;color:var(--mut);margin-top:4px}
-#fAut,#gAut{flex:1 1 240px;max-width:380px}
+#fAut{flex:1 1 240px;max-width:380px}
 .val{min-height:32px;padding:2px 10px;border-radius:4px;border:1px solid var(--az);color:var(--az);background:transparent;font-weight:700;white-space:nowrap;cursor:help}
 :root:not([data-theme=light]) .val{color:light-dark(#003d7a,#9cc3ef);border-color:light-dark(#003d7a,#9cc3ef)}
 .sit{font-size:13px;color:var(--mut);white-space:normal}
 #pop{position:fixed;z-index:50;max-width:min(420px,92vw);background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-left:4px solid var(--ac);border-radius:4px;padding:10px 12px;font-size:13.5px;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.18);display:none}
 #pop b{display:block;font:600 14px Archivo,sans-serif;margin-bottom:4px}
 .mens{border:1px solid var(--ln);border-left:4px solid var(--az);padding:10px 12px;margin:0 0 12px;border-radius:4px}.mens h4{margin:0 0 6px;font:600 15px Archivo,sans-serif}
+th .ord{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font:inherit;color:inherit;min-height:28px}
+th .ord:focus-visible{outline:2px solid #ffd5cc;outline-offset:2px}
+th .seta{font-size:.95em;opacity:.55;min-width:1em;text-align:center}
+th[aria-sort=ascending] .seta,th[aria-sort=descending] .seta{opacity:1}
 sup.fn{font-size:.72em;line-height:0;margin-left:1px}sup.fn a{color:var(--ac);text-decoration:none;font-weight:700}sup.fn a:hover{text-decoration:underline}
 th sup.fn a{color:#ffd5cc}
 .notas{padding-left:22px;font-size:15px}.notas li{margin-bottom:10px;max-width:90ch}.notas li:target{background:var(--az2);outline:2px solid var(--ac);outline-offset:4px}
@@ -76,7 +79,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <p>Hackathon CULTIVA UnB 2026: identificação, reconhecimento, mensuração e evidenciação dos ativos culturais da Casa da Cultura da América Latina, com dados recuperados da plataforma Tainacan.</p>
   <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas Moura Nutels.</div>
   <div class="aviso">Resultados acadêmicos em construção; não são registros contábeis oficiais da UnB.</div>
-  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#galeria">Galeria</a><a href="#evidenciacao">Evidenciação</a><a href="#validacao">Validação</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#notas">Notas metodológicas</a><a href="#limitacoes">Limitações</a></nav>
+  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#evidenciacao">Evidenciação</a><a href="#validacao">Validação</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#notas">Notas metodológicas</a><a href="#limitacoes">Limitações</a></nav>
  </div>
 </header>
 
@@ -97,7 +100,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 <section class="band alt" id="consulta">
  <div class="wrap">
   <h2>Consulta ao inventário padronizado</h2>
-  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. A coluna Imagem da Obra mostra cada obra da coleção Acervo em 3×4 cm, sem cortar a imagem; as obras com imagem aparecem primeiro. Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
+  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. A coluna Imagem da Obra mostra cada obra da coleção Acervo em 3×4 cm, sem cortar a imagem; as obras com imagem aparecem primeiro. Clique no título de uma coluna para ordenar (▲ crescente, ▼ decrescente; clique de novo para inverter). Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
   <div class="ctl">
    <input id="q" type="search" placeholder="Buscar nos 2.197 registros" aria-label="Buscar">
    <select id="fAut" aria-label="Artista ou autor"><option value="">Todos os artistas/autores</option></select>
@@ -108,21 +111,11 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <select id="fRec" aria-label="Classe de reconhecimento"><option value="">Todas as classes de reconhecimento</option><option>Reconhecimento sustentado pelas evidências</option><option>Não reconhecimento fundamentado</option><option>Pendente de verificação</option></select>
   </div>
   <div class="mut" id="nRes">Carregando inventário…</div>
-  <div class="scroll"><table><thead><tr><th>ID</th><th>Imagem da Obra<sup class="fn"><a href="#n8">8</a></sup></th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Reconhecimento (NBC TSP 37)<sup class="fn"><a href="#n3">3</a></sup></th><th>Mensuração (NBC TSP 38; IPSAS 46)<sup class="fn"><a href="#n4">4</a></sup></th></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th aria-sort="none" data-k="id"><button type="button" class="ord" data-k="id" title="Ordenar por ID">ID<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="img"><button type="button" class="ord" data-k="img" title="Ordenar por Imagem da Obra">Imagem da Obra<span class="seta" aria-hidden="true">↕</span></button><sup class="fn"><a href="#n8">8</a></sup></th><th aria-sort="none" data-k="tit"><button type="button" class="ord" data-k="tit" title="Ordenar por Título">Título<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="aut"><button type="button" class="ord" data-k="aut" title="Ordenar por Autoria ou grupo de origem">Autoria ou grupo de origem<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="col"><button type="button" class="ord" data-k="col" title="Ordenar por Coleção">Coleção<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="ano"><button type="button" class="ord" data-k="ano" title="Ordenar por Ano">Ano<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="comp"><button type="button" class="ord" data-k="comp" title="Ordenar por Completude">Completude<span class="seta" aria-hidden="true">↕</span></button></th><th aria-sort="none" data-k="rec"><button type="button" class="ord" data-k="rec" title="Ordenar por Reconhecimento (NBC TSP 37)">Reconhecimento (NBC TSP 37)<span class="seta" aria-hidden="true">↕</span></button><sup class="fn"><a href="#n3">3</a></sup></th><th aria-sort="none" data-k="men"><button type="button" class="ord" data-k="men" title="Ordenar por Mensuração (NBC TSP 38; IPSAS 46)">Mensuração (NBC TSP 38; IPSAS 46)<span class="seta" aria-hidden="true">↕</span></button><sup class="fn"><a href="#n4">4</a></sup></th></tr></thead><tbody id="tb"></tbody></table></div>
   <div class="pg"><button id="ant" type="button">Anterior</button><span class="mut" id="pag"></span><button id="prox" type="button">Próxima</button></div>
+  <p class="mut">Imagens das obras: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.<sup class="fn"><a href="#n8">8</a></sup></p>
  </div>
 </section>
-
-<section class="band" id="galeria">
- <div class="wrap">
-  <h2>Galeria da coleção Acervo</h2>
-  <p>Fotografias de 1.244 obras da coleção 1565, em miniaturas no formato 3×4 (a obra inteira, sem cortes, centralizada no quadro). Clique numa foto para ver os metadados e a imagem ampliada. <span class="mut">Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.<sup class="fn"><a href="#n8">8</a></sup></span></p>
-  <div class="ctl"><input id="gq" type="search" placeholder="Buscar por título, autoria, número de registro ou coleção" aria-label="Buscar na galeria"><select id="gAut" aria-label="Artista ou autor na galeria"><option value="">Todos os artistas/autores</option></select><span class="mut" id="gn" style="align-self:center"></span></div>
-  <div class="grade" id="grade"></div>
-  <div class="pg"><button id="gant" type="button">Anterior</button><span class="mut" id="gpag"></span><button id="gprox" type="button">Próxima</button></div>
- </div>
-</section>
-
 <section class="band alt" id="evidenciacao">
  <div class="wrap">
   <h2>Evidenciação (Etapa IV)</h2>
@@ -172,6 +165,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <li><a href="dados/evidencias_mensuracao.csv">evidencias_mensuracao.csv</a>: evidências e fontes que sustentam os valores</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/mensuracao.py">codigos/mensuracao.py</a>: regras do modelo de mensuração</li>
    <li><a href="dados/comparaveis.csv">comparaveis.csv</a> e <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/comparaveis.py">codigos/comparaveis.py</a>: abordagem de mercado por comparáveis, com fontes</li>
+   <li><a href="dados/verificacao_duplicidades.csv">verificacao_duplicidades.csv</a>: verificação de registros duplicados (<a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/resultados/verificacao_duplicidades.md">relatório</a>)</li>
    <li><a href="dados/reconhecimento.csv">reconhecimento.csv</a>: matriz de reconhecimento (<a href="dados/reconhecimento_resumo.csv">resumo</a>)</li>
    <li><a href="dados/validacao_casos.csv">validacao_casos.csv</a>: nove casos validados</li>
    <li><a href="dados/conciliacao_patrimonial.csv">conciliacao_patrimonial.csv</a>: conciliação com o cadastro patrimonial da CAL (agregados)</li>
@@ -189,7 +183,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  <div class="wrap">
   <h2>Notas metodológicas</h2>
   <ol class="notas">
-   <li id="n1"><b>Identificação.</b> Registros extraídos pela API REST pública do Tainacan (<code>/wp-json/tainacan/v2</code>) em 23/11/2026, 19h12, com pausa de 1 s entre requisições (Regras, item 17.12), por <code>codigos/extrair_acervo_cal.py</code>. Cobertura = recuperados ÷ identificados no universo digital público (2.197 ÷ 2.197); não equivale ao patrimônio físico da CAL (item 4.4). A Coleção CNRC, citada no item 4.3, não aparece no portal. Completude = preenchimento médio das 13 variáveis principais do item 7. Detalhes em <code>metodologia/identificacao.md</code>.</li>
+   <li id="n1"><b>Identificação.</b> Registros extraídos pela API REST pública do Tainacan (<code>/wp-json/tainacan/v2</code>) em 23/11/2026, 19h12, com pausa de 1 s entre requisições (Regras, item 17.12), por <code>codigos/extrair_acervo_cal.py</code>. Cobertura = recuperados ÷ identificados no universo digital público (2.197 ÷ 2.197); não equivale ao patrimônio físico da CAL (item 4.4). A Coleção CNRC, citada no item 4.3, não aparece no portal. Completude = preenchimento médio das 13 variáveis principais do item 7. Duplicidade (<code>codigos/verificar_duplicidades.py</code>): nenhum ID, URL, número de registro ou código patrimonial se repete; 4 registros da Memória Institucional estão em provável duplicidade (mesmo evento, datas, artista e local) e 44 do Acervo ficam a conferir (mesma imagem ou mesma descrição com números de registro diferentes); homônimos com números diferentes são objetos distintos. Detalhes em <code>metodologia/identificacao.md</code> e <code>resultados/verificacao_duplicidades.md</code>.</li>
    <li id="n2"><b>Triagem por grupo.</b> Subcoleções Inicial, Galvão, Chocó e CNRC: Etnográfica (item 4.3); Triangular: Arte contemporânea; Arte: Arte; demais registros por termos de categoria e técnica. Triagem automática, sujeita a revisão (coluna <code>criterio_grupo</code> do inventário).</li>
    <li id="n3"><b>Reconhecimento.</b> Teste em duas etapas. (1) Definição de ativo: recurso com potencial de serviços, controlado no presente, resultante de evento passado (Estrutura Conceitual (R1), itens 5.6 a 5.13), com o controle avaliado pelos indicadores do item 5.12: propriedade legal (doação ou transferência com data), acesso (situação "Localizado") e meios de uso (guarda museológica); a presença no portal não basta (Regras, item 8). (2) Critérios da NBC TSP 37, item 6: potencial de serviços provável e mensuração confiável (nível A ou B). O patrimônio cultural que satisfaz a definição, mas não o item 6(b), não é reconhecido e é divulgado em nota (itens 7 e 77). Registros de eventos não satisfazem a definição de ativo (EC, item 5.6). Classe contábil: "acervos do patrimônio cultural" (item 34(l)); unidade: o registro do catálogo (item 8). Código: <code>codigos/reconhecimento.py</code>; metodologia em <code>metodologia/reconhecimento.md</code>.</li>
    <li id="n4"><b>Mensuração.</b> Doações e transferências são transações sem contraprestação: mensuração inicial pelo custo atribuído (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 10 e 12(b)), determinado pelo valor corrente operacional, porque o acervo é mantido por sua capacidade operacional e não financeira (NBC TSP 37, item 27; NBC TSP 38, itens 23 a 25). O valor corrente operacional é preço de entrada e inclui os custos necessários, como o prêmio do comprador. Técnica: abordagem de mercado, com ajuste aos aspectos únicos da obra (NBC TSP 38, itens 24, 32 e 42); abordagem de custo só com substituto de utilidade comparável (itens 43 e 44). Mensuração subsequente proposta: modelo do custo histórico, vida útil indefinida e sem depreciação (NBC TSP 37, itens 24, 26, 52 e 53). Sem evidência suficiente, o registro recebe a classificação do item 9.4 das Regras, sem valor arbitrário nem gerado por inteligência artificial. Código: <code>codigos/mensuracao.py</code>; metodologia em <code>metodologia/mensuracao.md</code>.</li>
@@ -246,21 +240,18 @@ pegar('dados/mensuracao.csv').then(R=>{R.forEach(m=>M[m.id_registro]=m);if(D.len
  document.getElementById('mensBar').innerHTML=ord.map(o=>`<div class="barra"><span>${esc(o)}</span><i style="width:${(100*(c[o]||0)/mx).toFixed(1)}%"></i><em>${fmt(c[o]||0)}</em></div>`).join('');
  const tot=R.filter(m=>m.situacao==='Mensuração fundamentada'&&m.valor_central!=='').reduce((a,m)=>a+Number(m.valor_central),0);
  document.getElementById('mensAgr').textContent=tot>0?'Valor agregado das mensurações fundamentadas: '+tot.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})+'. Não representa o valor total do patrimônio da CAL (Regras, item 15).':'Nenhuma mensuração fundamentada registrada até o momento.'}).catch(()=>{});
-const RC={};
+const RC={},DUP={};
+pegar('dados/verificacao_duplicidades.csv').then(R=>{const g={};R.forEach(r=>{(g[r.grupo]=g[r.grupo]||[]).push(r)});R.forEach(r=>{if(r.classificacao!=='Homônimos (objetos distintos)')DUP[r.id_registro]={...r,outros:g[r.grupo].filter(x=>x.id_registro!==r.id_registro).map(x=>x.id_registro+(x.numero_registro?' ('+x.numero_registro+')':''))}})}).catch(()=>{});
 pegar('dados/reconhecimento.csv').then(R=>{R.forEach(r=>RC[r.id_registro]=r);if(D.length)render();
  const ord=['Reconhecimento sustentado pelas evidências','Não reconhecimento fundamentado','Pendente de verificação'];const c={};R.forEach(r=>c[r.classe_reconhecimento]=(c[r.classe_reconhecimento]||0)+1);const mx=Math.max(1,...Object.values(c));
  document.getElementById('recBar').innerHTML=ord.map(o=>`<div class="barra"><span>${esc(o)}</span><i style="width:${(100*(c[o]||0)/mx).toFixed(1)}%"></i><em>${fmt(c[o]||0)}</em></div>`).join('')}).catch(()=>{});
 function celRec(id){const r=RC[id];if(!r)return '<span class="sit">Carregando…</span>';const k=r.classe_reconhecimento.startsWith('Reconhecimento')?'s':r.classe_reconhecimento.startsWith('Não')?'n':'';
  return `<button type="button" class="rec ${k}" data-id="${esc(id)}" aria-describedby="pop">${esc(r.classe_reconhecimento.replace(' pelas evidências',''))}</button>`}
 function celMens(id){const m=M[id];if(!m)return '<span class="sit">Carregando…</span>';
- return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};let G=[],gpag=0;const GPOR=48;
+ return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};
 const mini=f=>'acervo_1565/miniaturas_3x4/'+f.arquivo.replace(/^imagens\//,'').replace(/\.[a-z]+$/i,'')+'.jpg';
 function celFoto(d){const f=FOTOS[d.id_registro];return f?`<img loading="lazy" src="${esc(mini(f))}" alt="Foto de ${esc((d.titulo||'').split(' | ')[0])}" width="113" height="151">`:`<span class="semfoto">${d.colecao==='Acervo'?'Sem imagem publicada':'Imagem não publicada (fora da coleção Acervo)'}</span>`}
-pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));
- const c={};G.forEach(f=>{if(f.autoria)c[f.autoria]=(c[f.autoria]||0)+1});const sel=document.getElementById('gAut');Object.keys(c).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v+' ('+c[v]+')';sel.appendChild(o)});grender();if(D.length)render()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
-function grender(){const q=document.getElementById('gq').value.toLowerCase().trim(),a=document.getElementById('gAut').value;const L=G.filter(f=>(!q||f._s.includes(q))&&(!a||f.autoria===a));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
- document.getElementById('gn').textContent=L.length.toLocaleString('pt-BR')+' fotos';document.getElementById('gpag').textContent='Página '+(gpag+1)+' de '+tp;
- document.getElementById('grade').innerHTML=L.slice(gpag*GPOR,(gpag+1)*GPOR).map(f=>`<button class="ft" type="button" data-id="${esc(f.id)}"><img loading="lazy" src="${esc(mini(f))}" alt="${esc(f.titulo)}"><span>${esc(f.titulo)}<small>${esc(f.autoria||f.colecao)}${f.numero_registro?' | '+esc(f.numero_registro):''}</small></span></button>`).join('')}
+pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});if(D.length)render()}).catch(()=>{});
 const ROT={id_registro:'ID',colecao:'Coleção',subcolecao:'Subcoleção',grupo_sugerido:'Grupo sugerido',categoria:'Categoria',titulo:'Título',autoria_origem:'Autoria ou grupo de origem',ano_periodo:'Ano ou período',tecnica:'Técnica',materiais:'Materiais',dimensoes:'Dimensões',tiragem:'Tiragem',proveniencia:'Proveniência',forma_aquisicao:'Forma de aquisição',localizacao:'Localização',estado_conservacao:'Estado de conservação',numero_patrimonio:'Número de patrimônio',outros_identificadores:'Outros identificadores',direitos_restricoes:'Direitos e restrições',descricao:'Descrição',completude_pct:'Completude (%)',possivel_duplicata:'Possível duplicidade',data_consulta:'Data da consulta'};
 pegar('dados/inventario.csv').then(R=>{D=R.map(r=>({...r,_s:Object.values(r).join(' ').toLowerCase(),_f:!!(r.url_foto||r.url_foto_grande)}));
  const opt=(id,vals)=>{const s=document.getElementById(id);[...new Set(vals)].filter(Boolean).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)})};
@@ -274,7 +265,23 @@ function filtrados(){const q=document.getElementById('q').value.toLowerCase().tr
  return D.filter(d=>{const m=M[d.id_registro]||{};return(!rc||(RC[d.id_registro]||{}).classe_reconhecimento===rc)&&(!q||d._s.includes(q))&&(!a||d.autoria_origem===a)&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f))&&(!mn||(mn==='v'?!!m.valor_exibicao:m.situacao===mn))})}
 let atual=[];
 const ordemImg=d=>FOTOS[d.id_registro]?0:(d.colecao==='Acervo'?1:2);
-function render(){atual=filtrados().map((d,i)=>[ordemImg(d),i,d]).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(x=>x[2]);const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
+let ordK='',ordDir=1;
+const ORDREC={'Reconhecimento sustentado pelas evidências':0,'Não reconhecimento fundamentado':1,'Pendente de verificação':2};
+const ORDMEN={'Mensuração fundamentada':0,'Faixa indicativa':1,'Pendente de evidência':2,'Sem mensuração monetária fundamentada':3,'Pendente de classificação':4,'Não aplicável (não é ativo)':5};
+function chaveOrd(d,k){const m=M[d.id_registro]||{},r=RC[d.id_registro]||{};switch(k){
+ case 'id':return Number(d.id_registro)||0;
+ case 'img':return ordemImg(d);
+ case 'tit':return (d.titulo||'').split(' | ')[0].toLowerCase().replace(/^[^\p{L}\p{N}]+/u,'');
+ case 'aut':return (d.autoria_origem||'').toLowerCase().replace(/^[^\p{L}\p{N}]+/u,'');
+ case 'col':return (d.colecao+' / '+(d.subcolecao||'')).toLowerCase();
+ case 'ano':{const a=String(d.ano_periodo||'').match(/\d{4}/);return a?Number(a[0]):null}
+ case 'comp':return Number(d.completude_pct)||0;
+ case 'rec':return ORDREC[r.classe_reconhecimento]??9;
+ case 'men':return ORDMEN[m.situacao]??9}}
+function compara(a,b){const x=chaveOrd(a,ordK),y=chaveOrd(b,ordK);
+ if(x===null||x==='')return (y===null||y==='')?0:1; if(y===null||y==='')return -1;
+ return (typeof x==='number'&&typeof y==='number'?x-y:String(x).localeCompare(String(y),'pt',{numeric:true}))*ordDir}
+function render(){const base=filtrados();atual=ordK?base.map((d,i)=>[d,i]).sort((a,b)=>compara(a[0],b[0])||a[1]-b[1]).map(x=>x[0]):base.map((d,i)=>[ordemImg(d),i,d]).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(x=>x[2]);const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
  document.getElementById('pag').textContent='Página '+(pagina+1)+' de '+tp;
  document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td class="f34">${celFoto(d)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td><td>${celRec(d.id_registro)}</td><td>${celMens(d.id_registro)}</td></tr>`).join('')}
@@ -285,7 +292,8 @@ function abrirReg(d){if(!d)return;document.getElementById('dlgT').textContent=(d
  const F=FOTOS[d.id_registro];const fig=F?`<figure><img src="acervo_1565/${esc(F.arquivo)}" alt="${esc(F.titulo||d.titulo)}"><figcaption>${esc(F.credito)} <a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Registro original</a></figcaption></figure>`:'';
  const mm=M[d.id_registro];const mb=mm?`<div class="mens"><h4>Mensuração: ${esc(mm.situacao)}${mm.valor_exibicao?' | '+esc(mm.valor_exibicao):''}</h4><table class="det"><tr><td>Categoria</td><td>${esc(mm.categoria_mensuracao)}</td></tr><tr><td>Base de mensuração</td><td>${esc(mm.base_mensuracao)}</td></tr><tr><td>Técnica</td><td>${esc(mm.tecnica)}</td></tr><tr><td>Nível de evidência</td><td>${esc(mm.nivel_evidencia)}</td></tr><tr><td>Nota metodológica</td><td>${esc(mm.nota_metodologica)}</td></tr></table></div>`:'';
  const rr=RC[d.id_registro];const rb=rr?`<div class="mens"><h4>Reconhecimento: ${esc(rr.classe_reconhecimento)}</h4><table class="det"><tr><td>Enquadramento normativo</td><td>${esc(rr.enquadramento_normativo)}</td></tr><tr><td>Recurso (EC 5.6A, 5.8)</td><td>${esc(rr.recurso_potencial_servicos)}</td></tr><tr><td>Controle: propriedade legal (EC 5.12a)</td><td>${esc(rr.controle_propriedade_legal)}</td></tr><tr><td>Controle: acesso (EC 5.12b)</td><td>${esc(rr.controle_acesso)}</td></tr><tr><td>Evento passado (EC 5.13)</td><td>${esc(rr.evento_passado)}</td></tr><tr><td>Classificação contábil</td><td>${esc(rr.classificacao_contabil)}</td></tr><tr><td>Critério 6(a)</td><td>${esc(rr.criterio_6a)}</td></tr><tr><td>Critério 6(b)</td><td>${esc(rr.criterio_6b)}</td></tr><tr><td>Divulgação exigida</td><td>${esc(rr.divulgacao_exigida)}</td></tr><tr><td>Atende à definição de ativo</td><td>${esc(rr.atende_definicao_ativo)}</td></tr><tr><td>Justificativa</td><td>${esc(rr.justificativa)}</td></tr><tr><td>Investigação necessária</td><td>${esc(rr.investigacao_necessaria)}</td></tr>${rr.restricoes?`<tr><td>Restrições</td><td>${esc(rr.restricoes)}</td></tr>`:''}<tr><td>Referência normativa</td><td>${esc(rr.referencia_normativa)}</td></tr></table></div>`:'';
- document.getElementById('dlgB').innerHTML=fig+link+rb+mb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
+ const du=DUP[d.id_registro];const db=du?`<div class="mens"><h4>Verificação de duplicidade: ${esc(du.classificacao)}</h4><p>${esc(du.criterio)}. Registros do mesmo grupo: ${esc(du.outros.join(', '))}. ${esc(du.observacao)}</p></div>`:'';
+ document.getElementById('dlgB').innerHTML=fig+link+db+rb+mb+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
 const pop=document.getElementById('pop');
 function mostrarNota(el){if(el.classList.contains('rec')){const r=RC[el.dataset.id];if(!r)return;pop.innerHTML=`<b>${esc(r.classe_reconhecimento)}</b><i>${esc(r.enquadramento_normativo)}.</i><br>${esc(r.justificativa)}${r.investigacao_necessaria?'<br><br><i>Investigação necessária:</i> '+esc(r.investigacao_necessaria):''}`}
  else{const m=M[el.dataset.id];if(!m||!m.valor_exibicao)return;pop.innerHTML=`<b>${esc(m.situacao)}: ${esc(m.valor_exibicao)}</b>${esc(m.nota_metodologica)}`}pop.style.display='block';
@@ -301,6 +309,10 @@ document.getElementById('tb').addEventListener('click',e=>{const v=e.target.clos
 function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
+document.querySelector('#consulta thead').addEventListener('click',e=>{const b=e.target.closest('.ord');if(!b)return;const k=b.dataset.k;
+ if(ordK===k){ordDir=-ordDir}else{ordK=k;ordDir=1}
+ document.querySelectorAll('#consulta thead th').forEach(th=>{const on=th.dataset.k===ordK;th.setAttribute('aria-sort',on?(ordDir>0?'ascending':'descending'):'none');th.querySelector('.seta').textContent=on?(ordDir>0?'▲':'▼'):'↕'});
+ pagina=0;render()});
 ['q','fAut','fCol','fGr','fFoto','fMen','fRec'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
 document.getElementById('ant').addEventListener('click',()=>{if(pagina>0){pagina--;render()}});
 document.getElementById('prox').addEventListener('click',()=>{pagina++;render()});
@@ -311,10 +323,6 @@ pegar('dados/conciliacao_patrimonial.csv').then(C=>{const v=n=>(C.find(x=>x.indi
  document.querySelector('#concBox p').outerHTML=`<p>O cadastro patrimonial da UnB registra, na localidade da CAL, <b>${fmt(v('Obras de arte no cadastro'))} obras de arte</b>: ${fmt(v('Obras de arte próprias (sem marca de bem de terceiro)'))} próprias, com valor registrado de <b>${brl(v('Valor registrado das obras próprias (R$)'))}</b>, e ${fmt(v('Obras marcadas como bem de terceiro'))} marcadas como bem de terceiro (${brl(v('Valor registrado dos bens de terceiro (R$)'))}), que não atendem ao critério de controle. Mediana do valor registrado: ${brl(v('Mediana do valor registrado das obras próprias (R$)'))}. Tombamentos do cadastro encontrados no portal: <b>${fmt(v('Tombamentos do cadastro encontrados no portal'))}</b>, o que impede vincular os valores registrados às obras catalogadas. Esse total é valor oficialmente registrado, não resultado da equipe, e não é somado às estimativas acadêmicas (Regras, item 10).</p>`}).catch(()=>{});
 pegar('dados/validacao_casos.csv').then(V=>{document.getElementById('casos').innerHTML=V.map(c=>`<tr><td class="n">${esc(c.caso)}</td><td>${esc(c.tipo)}</td><td><a href="#" data-id="${esc(c.id_registro)}">${esc(c.titulo)}</a><br><span class="mut">${esc(c.autoria_ou_grupo)} | ${esc(c.subcolecao)} | ${esc(c.numero_registro)}</span></td><td>${esc(c.classe_reconhecimento)}</td><td>${esc(c.situacao_mensuracao)}${c.valor_ou_faixa?'<br><b>'+esc(c.valor_ou_faixa)+'</b> (nível '+esc(c.nivel_evidencia)+')':''}</td><td class="mut">${c.lacunas_documentais?'<b>Lacunas:</b> '+esc(c.lacunas_documentais)+'. ':''}<b>Procedimentos:</b> ${esc(c.procedimentos_complementares)}.${c.questoes_eticas_ou_de_direitos?' '+esc(c.questoes_eticas_ou_de_direitos):''}</td></tr>`).join('')}).catch(()=>{});
 document.getElementById('casos').addEventListener('click',e=>{const a=e.target.closest('a[data-id]');if(a){e.preventDefault();abrirId(a.dataset.id)}});
-document.getElementById('grade').addEventListener('click',e=>{const b=e.target.closest('.ft');if(b)abrirId(b.dataset.id)});
-document.getElementById('gq').addEventListener('input',()=>{gpag=0;grender()});document.getElementById('gAut').addEventListener('input',()=>{gpag=0;grender()});
-document.getElementById('gant').addEventListener('click',()=>{if(gpag>0){gpag--;grender();document.getElementById('galeria').scrollIntoView()}});
-document.getElementById('gprox').addEventListener('click',()=>{gpag++;grender();document.getElementById('galeria').scrollIntoView()});
 }
 </script>
 </body>
