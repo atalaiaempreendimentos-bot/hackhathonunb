@@ -20,7 +20,8 @@ cultiva-unb-trio/
 ├── rodar_no_vscode.py              coleta completa pelo botão executar do VS Code
 ├── baixar_acervo_1565.py           busca da coleção 1565 (páginas 1 a 16) com todos os metadados
 ├── baixar_acervo_1565_com_fotos.py a mesma busca, com download das fotos (uso autorizado)
-├── acervo_1565/                    saída da busca da coleção 1565 (fotos não incluídas no repositório)
+├── acervo_1565/                    saída da busca da coleção 1565, com as fotos publicadas (ver Direitos das imagens)
+├── index.html                      site do projeto (GitHub Pages)
 ├── codigos/
 │   ├── extrair_acervo_cal.py      extrator (API REST do Tainacan), sem dependências externas
 │   ├── versoes_anteriores/        versões anteriores do extrator
@@ -95,7 +96,11 @@ Cada obra fica ligada à sua foto pelos links (`url_foto_original`/`url_foto`, `
 
 ### Direitos das imagens
 
-No campo "Condições de reprodução", o portal informa para 1.237 das 1.245 obras com foto da coleção 1565: "Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas", com remissão à Lei nº 9.610/1998. As Regras exigem respeitar direitos autorais e restrições de uso (item 17.11) e vedam publicar imagens restritas sem autorização (item 12). Por isso os scripts não baixam as fotos. Com autorização por escrito da CAL/UnB, registre-a em `AUTORIZACAO_CAL` (`baixar_acervo_1565.py`) ou use `--baixar-imagens --autorizacao "referência"` no extrator; a autorização fica registrada no log. As fotos nunca vão para o GitHub (`.gitignore`).
+As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), https://www.acervocal.unb.br/, com direitos reservados (Lei nº 9.610/1998). No campo "Condições de reprodução", o portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização.
+
+As 1.244 fotos da pasta `acervo_1565/imagens/` (lista em `acervo_1565/fotos_publicadas.csv`) são publicadas neste repositório e no site para fins acadêmicos, com autorização para publicação online declarada pela equipe em 23/11/2026 (registrar: quem autorizou, por qual meio e em que data). Os direitos autorais das obras pertencem aos seus autores. Cada foto aparece com crédito ao Acervo CAL e link para o registro original. Titulares de direitos podem pedir a retirada de qualquer imagem abrindo uma issue neste repositório. A reprodução por terceiros continua sujeita à autorização da CAL/UnB.
+
+Os scripts continuam sem baixar fotos por padrão; o download exige registrar a autorização (`AUTORIZACAO_CAL` em `baixar_acervo_1565.py` ou `--autorizacao` no extrator).
 
 ### Revisão do de-para
 
@@ -123,6 +128,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | Data | Ferramenta | Uso | Verificação pela equipe |
 |---|---|---|---|
 | 23/11/2026 | Claude (Anthropic) | Rascunho do extrator, do trecho para navegador, deste README e do roteiro de trabalho | Código testado contra API simulada no formato do Tainacan |
+| 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 
 ## Limitações
@@ -134,4 +140,4 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 - Completude cadastral média de 32,9% nas 13 variáveis principais e 427 registros com possível duplicidade, ainda a conferir manualmente.
 - A triagem automática de grupos deixou 1.046 registros como "A classificar".
 - Na coleção 1565, 252 obras não têm foto no portal (181 da coleção Inicial, 39 da Galvão, 21 da Arte, 10 da Triangular e 1 sem coleção informada). Há inconsistências cadastrais: o ID 11924 (Videoarte, CE.008) consta "Com imagem? = Sim" sem foto; os IDs 1715 e 25973 têm o campo vazio; o ID 25320 tem "Coleção = False".
-- O portal informa, para 1.237 das 1.245 obras com foto da coleção 1565, que as fotografias não podem ser baixadas e/ou reproduzidas (Lei nº 9.610/1998). As fotos foram baixadas para uso acadêmico interno com autorização declarada pela equipe em 23/11/2026 (registrar quem autorizou, meio e data) e não fazem parte deste repositório.
+- O portal informa, para 1.237 das 1.245 obras com foto da coleção 1565, que as fotografias não podem ser baixadas e/ou reproduzidas (Lei nº 9.610/1998). As fotos foram baixadas e publicadas para fins acadêmicos com autorização declarada pela equipe em 23/11/2026 (registrar quem autorizou, meio e data). A foto do ID 2841 não foi publicada: o portal devolveu uma página de erro no lugar da imagem.

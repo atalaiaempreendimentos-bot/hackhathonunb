@@ -1,8 +1,7 @@
-# fotos: direitos reservados (Lei 9.610/1998), não publicar
+# fotos de acervo_1565/imagens publicadas com autorização declarada (ver README); demais fotos não publicar
 *.xlsx~
 .DS_Store
 __pycache__/
 dados/imagens/
 *.parcial
-acervo_1565/imagens/
 acervo_1565/_to_delete/

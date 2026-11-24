@@ -43,6 +43,11 @@ dialog header button{background:transparent;color:#fff;border-color:#fff;min-hei
 .etapa small{display:block;font-weight:600;color:var(--ac);margin-bottom:4px}
 .arqs{columns:2 300px;padding-left:18px}.arqs li{margin-bottom:6px;break-inside:avoid}
 code{font-size:.92em;overflow-wrap:anywhere}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:12px}
+.ft{background:var(--card);border:1px solid var(--ln);border-radius:4px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;min-height:0;font-weight:400}
+.ft img{width:100%;aspect-ratio:1/1;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}
+.ft span{padding:8px 10px;font-size:14px;line-height:1.3}.ft small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
+figure{margin:0 0 12px}figure img{width:100%;max-height:60vh;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}figcaption{font-size:13px;color:var(--mut);margin-top:4px}
 footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{max-width:none}
 @media(max-width:600px){table{font-size:13px}.barra{grid-template-columns:7em minmax(0,1fr) 3em}}
 </style>
@@ -54,7 +59,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <p>Hackathon CULTIVA UnB 2026: identificação, reconhecimento, mensuração e evidenciação dos ativos culturais da Casa da Cultura da América Latina, com dados recuperados da plataforma Tainacan.</p>
   <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas.</div>
   <div class="aviso">Resultados acadêmicos em construção; não são registros contábeis oficiais da UnB.</div>
-  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#limitacoes">Limitações</a></nav>
+  <nav aria-label="Seções"><a href="#indicadores">Indicadores</a><a href="#consulta">Consulta</a><a href="#galeria">Galeria</a><a href="#etapas">Etapas</a><a href="#dados">Dados e códigos</a><a href="#limitacoes">Limitações</a></nav>
  </div>
 </header>
 
@@ -86,7 +91,17 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </section>
 
-<section class="band" id="etapas">
+<section class="band" id="galeria">
+ <div class="wrap">
+  <h2>Galeria da coleção Acervo</h2>
+  <p>Fotografias de 1.244 obras da coleção 1565. Clique numa foto para ver os metadados. <span class="mut">Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.</span></p>
+  <div class="ctl"><input id="gq" type="search" placeholder="Buscar por título, autoria, número de registro ou coleção" aria-label="Buscar na galeria"><span class="mut" id="gn" style="align-self:center"></span></div>
+  <div class="grade" id="grade"></div>
+  <div class="pg"><button id="gant" type="button">Anterior</button><span class="mut" id="gpag"></span><button id="gprox" type="button">Próxima</button></div>
+ </div>
+</section>
+
+<section class="band alt" id="etapas">
  <div class="wrap">
   <h2>As quatro etapas contábeis</h2>
   <div class="etapas">
@@ -98,7 +113,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </section>
 
-<section class="band alt" id="dados">
+<section class="band" id="dados">
  <div class="wrap">
   <h2>Dados e códigos</h2>
   <p>Tudo pode ser reproduzido a partir deste repositório. Instruções completas no <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb#readme">README</a>.</p>
@@ -117,17 +132,17 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  </div>
 </section>
 
-<section class="band" id="limitacoes">
+<section class="band alt" id="limitacoes">
  <div class="wrap">
   <h2>Limitações e direitos das imagens</h2>
   <p>A cobertura refere-se ao universo digital público do portal e não equivale ao patrimônio físico da CAL (Regras, item 4.4). Em 23/11/2026 o portal apresentou certificado TLS vencido, e a coleta foi feita sem verificação do certificado, conforme registrado nos logs.</p>
-  <p>O portal informa, no campo "Condições de reprodução", que as fotografias do acervo não podem ser baixadas e/ou reproduzidas sem autorização (Lei nº 9.610/1998). Por isso este site não exibe nem publica fotos: cada registro aponta para a página da obra no portal da CAL, onde a imagem pode ser vista.</p>
+  <p>As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), com direitos reservados (Lei nº 9.610/1998). O portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização; sua publicação aqui atende a fins acadêmicos, com autorização declarada pela equipe. Os direitos das obras pertencem aos seus autores, e a reprodução por terceiros continua sujeita à autorização da CAL/UnB. Titulares de direitos podem pedir a retirada de uma imagem abrindo uma <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/issues">issue no repositório</a>.</p>
  </div>
 </section>
 
 <footer class="band">
  <div class="wrap">
-  <p>Fonte dos dados: UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. Acervo Digital da CAL. Disponível em: https://www.acervocal.unb.br/. Exigências: Regras do Hackathon CULTIVA UnB 2026 (PPGCont/UnB, 2026). Elaborado com apoio de inteligência artificial (Claude, Anthropic), conforme registro no README.</p>
+  <p>Fonte dos dados: UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. Acervo Digital da CAL. Disponível em: https://www.acervocal.unb.br/. Exigências: Regras do Hackathon CULTIVA UnB 2026 (PPGCont/UnB, 2026). Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998). Elaborado com apoio de inteligência artificial (Claude, Anthropic), conforme registro no README.</p>
  </div>
 </footer>
 
@@ -153,7 +168,11 @@ pegar('dados/indicadores.csv').then(I=>{const v=n=>(I.find(x=>x.indicador===n)||
 
 pegar('dados/colecoes.csv').then(C=>{document.getElementById('cols').innerHTML=C.map(c=>`<tr><td>${/^https:\/\//.test(c.url)?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.colecao)}</a>`:esc(c.colecao)}</td><td class="n">${fmt(c.itens_publicos_declarados)}</td><td class="n">${fmt(c.itens_recuperados)}</td></tr>`).join('')}).catch(()=>{});
 
-let D=[],pagina=0;const POR=50;
+let D=[],pagina=0;const POR=50;const FOTOS={};let G=[],gpag=0;const GPOR=48;
+pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));grender()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
+function grender(){const q=document.getElementById('gq').value.toLowerCase().trim();const L=G.filter(f=>!q||f._s.includes(q));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
+ document.getElementById('gn').textContent=L.length.toLocaleString('pt-BR')+' fotos';document.getElementById('gpag').textContent='Página '+(gpag+1)+' de '+tp;
+ document.getElementById('grade').innerHTML=L.slice(gpag*GPOR,(gpag+1)*GPOR).map(f=>`<button class="ft" type="button" data-id="${esc(f.id)}"><img loading="lazy" src="acervo_1565/${esc(f.arquivo)}" alt="${esc(f.titulo)}"><span>${esc(f.titulo)}<small>${esc(f.autoria||f.colecao)}${f.numero_registro?' | '+esc(f.numero_registro):''}</small></span></button>`).join('')}
 const ROT={id_registro:'ID',colecao:'Coleção',subcolecao:'Subcoleção',grupo_sugerido:'Grupo sugerido',categoria:'Categoria',titulo:'Título',autoria_origem:'Autoria ou grupo de origem',ano_periodo:'Ano ou período',tecnica:'Técnica',materiais:'Materiais',dimensoes:'Dimensões',tiragem:'Tiragem',proveniencia:'Proveniência',forma_aquisicao:'Forma de aquisição',localizacao:'Localização',estado_conservacao:'Estado de conservação',numero_patrimonio:'Número de patrimônio',outros_identificadores:'Outros identificadores',direitos_restricoes:'Direitos e restrições',descricao:'Descrição',completude_pct:'Completude (%)',possivel_duplicata:'Possível duplicidade',data_consulta:'Data da consulta'};
 pegar('dados/inventario.csv').then(R=>{D=R.map(r=>({...r,_s:Object.values(r).join(' ').toLowerCase(),_f:!!(r.url_foto||r.url_foto_grande)}));
  const opt=(id,vals)=>{const s=document.getElementById(id);[...new Set(vals)].filter(Boolean).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)})};
@@ -168,16 +187,23 @@ function render(){atual=filtrados();const tp=Math.max(1,Math.ceil(atual.length/P
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
  document.getElementById('pag').textContent='Página '+(pagina+1)+' de '+tp;
  document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td></tr>`).join('')}
-function abrir(i){const d=atual[i];if(!d)return;document.getElementById('dlgT').textContent=(d.titulo||'').split(' | ')[0]||('Registro '+d.id_registro);
+function abrir(i){abrirReg(atual[i])}
+function abrirReg(d){if(!d)return;document.getElementById('dlgT').textContent=(d.titulo||'').split(' | ')[0]||('Registro '+d.id_registro);
  const linhas=Object.keys(ROT).filter(k=>d[k]).map(k=>`<tr><td>${esc(ROT[k])}</td><td>${esc(d[k])}</td></tr>`).join('');
  const link=/^https:\/\//.test(d.url_registro)?`<p><a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Ver a obra no portal da CAL</a></p>`:'';
- document.getElementById('dlgB').innerHTML=link+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
+ const F=FOTOS[d.id_registro];const fig=F?`<figure><img src="acervo_1565/${esc(F.arquivo)}" alt="${esc(F.titulo||d.titulo)}"><figcaption>${esc(F.credito)} <a href="${esc(d.url_registro)}" target="_blank" rel="noopener">Registro original</a></figcaption></figure>`:'';
+ document.getElementById('dlgB').innerHTML=fig+link+`<table class="det">${linhas}</table>`;document.getElementById('dlg').showModal()}
 document.getElementById('tb').addEventListener('click',e=>{const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)});
+function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
 ['q','fCol','fGr','fFoto'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
 document.getElementById('ant').addEventListener('click',()=>{if(pagina>0){pagina--;render()}});
 document.getElementById('prox').addEventListener('click',()=>{pagina++;render()});
+document.getElementById('grade').addEventListener('click',e=>{const b=e.target.closest('.ft');if(b)abrirId(b.dataset.id)});
+document.getElementById('gq').addEventListener('input',()=>{gpag=0;grender()});
+document.getElementById('gant').addEventListener('click',()=>{if(gpag>0){gpag--;grender();document.getElementById('galeria').scrollIntoView()}});
+document.getElementById('gprox').addEventListener('click',()=>{gpag++;grender();document.getElementById('galeria').scrollIntoView()});
 }
 </script>
 </body>
