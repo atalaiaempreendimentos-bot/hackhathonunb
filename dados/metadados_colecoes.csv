@@ -1,0 +1,53 @@
+﻿colecao_id,colecao,metadado_id,metadado_slug,metadado_nome,tipo,multiplo,obrigatorio,mapeamento_dublin_core,variavel_padronizada,descricao
+26193,Mobiliário moderno da UnB,26196,titulo-4,Denominação,Core_Title,no,yes,title,titulo,
+26193,Mobiliário moderno da UnB,26201,codigo-patrimonial,Código patrimonial,Numeric,no,no,,numero_patrimonio,
+26193,Mobiliário moderno da UnB,26213,autoria,Autoria,Taxonomy,yes,yes,creator,autoria_origem,
+26193,Mobiliário moderno da UnB,26217,data-de-producao-2,Data de produção,Text,no,yes,date,ano_periodo,
+26193,Mobiliário moderno da UnB,26209,material-e-tecnica-2,Material e técnica,Taxonomy,yes,yes,,tecnica+materiais,
+26193,Mobiliário moderno da UnB,26220,assinatura-marca-fabricante,Assinatura/marca/fabricante,Text,yes,no,,autoria_origem,
+26193,Mobiliário moderno da UnB,26244,dimensoes-2,Dimensões,Text,no,no,,dimensoes,
+26193,Mobiliário moderno da UnB,26198,descricao-3,Descrição,Core_Description,no,no,description,descricao,
+26193,Mobiliário moderno da UnB,26241,localizacao-3,Localização,Text,no,yes,,localizacao,
+26193,Mobiliário moderno da UnB,26229,unidade-da-unb,Unidade da UnB,GeoCoordinate,no,no,,,
+26193,Mobiliário moderno da UnB,26205,material-e-tecnica,Estado de conservação,Selectbox,no,yes,,estado_conservacao,
+26193,Mobiliário moderno da UnB,26237,descricao-do-estado-de-conservacao-2,Descrição do estado de conservação,Textarea,no,no,,estado_conservacao,
+26193,Mobiliário moderno da UnB,26234,observacoes-4,Observações,Textarea,no,no,,descricao,
+26193,Mobiliário moderno da UnB,26226,data-de-catalogacao,Data de catalogação,Date,no,no,,,
+26193,Mobiliário moderno da UnB,26223,responsavel-pela-catalogacao,Responsável pela catalogação,Text,no,no,,,
+3146,Memória Institucional,3158,title-4,Nome do evento,Core_Title,no,no,,,Nome do evento
+3146,Memória Institucional,10892,com-imagem-2,Com imagem?,Selectbox,no,no,,,
+3146,Memória Institucional,3268,tipo-do-evento,Tipo do evento,Taxonomy,yes,no,,categoria,Tipo do evento
+3146,Memória Institucional,3317,evento-relacionado-2,Evento relacionado,Taxonomy,yes,no,,,Evento relacionado
+3146,Memória Institucional,3357,ano,Ano,Numeric,yes,no,,ano_periodo,Ano
+3146,Memória Institucional,3370,inicio,Início,Text,no,no,,,Início
+3146,Memória Institucional,3379,termino,Término,Text,no,no,,,Término
+3146,Memória Institucional,3387,descricao-do-evento,Descrição do evento,Textarea,no,no,,descricao,Descrição do evento
+3146,Memória Institucional,3427,diretor,Diretor,Taxonomy,yes,no,,,Diretor
+3146,Memória Institucional,3498,responsavel,Responsável,Taxonomy,yes,no,,,Responsável
+3146,Memória Institucional,3518,equipe,Equipe,Text,yes,no,,,Equipe
+3146,Memória Institucional,3539,artista,Artista,Taxonomy,yes,no,,autoria_origem,Artista
+3146,Memória Institucional,3558,local,Local,Taxonomy,yes,no,,,Local
+3146,Memória Institucional,3576,numeros-do-documento,Documento relacionado,Text,yes,no,,outros_identificadores,Números do documento
+3146,Memória Institucional,15416,observacoes-3,Observações,Textarea,no,no,,descricao,
+1565,Acervo,1569,title-3,Denominação,Core_Title,no,no,,titulo,Denominação do item
+1565,Acervo,1570,numero-de-registro,Número de Registro,Text,no,yes,,outros_identificadores,Número de Registro do Item
+1565,Acervo,1579,colecao,Coleção,Taxonomy,no,no,,subcolecao,Coleção do Item
+1565,Acervo,4882,grupo-indigena,Grupo indígena,Taxonomy,no,no,,,
+1565,Acervo,1608,autor,Autoria,Taxonomy,yes,no,,autoria_origem,Autor do item
+1565,Acervo,4865,titulo,Título,Text,no,no,,titulo,
+1565,Acervo,4889,local-de-producao,Local de produção,Taxonomy,yes,no,,proveniencia,
+1565,Acervo,4894,data-de-producao,Data de produção,Text,no,no,,ano_periodo,
+1565,Acervo,1602,material-tecnica,Material/Técnica/Suporte,Taxonomy,yes,no,,tecnica+materiais,Material/Técnica do item
+1565,Acervo,5128,dimensoes,Dimensões,Text,yes,no,,dimensoes,
+1565,Acervo,4921,marcas-inscricoes,Marcas/Inscrições,Textarea,yes,no,,descricao,
+1565,Acervo,4924,tiragem,Tiragem,Text,no,no,,tiragem,
+1565,Acervo,4707,com-imagem,Com imagem?,Selectbox,no,no,,,
+1565,Acervo,1594,forma-de-aquisicao,Forma de aquisição,Selectbox,no,no,,forma_aquisicao,Forma de aquisição do item
+1565,Acervo,1591,data-de-aquisicao,Data de aquisição,Text,no,no,,forma_aquisicao,Data de aquisição do item
+1565,Acervo,1587,procedencia,Procedência,Taxonomy,yes,no,,proveniencia,Procedência
+1565,Acervo,4949,situacao,Situação,Selectbox,no,no,,,
+1565,Acervo,4955,estado-de-conservacao,Estado de conservação,Selectbox,no,no,,estado_conservacao,
+1565,Acervo,4967,condicoes-de-reproducao,Condições de reprodução,Text,no,no,,direitos_restricoes,
+1565,Acervo,4970,exposicoes,Exposições,Textarea,yes,no,,,
+1565,Acervo,4973,fontes-bibliograficas,Fontes bibliográficas,Textarea,yes,no,,,
+1565,Acervo,1568,description-3,Description,Core_Description,no,no,,descricao,description

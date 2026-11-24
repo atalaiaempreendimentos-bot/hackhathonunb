@@ -1,0 +1,27 @@
+Busca do Acervo CAL/UnB, coleção 1565
+Início: 2026-11-23T20:35:44
+Verificação de certificado: não (decisão da equipe)
+pagina 1 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=1
+pagina 2 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=2
+pagina 3 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=3
+pagina 4 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=4
+pagina 5 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=5
+pagina 6 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=6
+pagina 7 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=7
+pagina 8 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=8
+pagina 9 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=9
+pagina 10 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=10
+pagina 11 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=11
+pagina 12 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=12
+pagina 13 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=13
+pagina 14 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=14
+pagina 15 | 96 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=15
+pagina 16 | 57 itens | portal | https://www.acervocal.unb.br/wp-json/tainacan/v2/collection/1565/items/?perpage=96&order=ASC&orderby=title&paged=16
+Obras com foto e restrição de download informada pelo portal: 1237
+Autorização para baixar fotos: Autorização para uso acadêmico das fotografias declarada por Hugo Rodrigues Gomes em 23/11/2026. Completar no relatório: quem autorizou, por qual meio e em que data.
+Obras recuperadas: 1497
+Total informado pela API: 1497
+Obras com foto: 1245
+Fotos baixadas nesta execução: 1245
+Falhas de foto: 0
+Fim: 2026-11-23T20:49:20

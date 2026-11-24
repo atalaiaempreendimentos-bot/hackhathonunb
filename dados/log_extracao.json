@@ -1,0 +1,47 @@
+{
+  "script": "extrair_acervo_cal.py",
+  "versao": "1.1.2",
+  "base": "https://www.acervocal.unb.br",
+  "inicio": "2026-11-23T21:07:11.819397-03:00",
+  "python": "3.13.18",
+  "parametros": {
+    "base": "https://www.acervocal.unb.br",
+    "saida": "dados",
+    "intervalo": 1.0,
+    "offline": true,
+    "atualizar": false,
+    "mapa": null,
+    "importar": null,
+    "baixar_imagens": false,
+    "autorizacao": "",
+    "tamanho_imagem": "grande",
+    "intervalo_imagens": 0.5,
+    "colecoes": null,
+    "sem_verificar_ssl": false
+  },
+  "verificacao_ssl": true,
+  "requisicoes_rede": 0,
+  "requisicoes_cache": 30,
+  "avisos": [],
+  "erros": [],
+  "limitacoes": [
+    "A cobertura refere-se ao universo digital público do portal; não equivale ao patrimônio físico da CAL (Regras, item 4.4).",
+    "Imagens e documentos não são baixados; apenas seus endereços são registrados."
+  ],
+  "data_consulta_portal": "2026-11-23 19:12",
+  "fotos": {
+    "itens_com_foto": 1325,
+    "com_restricao_de_download": 1237,
+    "disponiveis_localmente": 0,
+    "baixadas_nesta_execucao": 0,
+    "falhas": 0,
+    "tamanho": "grande"
+  },
+  "resumo": {
+    "colecoes": 3,
+    "registros_identificados": 2197,
+    "registros_recuperados": 2197,
+    "total_repositorio_api": 2197
+  },
+  "fim": "2026-11-23T21:07:13.846623-03:00"
+}

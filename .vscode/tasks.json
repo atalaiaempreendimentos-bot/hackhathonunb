@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CULTIVA: buscar coleção 1565 (páginas 1 a 16) com metadados",
+      "type": "shell",
+      "command": "python3 baixar_acervo_1565.py",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "CULTIVA: buscar coleção 1565 com metadados E fotos (autorizado)",
+      "type": "shell",
+      "command": "python3 baixar_acervo_1565_com_fotos.py",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "CULTIVA: baixar metadados de todas as coleções (fotos por link)",
+      "type": "shell",
+      "command": "python3 rodar_no_vscode.py",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "CULTIVA: refazer tabelas sem internet",
+      "type": "shell",
+      "command": "python3 codigos/extrair_acervo_cal.py --saida dados --offline",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
