@@ -87,7 +87,7 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 | Reconhecimento sustentado | 0 |
 | Reconhecimento pendente | 986 (outros 1.211 com não reconhecimento fundamentado: 512 pelo item 7 da NBC TSP 37 e 699 eventos) |
 | Mensuração fundamentada | 0 |
-| Mensuração pendente | 639, dos quais 15 com faixa indicativa (nível C) |
+| Mensuração pendente | 638, dos quais 15 com faixa indicativa (nível C) |
 | Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
@@ -213,6 +213,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Árvore de decisão da triagem por grupo (extrator 1.2.0): natureza do registro, grupo do bem e resíduo pela sequência do número de registro | Critério gravado em cada registro; inferência pela sequência marcada como provável; versão 1.1.3 preservada em `codigos/versoes_anteriores/` |
 | 24/11/2026 | Claude (Anthropic) | Leitura do relatório de bens da UnB (obras de arte), vínculo com os registros do portal e coluna "Valor no cadastro da UnB" no site (`codigos/cadastro_unb_relatorio.py`) | Vínculo confirmado só por identificador; vínculo por procedência marcado como provável; nenhum valor atribuído a registros sem vínculo; nomes e matrículas descartados |
 | 24/11/2026 | Claude (Anthropic) | Verificação de duplicidades (`codigos/verificar_duplicidades.py`); retirada da seção Galeria do site; ordenação por coluna na consulta | Grupos a conferir listados por ID e número de registro, para checagem na CAL |
 | 24/11/2026 | Claude (Anthropic) | Consulta ao texto publicado da Estrutura Conceitual (R1), da NBC TSP 37 e da NBC TSP 38 (legisweb.com.br e legismap.com.br); ajuste dos modelos de reconhecimento, mensuração e evidenciação aos itens conferidos (`metodologia/fundamentacao_normativa.md`); coluna de fotos 3 × 4 no site; relatório de aderência v2 | Itens citados conferidos no texto das normas; apêndices de orientação não consultados; nenhum valor atribuído sem evidência |
@@ -225,10 +226,10 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 
 - O portal apresentou certificado TLS vencido em 23/11/2026; a coleta foi feita sem verificação do certificado, por decisão da equipe. As respostas brutas (`dados/brutos/`) registram URL e horário de cada consulta; os reprocessamentos posteriores são offline e constam de `dados/log_extracao.json`.
 - A Coleção CNRC, listada no item 4.3 das Regras, não aparece em nenhum registro público do portal.
-- O cadastro patrimonial da UnB e o portal não têm chave comum (tombamento ou registro do SIPAT), o que impede a conciliação item a item.
+- A Lista da CAL e o portal não têm chave comum (tombamento ou registro do SIPAT). No relatório de bens da UnB, só 27 registros do portal têm chave comum (vínculo confirmado); 249 têm vínculo provável por procedência, e os demais não podem ser conciliados item a item.
 - A cobertura refere-se ao universo digital público: 2.197 registros em 3 coleções (Acervo, 1.497; Memória Institucional, 699; Mobiliário moderno da UnB, 1), todos recuperados. Isso não equivale ao patrimônio físico da CAL (Regras, item 4.4).
 - Completude cadastral média de 32,9% nas 13 variáveis principais. Duplicidades: nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir na CAL (`resultados/verificacao_duplicidades.md`).
-- A triagem automática de grupos deixou 697 registros como "A classificar" (695 da Memória Institucional, o registro do Mobiliário moderno e o ID 25320, com "Coleção = False").
+- A triagem por grupo (árvore de decisão do extrator 1.2.0) não deixa registro "A classificar": os 699 da Memória Institucional são registros de evento, não bens; a Cadeira UnB vai para Arte (design autoral); o ID 25320, com "Coleção = False", vai para Etnográfica como provável, pela sequência do número de registro (`metodologia/identificacao.md`). A triagem continua sujeita a revisão da equipe.
 - Poucos comparáveis de mercado (dois), em dólar e sem conversão; o portal não informa dimensões e tiragem de muitas obras. A validação dos nove casos é documental, sem exame físico na CAL.
 - Na coleção 1565, 252 obras não têm foto no portal (181 da coleção Inicial, 39 da Galvão, 21 da Arte, 10 da Triangular e 1 sem coleção informada). Há inconsistências cadastrais: o ID 11924 (Videoarte, CE.008) consta "Com imagem? = Sim" sem foto; os IDs 1715 e 25973 têm o campo vazio; o ID 25320 tem "Coleção = False".
 - O portal informa, para 1.237 das 1.245 obras com foto da coleção 1565, que as fotografias não podem ser baixadas e/ou reproduzidas (Lei nº 9.610/1998). As fotos foram baixadas e publicadas para fins acadêmicos; a publicação foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe (declaração em 23/11/2026, registrada em 24/11/2026). A foto do ID 2841 não foi publicada: o portal devolveu uma página de erro no lugar da imagem.

@@ -23,18 +23,33 @@ Cobertura: 100,0% do universo digital identificável. A Coleção CNRC, listada 
 
 ## Triagem por grupo (Regras, itens 4.1 a 4.3)
 
-Regras aplicadas em ordem, em `triagem_grupo()`:
+A triagem é uma árvore de decisão em três níveis (`triagem_grupo()` e `triagem_residual()` em `codigos/extrair_acervo_cal.py`, versão 1.2.0). Cada registro recebe o grupo e o critério aplicado (coluna `criterio_grupo`), o que permite a revisão registro a registro.
 
-1. Subcoleções Inicial, Galvão, Chocó e CNRC: grupo Etnográfica (item 4.3).
-2. Subcoleção Triangular: Arte contemporânea (registros CE.xxx, com fotografia, impressão digital, objetos e videoperformance).
-3. Subcoleção Arte: Arte.
-4. Demais registros: termos de categoria e técnica; sem termo indicativo, "A classificar".
+1. **Natureza do registro.** Antes de atribuir grupo, separa-se o que é bem do que é registro de atividade. Registros com metadados de evento (nome e tipo do evento) e sem técnica, materiais, dimensões ou número de patrimônio descrevem exposições, sessões de cinema, palestras e cursos da CAL, e não um objeto. Recebem o grupo "Registro de evento (não é bem)", fora dos três conjuntos do item 4 das Regras, e não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6).
+2. **Grupo do bem**, nesta ordem:
+   - subcoleções Inicial, Galvão, Chocó e CNRC: Etnográfica (Regras, item 4.3);
+   - subcoleção Triangular: Arte contemporânea (registros CE.xxx, com fotografia, impressão digital, objetos e videoperformance; item 4.2);
+   - subcoleção Arte: Arte (item 4.1);
+   - coleção de mobiliário ou design: Arte, como objeto artístico de autoria identificada (item 4.1, "outros objetos artísticos");
+   - demais registros: termos de categoria e técnica.
+3. **Resíduo.** Registro sem subcoleção e sem termo indicativo recebe a subcoleção provável quando o seu número de registro está numa sequência que pertence a uma única subcoleção: os três números anteriores e os três posteriores, a até dez posições, todos da mesma subcoleção. O critério é marcado como "provável". O que não passar por nenhum nível fica "A classificar", com o motivo, para investigação complementar (Regras, seção 6, item 8). O valor `False`, que o Tainacan devolve quando a taxonomia não foi preenchida, é tratado como subcoleção não informada.
 
-Resultado: Arte 479 (475 do Acervo e 4 da Memória Institucional), Arte contemporânea 162, Etnográfica 859 (Inicial 349, Galvão 347, Chocó 163), A classificar 697. A triagem é automática e sujeita a revisão (`dados/inventario.csv`, coluna `criterio_grupo`).
+Resultado em 24/11/2026: Arte 476 (475 do Acervo e a Cadeira UnB, de Sérgio Rodrigues, 1962, da coleção Mobiliário moderno da UnB), Arte contemporânea 162, Etnográfica 860 (Inicial 349 e mais o ID 25320, Galvão 347, Chocó 163), Registro de evento (não é bem) 699 (toda a Memória Institucional) e A classificar 0.
+
+Mudanças em relação à versão 1.1.3 (697 registros "A classificar"):
+
+| Registros | Antes | Agora | Fundamento |
+|---|---|---|---|
+| 695 da Memória Institucional | A classificar | Registro de evento (não é bem) | 699 de 699 têm "Nome do evento"; nenhum tem técnica, materiais, dimensões ou número de patrimônio |
+| 4 da Memória Institucional (IDs 3704, 3715, 3757 e 3815) | Arte, pelo termo "artes visuais" da categoria do evento | Registro de evento (não é bem) | São festivais, feiras e mostras, não obras; a regra por palavra-chave os confundia com bens |
+| ID 26277, Cadeira UnB | A classificar | Arte | Mobiliário de design com autoria e data (Sérgio Rodrigues, 1962), item 4.1 das Regras |
+| ID 25320, São João Batista (cerâmica, Goiás) | A classificar ("Coleção = False") | Etnográfica (provável) | Número de registro 0913212 na sequência 0913207 a 0913215, toda da subcoleção Inicial; no relatório de bens da UnB, o tombamento 913212 tem origem PNDA, a mesma procedência dos 23 registros da Inicial com procedência PNDA |
+
+Os registros de evento não entram na contagem de bens, mas não são descartados: guardam o histórico de exposições da CAL (nome do evento, datas, local e, em 244 registros, os artistas expostos), que pode servir de evidência complementar sobre o uso das obras.
 
 ## Qualidade cadastral
 
-Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 32,9% no total; Arte 45,6%; Arte contemporânea 66,3%; Etnográfica 24,6%; A classificar 26,7%. Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%). O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. A triagem inicial do extrator (título, autoria e dimensões, mesmo vazias) apontou 427 registros (`dados/duplicidades.csv`), mas essa chave agrupa homônimos. Em 24/11/2026, `codigos/verificar_duplicidades.py` refinou a verificação:
+Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 32,9% no total; Arte 45,9%; Arte contemporânea 66,3%; Etnográfica 24,7%; Registro de evento 26,6% (as variáveis principais descrevem objetos e, em geral, não se aplicam a eventos). Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%). O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. A triagem inicial do extrator (título, autoria e dimensões, mesmo vazias) apontou 427 registros (`dados/duplicidades.csv`), mas essa chave agrupa homônimos. Em 24/11/2026, `codigos/verificar_duplicidades.py` refinou a verificação:
 
 | Critério | Grupos | Registros | Classificação |
 |---|---:|---:|---|

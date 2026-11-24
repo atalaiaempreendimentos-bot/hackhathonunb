@@ -1,6 +1,6 @@
 # Dicionário de dados: Acervo Digital da CAL/UnB
 
-Gerado automaticamente por `extrair_acervo_cal.py` v1.1.3 em 2026-11-23 19:12. Fonte: https://www.acervocal.unb.br.
+Gerado automaticamente por `extrair_acervo_cal.py` v1.2.0 em 2026-11-23 19:12. Fonte: https://www.acervocal.unb.br.
 
 ## inventario.csv (base padronizada)
 
@@ -10,7 +10,7 @@ Gerado automaticamente por `extrair_acervo_cal.py` v1.1.3 em 2026-11-23 19:12. F
 | `colecao_id` | Identificador da coleção no Tainacan. |
 | `colecao` | Nome da coleção no portal. |
 | `subcolecao` | Conjunto ou subcoleção informado nos metadados (ex.: Coleção Galvão, Chocó). |
-| `grupo_sugerido` | Triagem automática: Arte, Arte contemporânea, Etnográfica ou A classificar. Sujeita a revisão. |
+| `grupo_sugerido` | Triagem automática: Arte, Arte contemporânea, Etnográfica, Registro de evento (não é bem) ou A classificar. Sujeita a revisão. |
 | `criterio_grupo` | Termo que motivou a triagem do grupo (rastreabilidade da regra). |
 | `flag_possivel_contemporanea` | 'sim' quando técnica, categoria ou suporte indicam obra contemporânea (vídeo, instalação, arte postal etc.). |
 | `categoria` | Categoria, tipologia ou classificação do bem. |

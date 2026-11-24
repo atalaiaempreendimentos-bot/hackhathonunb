@@ -44,12 +44,18 @@ Uso
                                                     # monta as tabelas a partir do JSON baixado
                                                     # pelo trecho coletar_no_navegador.js
 
+Triagem por grupo (versão 1.2.0): árvore de decisão em três níveis, cada registro com o critério aplicado
+(coluna criterio_grupo): (1) natureza do registro, que separa registros de evento (sem objeto) dos bens;
+(2) grupo do bem pela subcoleção, pela coleção e por termos de categoria e técnica; (3) para o resíduo,
+subcoleção provável pela sequência do número de registro. O que restar fica "A classificar", com o motivo.
+
 Boas práticas de coleta (Regras, item 17.12): intervalo padrão de 1 s entre requisições,
 identificação do robô no User-Agent, novas tentativas com espera crescente e cache local
 (uma página nunca é baixada duas vezes, salvo com --atualizar).
 """
 
 import argparse
+import bisect
 import csv
 import datetime as dt
 import hashlib
@@ -65,7 +71,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSAO = "1.1.3"
+VERSAO = "1.2.0"
 BASE_PADRAO = "https://www.acervocal.unb.br"
 API = "/wp-json/tainacan/v2"
 USER_AGENT = ("CULTIVA-UnB-2026/{} (pesquisa academica PPGCont/UnB; coleta com "
@@ -81,7 +87,7 @@ VARIAVEIS = [
     ("colecao_id", "Identificador da coleção no Tainacan."),
     ("colecao", "Nome da coleção no portal."),
     ("subcolecao", "Conjunto ou subcoleção informado nos metadados (ex.: Coleção Galvão, Chocó)."),
-    ("grupo_sugerido", "Triagem automática: Arte, Arte contemporânea, Etnográfica ou A classificar. Sujeita a revisão."),
+    ("grupo_sugerido", "Triagem automática: Arte, Arte contemporânea, Etnográfica, Registro de evento (não é bem) ou A classificar. Sujeita a revisão."),
     ("criterio_grupo", "Termo que motivou a triagem do grupo (rastreabilidade da regra)."),
     ("flag_possivel_contemporanea", "'sim' quando técnica, categoria ou suporte indicam obra contemporânea (vídeo, instalação, arte postal etc.)."),
     ("categoria", "Categoria, tipologia ou classificação do bem."),
@@ -172,6 +178,11 @@ TERMOS_CONTEMPORANEA = [r"contempor", r"triangular", r"video", r"multimidia", r"
                         r"\bnet ?art", r"site specific", r"intervenc"]
 TERMOS_ARTE = [r"\barte", r"gravura", r"pintura", r"desenho", r"escultura", r"fotograf", r"litograf",
                r"serigraf", r"xilogravura", r"aquarela", r"\bobras?\b", r"artist"]
+TERMOS_DESIGN = [r"mobiliario", r"\bdesign\b"]   # objeto artístico de autoria identificada (Regras, item 4.1)
+GRUPO_EVENTO = "Registro de evento (não é bem)"
+GRUPOS = ("Arte", "Arte contemporânea", "Etnográfica", GRUPO_EVENTO, "A classificar")
+CAMPOS_EVENTO = ("Nome do evento", "Tipo do evento")              # metadados que descrevem um evento
+VALORES_VAZIOS = {"false", "none", "null"}   # o Tainacan devolve False em taxonomia não preenchida
 
 
 # --------------------------------------------------------------------------------------
@@ -567,7 +578,11 @@ def carregar_mapa_manual(caminho):
 SUBCOLECOES_ETNOGRAFICAS = {"inicial", "galvao", "choco", "cnrc"}  # Regras, item 4.3
 
 
-def triagem_grupo(colecao_nome, subcol, categoria, tecnica, materiais, titulo):
+def triagem_grupo(colecao_nome, subcol, categoria, tecnica, materiais, titulo, eh_evento=False):
+    """Níveis 1 e 2 da árvore de decisão. O nível 3 (sequência do número de registro) está em triagem_residual()."""
+    if eh_evento:
+        return GRUPO_EVENTO, ("natureza: registro de evento (nome, tipo, datas e local do evento), sem objeto "
+                              "individualizado: não é bem do acervo (Regras, item 4; Estrutura Conceitual (R1), item 5.6)")
     if normaliza(subcol) in SUBCOLECOES_ETNOGRAFICAS:
         return "Etnográfica", "subcoleção etnográfica listada nas Regras (item 4.3): " + subcol
     base_col = normaliza(colecao_nome + " " + subcol)
@@ -580,6 +595,10 @@ def triagem_grupo(colecao_nome, subcol, categoria, tecnica, materiais, titulo):
     p = casa(TERMOS_ARTE, base_col)
     if p:
         return "Arte", "coleção/subcoleção: " + p
+    p = casa(TERMOS_DESIGN, base_col)
+    if p:
+        return "Arte", ("coleção/subcoleção: " + p + " (objeto de design de autoria identificada, "
+                        "outros objetos artísticos; Regras, item 4.1)")
     resto = normaliza(" ".join([categoria, tecnica, materiais]))
     p = casa(TERMOS_ETNOGRAFICA, resto)
     if p:
@@ -587,7 +606,44 @@ def triagem_grupo(colecao_nome, subcol, categoria, tecnica, materiais, titulo):
     p = casa(TERMOS_ARTE + TERMOS_CONTEMPORANEA, resto)
     if p:
         return "Arte", "categoria/técnica: " + p
-    return "A classificar", "sem termo indicativo"
+    return "A classificar", ("subcoleção não informada no portal e nenhum termo indicativo"
+                             if not normaliza(subcol) else "sem termo indicativo")
+
+
+def numero_registro(txt):
+    m = re.fullmatch(r"0*(\d{4,9})", (txt or "").split(" | ")[0].strip())
+    return int(m.group(1)) if m else None
+
+
+def triagem_residual(inventario, vizinhos=3, distancia=10):
+    """Nível 3: subcoleção provável pela sequência do número de registro.
+
+    Para cada registro ainda "A classificar" com número de registro numérico, toma os `vizinhos` números
+    imediatamente anteriores e posteriores na mesma coleção, a no máximo `distancia` posições. Se todos
+    pertencem a uma única subcoleção, o registro recebe o grupo dessa subcoleção, marcado como provável.
+    """
+    seq = sorted((numero_registro(l["outros_identificadores"]), l) for l in inventario
+                 if numero_registro(l["outros_identificadores"]) is not None and l["subcolecao"]
+                 and l["grupo_sugerido"] not in ("A classificar", GRUPO_EVENTO))
+    nums = [n for n, _ in seq]
+    alterados = 0
+    for l in inventario:
+        n = numero_registro(l["outros_identificadores"])
+        if l["grupo_sugerido"] != "A classificar" or n is None:
+            continue
+        k = bisect.bisect_left(nums, n)
+        ant = [x for x in seq[max(0, k - vizinhos):k] if n - x[0] <= distancia and x[1]["colecao_id"] == l["colecao_id"]]
+        pos = [x for x in seq[k:k + vizinhos] if x[0] - n <= distancia and x[1]["colecao_id"] == l["colecao_id"]]
+        subs = {x[1]["subcolecao"] for x in ant + pos}
+        if len(ant) == vizinhos and len(pos) == vizinhos and len(subs) == 1:
+            ref = ant[0][1]
+            l["grupo_sugerido"] = ref["grupo_sugerido"]
+            l["criterio_grupo"] = ("provável: número de registro {} na sequência {} a {}, toda da subcoleção {} "
+                                   "(subcoleção não informada no portal)").format(
+                l["outros_identificadores"], ant[0][1]["outros_identificadores"], pos[-1][1]["outros_identificadores"],
+                ref["subcolecao"])
+            alterados += 1
+    return alterados
 
 
 # --------------------------------------------------------------------------------------
@@ -889,8 +945,12 @@ def main():
                       and str(it.get("document")).startswith("http") else "",
                       "url_foto": foto_orig, "url_foto_grande": foto_grande, "arquivo_foto": ""})
             l["ano_inicial_extraido"] = primeiro_ano(l["ano_periodo"])
+            if normaliza(l["subcolecao"]) in VALORES_VAZIOS:
+                l["subcolecao"] = ""
+            eh_evento = any(comp.get(c) for c in CAMPOS_EVENTO) and not any(
+                l.get(c) for c in ("tecnica", "materiais", "dimensoes", "numero_patrimonio"))
             grupo, crit = triagem_grupo(cnome, l["subcolecao"], l["categoria"], l["tecnica"],
-                                        l["materiais"], l["titulo"])
+                                        l["materiais"], l["titulo"], eh_evento)
             l["grupo_sugerido"], l["criterio_grupo"] = grupo, crit
             pc = casa(TERMOS_CONTEMPORANEA, normaliza(" ".join([l["categoria"], l["tecnica"], l["materiais"],
                                                                   l["subcolecao"], cnome])))
@@ -906,6 +966,12 @@ def main():
         if reg_col["itens_publicos_declarados"] not in (None, reg_col["itens_recuperados"]):
             log["avisos"].append("Coleção {}: {} itens declarados e {} recuperados.".format(
                 cid, reg_col["itens_publicos_declarados"], reg_col["itens_recuperados"]))
+
+    # 1d. Triagem residual (nível 3) ----------------------------------------------------
+    n3 = triagem_residual(inventario)
+    if n3:
+        log["avisos"].append("Triagem residual: {} registro(s) com subcoleção provável pela sequência do número "
+                             "de registro (coluna criterio_grupo).".format(n3))
 
     # 1e. Fotos -----------------------------------------------------------------------
     com_foto = [l for l in inventario if l["url_foto"] or l["url_foto_grande"]]
@@ -983,7 +1049,7 @@ def main():
         return lin
     for (cid, cnome), _ in por_colecao.items():
         diag.append(bloco(cnome, [l for l in inventario if l["colecao_id"] == cid]))
-    for g in ("Arte", "Arte contemporânea", "Etnográfica", "A classificar"):
+    for g in GRUPOS:
         ls = [l for l in inventario if l["grupo_sugerido"] == g]
         if ls:
             diag.append(bloco("GRUPO: " + g, ls))
@@ -1008,7 +1074,7 @@ def main():
         ("Rastreabilidade da fonte (%)", round(100.0 * rastreaveis / recuperados, 1) if recuperados else "",
          "Registros com URL de origem e data de consulta. Decisões de reconhecimento e mensuração entram nas etapas II e III."),
     ]
-    for g in ("Arte", "Arte contemporânea", "Etnográfica", "A classificar"):
+    for g in GRUPOS:
         indicadores.append(("Registros no grupo sugerido: " + g,
                             sum(1 for l in inventario if l["grupo_sugerido"] == g), "Triagem automática, sujeita a revisão."))
     indicadores.append(("Registros com foto no portal", len(com_foto),

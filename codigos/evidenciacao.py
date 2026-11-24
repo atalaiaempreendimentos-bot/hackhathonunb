@@ -51,7 +51,7 @@ def main():
     if len(log_data) >= 16 and log_data[4] == "-":
         log_data = "{}/{}/{}, {}h{}".format(log_data[8:10], log_data[5:7], log_data[:4], log_data[11:13], log_data[14:16])
 
-    grupos = ["Arte", "Arte contemporânea", "Etnográfica", "A classificar"]
+    grupos = ["Arte", "Arte contemporânea", "Etnográfica", "Registro de evento (não é bem)", "A classificar"]
     linhas = []
     for g in grupos + ["TOTAL"]:
         ids = [r["id_registro"] for r in inv if g == "TOTAL" or r["grupo_sugerido"] == g]

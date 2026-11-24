@@ -5,10 +5,11 @@ Cobertura (%),100.0,"Recuperados / identificados, no universo digital público."
 Completude cadastral média (%),32.9,Média do preenchimento das 13 variáveis principais.
 Registros com possível duplicidade,427,Ver duplicidades.csv; requer conferência manual.
 Rastreabilidade da fonte (%),100.0,Registros com URL de origem e data de consulta. Decisões de reconhecimento e mensuração entram nas etapas II e III.
-Registros no grupo sugerido: Arte,479,"Triagem automática, sujeita a revisão."
+Registros no grupo sugerido: Arte,476,"Triagem automática, sujeita a revisão."
 Registros no grupo sugerido: Arte contemporânea,162,"Triagem automática, sujeita a revisão."
-Registros no grupo sugerido: Etnográfica,859,"Triagem automática, sujeita a revisão."
-Registros no grupo sugerido: A classificar,697,"Triagem automática, sujeita a revisão."
+Registros no grupo sugerido: Etnográfica,860,"Triagem automática, sujeita a revisão."
+Registros no grupo sugerido: Registro de evento (não é bem),699,"Triagem automática, sujeita a revisão."
+Registros no grupo sugerido: A classificar,0,"Triagem automática, sujeita a revisão."
 Registros com foto no portal,1325,Itens cujo documento principal é uma imagem.
 Registros com foto e restrição de download informada,1237,Campo de condições de reprodução: fotografias não podem ser baixadas sem autorização.
 Fotos disponíveis localmente,0,Arquivos em dados/imagens (somente com autorização registrada).

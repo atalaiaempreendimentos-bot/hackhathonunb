@@ -35,10 +35,10 @@ Classificação contábil: ativo imobilizado tangível (NBC TSP 37, item 5), cla
 
 | Grupo | Sustentado | Não reconhecimento fundamentado | Pendente |
 |---|---:|---:|---:|
-| Arte | 0 | 165 (161 pelo item 7 e 4 eventos) | 314 |
+| Arte | 0 | 161 | 315 |
 | Arte contemporânea | 0 | 155 | 7 |
-| Etnográfica | 0 | 196 | 663 |
-| A classificar | 0 | 695 (eventos) | 2 |
+| Etnográfica | 0 | 196 | 664 |
+| Registro de evento (não é bem) | 0 | 699 | 0 |
 | **Total** | **0** | **1.211** | **986** |
 
 Satisfazem a definição de ativo 512 registros (161 de arte, 155 de arte contemporânea e 196 etnográficos); todos ficam fora do balanço pelo item 7 da NBC TSP 37, porque nenhum tem, até aqui, três transações comparáveis realizadas (nível B). Dos 986 pendentes, 776 têm ingresso documentado mas localização não confirmada, 137 estão localizados sem forma ou data de ingresso e 73 carecem das duas informações.

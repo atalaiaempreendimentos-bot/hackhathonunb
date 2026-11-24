@@ -33,7 +33,7 @@ Fluxo automatizado em Python (biblioteca padrão), executado por `codigos/execut
 
 ## v. Caracterização dos dados
 
-Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497; Memória Institucional 699; Mobiliário moderno da UnB 1), cobertura de 100,0% do universo digital identificável, completude cadastral média de 32,9% e nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo. Grupos: Arte 479, Arte contemporânea 162, Etnográfica 859 (Inicial 349, Galvão 347, Chocó 163) e A classificar 697. A Coleção CNRC não consta do portal. Cadastro patrimonial: 243 bens na localidade da CAL, dos quais 242 obras de arte (232 próprias, R$ 1.765.385,00; 10 de terceiros, R$ 173.015,00).
+Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497; Memória Institucional 699; Mobiliário moderno da UnB 1), cobertura de 100,0% do universo digital identificável, completude cadastral média de 32,9% e nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo. Grupos (árvore de decisão do extrator 1.2.0, 24/11/2026): Arte 476 (inclui a Cadeira UnB, design autoral), Arte contemporânea 162, Etnográfica 860 (Inicial 349 e o ID 25320, provável; Galvão 347; Chocó 163) e Registro de evento (não é bem) 699, que é toda a Memória Institucional; nenhum registro "A classificar". A Coleção CNRC não consta do portal. Cadastro patrimonial: 243 bens na localidade da CAL, dos quais 242 obras de arte (232 próprias, R$ 1.765.385,00; 10 de terceiros, R$ 173.015,00).
 
 ## vi. Resultados
 
@@ -47,7 +47,7 @@ Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497
 | Reconhecimento sustentado | 0 |
 | Reconhecimento pendente | 986 |
 | Mensuração fundamentada | 0 |
-| Mensuração pendente | 639 (inclui 15 com faixa indicativa) |
+| Mensuração pendente | 638 (inclui 15 com faixa indicativa) |
 | Valor agregado estimado | R$ 0,00 |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
@@ -60,7 +60,7 @@ Não reconhecimento fundamentado: 1.211 registros: 699 eventos da Memória Insti
 
 ## viii. Limitações
 
-Certificado TLS do portal vencido em 23/11/2026; triagem automática de grupos; poucos comparáveis e em dólar, sem conversão; portal sem dimensões e tiragem de muitas obras; ausência da Coleção CNRC; cadastro patrimonial sem vínculo com o portal; validação apenas documental (sem exame físico na CAL); regras de decisão propostas pela equipe e ainda não confrontadas com os parágrafos das normas.
+Certificado TLS do portal vencido em 23/11/2026; triagem de grupos automática, sujeita a revisão (um registro classificado como provável pela sequência do número de registro); poucos comparáveis e em dólar, sem conversão; portal sem dimensões e tiragem de muitas obras; ausência da Coleção CNRC; cadastro patrimonial sem vínculo com o portal; validação apenas documental (sem exame físico na CAL); regras de decisão propostas pela equipe e ainda não confrontadas com os parágrafos das normas.
 
 ## ix. Conclusões
 

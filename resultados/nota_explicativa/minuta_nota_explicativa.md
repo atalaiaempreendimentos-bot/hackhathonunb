@@ -45,7 +45,7 @@ Não foram identificados gastos subsequentes reconhecidos com esses itens (NBC T
 
 ## 5 Registros pendentes de verificação [g]
 
-986 registros ainda não permitem concluir se satisfazem a definição de ativo: 776 têm ingresso documentado, mas localização atual não confirmada (entre eles, 39 não localizados e 11 emprestados ou a verificar); 137 estão localizados, mas sem forma ou data de ingresso; 73 carecem das duas informações. Pendências de mensuração: 639 registros.[^3]
+986 registros ainda não permitem concluir se satisfazem a definição de ativo: 776 têm ingresso documentado, mas localização atual não confirmada (entre eles, 39 não localizados e 11 emprestados ou a verificar); 137 estão localizados, mas sem forma ou data de ingresso; 73 carecem das duas informações. Pendências de mensuração: 638 registros.[^3]
 
 ## 6 Mensuração: base, técnicas, dados de entrada e incerteza [d, e, f, h] (NBC TSP 38, itens 54 e 55)
 
