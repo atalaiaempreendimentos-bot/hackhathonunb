@@ -15,6 +15,8 @@ Lê   dados/inventario.csv, dados/metadados_completos.csv, dados/vocabulario_tes
      dados/valores_cadastro_unb.csv (tombamento confirmado, proposto como "outros números")
 Gera dados/identificacao_inbcm.csv          um registro por linha: elementos presentes, ausentes e classificação
      dados/identificacao_inbcm_resumo.csv   preenchimento de cada elemento nos bens do acervo digital
+     dados/denominacoes.csv                 denominações do acervo digital (inciso IV), com registros, grupos e
+                                            classificação proposta; variantes só de acento ou caixa são agrupadas
      resultados/identificacao_inbcm.md
 
 Só os bens são avaliados: os registros de evento da Memória Institucional não são bens de caráter
@@ -131,6 +133,28 @@ def main():
     os.makedirs(DADOS, exist_ok=True)
     with open(os.path.join(DADOS, "identificacao_inbcm.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(saida[0].keys())); w.writeheader(); w.writerows(saida)
+
+    # denominações (inciso IV): agrupa só variações de caixa, acento e espaço
+    den = {}
+    for s_ in saida:
+        k = norm(s_["denominacao"])
+        d = den.setdefault(k, {"formas": Counter(), "registros": 0, "grupos": Counter(), "cls": s_})
+        d["formas"][s_["denominacao"].strip().lower()] += 1
+        d["registros"] += 1
+        d["grupos"][s_["grupo_sugerido"]] += 1
+    linhas_den = []
+    for k, d in sorted(den.items(), key=lambda kv: (-kv[1]["registros"], kv[0])):
+        c = d["cls"]
+        linhas_den.append({"denominacao": d["formas"].most_common(1)[0][0],
+                           "variantes": "; ".join(f for f in d["formas"] if f != d["formas"].most_common(1)[0][0]),
+                           "registros": d["registros"],
+                           "grupos": "; ".join("{} ({})".format(g, q) for g, q in d["grupos"].most_common()),
+                           "classificacao_termo": c["classificacao_termo"], "classificacao_codigo": c["classificacao_codigo"],
+                           "classificacao_hierarquia": c["classificacao_hierarquia"],
+                           "classificacao_verificacao": c["classificacao_verificacao"]})
+    with open(os.path.join(DADOS, "denominacoes.csv"), "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(linhas_den[0].keys())); w.writeheader(); w.writerows(linhas_den)
+    print("  Denominações distintas:", len(linhas_den))
 
     n = len(bens)
     pct = lambda k: round(100.0 * k / n, 1) if n else 0.0

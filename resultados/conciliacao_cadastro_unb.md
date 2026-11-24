@@ -37,6 +37,8 @@ Fonte: relatório de bens da UnB, código de material 5244000000001 (obras de ar
 | Registros do Acervo com vínculo provável (procedência) | 249 | R$ 2,49 |
 | Registros do Acervo sem vínculo | 1.221 |  |
 | Bens com denominação descritiva (recentes, sem registro no acervo digital) | 27 | R$ 113.800,00 |
+| Denominação no cadastro: OBRA DE ARTE | 1.100 | R$ 2.495.980,45 |
+| Denominação no cadastro: descritiva (título, ano, material ou técnica) | 27 | R$ 113.800,00 |
 
 ## Registros do Acervo sem vínculo, por procedência
 

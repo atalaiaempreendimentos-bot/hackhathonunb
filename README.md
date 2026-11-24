@@ -152,6 +152,7 @@ As duas opções produzem as mesmas tabelas.
 |---|---|
 | `inventario.csv` | Base padronizada com as variáveis do item 7 das Regras (identificador, coleção, categoria, título, autoria ou grupo de origem, ano, técnica, materiais, dimensões, proveniência, forma de aquisição, localização, estado de conservação, nº de patrimônio, descrição, fonte e URL), mais triagem de grupo, completude e duplicidade |
 | `identificacao_inbcm.csv` | Para cada bem, os elementos do INBCM (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º) presentes e ausentes, outros números propostos e classificação proposta pelo Tesauro de Objetos (FERREZ, 2016); resumo em `identificacao_inbcm_resumo.csv` |
+| `denominacoes.csv` | As 290 denominações do acervo digital (INBCM, inciso IV), com bens, grupos e classificação proposta; comparadas no site com a denominação do cadastro patrimonial |
 | `vocabulario_tesauro.csv` | Vocabulário revisável: denominação do portal, termo e código do Tesauro, verificação |
 | `bens_recentes_cadastro.csv` | Subgrupo da triagem: 27 bens do relatório de bens da UnB com denominação descritiva, tombados de 2024 a 2026, sem registro no acervo digital |
 | `inventario_excel.csv` | A mesma base com separador `;` (Excel em português) |

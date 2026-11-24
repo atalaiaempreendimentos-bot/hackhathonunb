@@ -284,6 +284,10 @@ def main():
             ("Bens com denominação descritiva (recentes, sem registro no acervo digital)",
              sum(1 for x in recentes if x["registro_acervo_digital"] == "nenhum"),
              round(sum(x["valor_registrado"] or 0 for x in recentes if x["registro_acervo_digital"] == "nenhum"), 2))]
+    gen = [b for b in bens if norm(b["denominacao"]) in ("obra de arte", "")]
+    res += [("Denominação no cadastro: OBRA DE ARTE", len(gen), round(sum(b["valor"] or 0 for b in gen), 2)),
+            ("Denominação no cadastro: descritiva (título, ano, material ou técnica)", len(bens) - len(gen),
+             round(sum(b["valor"] or 0 for b in bens if b not in gen), 2))]
     with open(os.path.join(DADOS, "cadastro_unb_resumo.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f); w.writerow(["indicador", "quantidade", "valor_registrado_rs"]); w.writerows(res)
 
