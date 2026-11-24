@@ -48,6 +48,7 @@ code{font-size:.92em;overflow-wrap:anywhere}
 .ft img{width:100%;aspect-ratio:1/1;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}
 .ft span{padding:8px 10px;font-size:14px;line-height:1.3}.ft small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
 figure{margin:0 0 12px}figure img{width:100%;max-height:60vh;object-fit:contain;background:light-dark(#f1f4f8,#0e1826)}figcaption{font-size:13px;color:var(--mut);margin-top:4px}
+#fAut,#gAut{flex:1 1 240px;max-width:380px}
 .val{min-height:32px;padding:2px 10px;border-radius:4px;border:1px solid var(--az);color:var(--az);background:transparent;font-weight:700;white-space:nowrap;cursor:help}
 :root:not([data-theme=light]) .val{color:light-dark(#003d7a,#9cc3ef);border-color:light-dark(#003d7a,#9cc3ef)}
 .sit{font-size:13px;color:var(--mut);white-space:normal}
@@ -88,9 +89,11 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. Clique numa linha para ver o registro completo e o link para o portal da CAL.</p>
   <div class="ctl">
    <input id="q" type="search" placeholder="Buscar nos 2.197 registros" aria-label="Buscar">
+   <select id="fAut" aria-label="Artista ou autor"><option value="">Todos os artistas/autores</option></select>
    <select id="fCol" aria-label="Coleção"><option value="">Todas as coleções</option></select>
    <select id="fGr" aria-label="Grupo sugerido"><option value="">Todos os grupos</option></select>
    <select id="fFoto" aria-label="Foto no portal"><option value="">Com e sem foto no portal</option><option value="1">Com foto no portal</option><option value="0">Sem foto no portal</option></select>
+   <select id="fMen" aria-label="Situação da mensuração"><option value="">Todas as situações de mensuração</option><option value="v">Com valor ou faixa</option><option>Pendente de evidência</option><option>Sem mensuração monetária fundamentada</option><option>Fora do escopo (a confirmar no reconhecimento)</option><option>Pendente de classificação</option></select>
   </div>
   <div class="mut" id="nRes">Carregando inventário…</div>
   <div class="scroll"><table><thead><tr><th>ID</th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Mensuração (NBC TSP 37/38; IPSAS 45/46)</th></tr></thead><tbody id="tb"></tbody></table></div>
@@ -102,7 +105,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
  <div class="wrap">
   <h2>Galeria da coleção Acervo</h2>
   <p>Fotografias de 1.244 obras da coleção 1565. Clique numa foto para ver os metadados. <span class="mut">Fotografias: Acervo Digital da CAL/UnB, direitos reservados (Lei nº 9.610/1998); publicação para fins acadêmicos autorizada à equipe.</span></p>
-  <div class="ctl"><input id="gq" type="search" placeholder="Buscar por título, autoria, número de registro ou coleção" aria-label="Buscar na galeria"><span class="mut" id="gn" style="align-self:center"></span></div>
+  <div class="ctl"><input id="gq" type="search" placeholder="Buscar por título, autoria, número de registro ou coleção" aria-label="Buscar na galeria"><select id="gAut" aria-label="Artista ou autor na galeria"><option value="">Todos os artistas/autores</option></select><span class="mut" id="gn" style="align-self:center"></span></div>
   <div class="grade" id="grade"></div>
   <div class="pg"><button id="gant" type="button">Anterior</button><span class="mut" id="gpag"></span><button id="gprox" type="button">Próxima</button></div>
  </div>
@@ -114,7 +117,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <div class="etapas">
    <div class="etapa"><small>Concluída em 23/11</small><h3>Identificação</h3><p>Extração de todos os registros públicos pela API do Tainacan, padronização das variáveis do item 7 das Regras, dicionário de dados, diagnóstico de completude e duplicidades.</p></div>
    <div class="etapa"><small>Em desenvolvimento</small><h3>Reconhecimento</h3><p>Matriz com os critérios da Estrutura Conceitual e da NBC TSP 37: reconhecimento sustentado, não reconhecimento fundamentado ou pendente de verificação.</p></div>
-   <div class="etapa"><small>Modelo aplicado em 23/11; valores em pesquisa</small><h3>Mensuração</h3><p>Base de mensuração (NBC TSP 38 / IPSAS 46), técnica, nível de evidência e situação definidos para os 2.197 registros. Valores entram apenas com evidência documentada, com nota metodológica.</p></div>
+   <div class="etapa"><small>Modelo aplicado em 23/11; comparáveis em pesquisa</small><h3>Mensuração</h3><p>Base de mensuração (NBC TSP 38 / IPSAS 46), técnica, nível de evidência e situação definidos para os 2.197 registros. Valores entram apenas com evidência documentada, com nota metodológica.</p></div>
    <div class="etapa"><small>Em desenvolvimento</small><h3>Evidenciação</h3><p>Quadro consolidado, indicadores obrigatórios e minuta de nota explicativa.</p></div>
   </div>
  </div>
@@ -136,6 +139,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <li><a href="dados/mensuracao.csv">mensuracao.csv</a>: modelo de mensuração aplicado (<a href="dados/mensuracao_resumo.csv">resumo</a>)</li>
    <li><a href="dados/evidencias_mensuracao.csv">evidencias_mensuracao.csv</a>: evidências e fontes que sustentam os valores</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/mensuracao.py">codigos/mensuracao.py</a>: regras do modelo de mensuração</li>
+   <li><a href="dados/comparaveis.csv">comparaveis.csv</a> e <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/comparaveis.py">codigos/comparaveis.py</a>: abordagem de mercado por comparáveis, com fontes</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/codigos/extrair_acervo_cal.py">codigos/extrair_acervo_cal.py</a>: extrator</li>
    <li><a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/blob/main/baixar_acervo_1565.py">baixar_acervo_1565.py</a>: busca da coleção 1565</li>
   </ul>
@@ -188,19 +192,22 @@ pegar('dados/mensuracao.csv').then(R=>{R.forEach(m=>M[m.id_registro]=m);if(D.len
  document.getElementById('mensAgr').textContent=tot>0?'Valor agregado das mensurações fundamentadas: '+tot.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})+'. Não representa o valor total do patrimônio da CAL (Regras, item 15).':'Nenhuma mensuração fundamentada registrada até o momento.'}).catch(()=>{});
 function celMens(id){const m=M[id];if(!m)return '<span class="sit">Carregando…</span>';
  return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};let G=[],gpag=0;const GPOR=48;
-pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));grender()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
-function grender(){const q=document.getElementById('gq').value.toLowerCase().trim();const L=G.filter(f=>!q||f._s.includes(q));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
+pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));
+ const c={};G.forEach(f=>{if(f.autoria)c[f.autoria]=(c[f.autoria]||0)+1});const sel=document.getElementById('gAut');Object.keys(c).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v+' ('+c[v]+')';sel.appendChild(o)});grender()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
+function grender(){const q=document.getElementById('gq').value.toLowerCase().trim(),a=document.getElementById('gAut').value;const L=G.filter(f=>(!q||f._s.includes(q))&&(!a||f.autoria===a));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
  document.getElementById('gn').textContent=L.length.toLocaleString('pt-BR')+' fotos';document.getElementById('gpag').textContent='Página '+(gpag+1)+' de '+tp;
  document.getElementById('grade').innerHTML=L.slice(gpag*GPOR,(gpag+1)*GPOR).map(f=>`<button class="ft" type="button" data-id="${esc(f.id)}"><img loading="lazy" src="acervo_1565/${esc(f.arquivo)}" alt="${esc(f.titulo)}"><span>${esc(f.titulo)}<small>${esc(f.autoria||f.colecao)}${f.numero_registro?' | '+esc(f.numero_registro):''}</small></span></button>`).join('')}
 const ROT={id_registro:'ID',colecao:'Coleção',subcolecao:'Subcoleção',grupo_sugerido:'Grupo sugerido',categoria:'Categoria',titulo:'Título',autoria_origem:'Autoria ou grupo de origem',ano_periodo:'Ano ou período',tecnica:'Técnica',materiais:'Materiais',dimensoes:'Dimensões',tiragem:'Tiragem',proveniencia:'Proveniência',forma_aquisicao:'Forma de aquisição',localizacao:'Localização',estado_conservacao:'Estado de conservação',numero_patrimonio:'Número de patrimônio',outros_identificadores:'Outros identificadores',direitos_restricoes:'Direitos e restrições',descricao:'Descrição',completude_pct:'Completude (%)',possivel_duplicata:'Possível duplicidade',data_consulta:'Data da consulta'};
 pegar('dados/inventario.csv').then(R=>{D=R.map(r=>({...r,_s:Object.values(r).join(' ').toLowerCase(),_f:!!(r.url_foto||r.url_foto_grande)}));
  const opt=(id,vals)=>{const s=document.getElementById(id);[...new Set(vals)].filter(Boolean).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)})};
  opt('fCol',D.map(d=>d.colecao));opt('fGr',D.map(d=>d.grupo_sugerido));
+ const optN=(id,vals)=>{const c={};vals.filter(Boolean).forEach(v=>c[v]=(c[v]||0)+1);const s=document.getElementById(id);Object.keys(c).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v+' ('+c[v]+')';s.appendChild(o)})};
+ optN('fAut',D.map(d=>d.autoria_origem));
  const dc=(D[0]||{}).data_consulta;if(dc)document.getElementById('dataConsulta').textContent='Consulta ao portal em '+dc+'.';
  render()}).catch(()=>{document.getElementById('nRes').textContent='Não foi possível carregar dados/inventario.csv. Abra o site pelo endereço do GitHub Pages.'});
 
-function filtrados(){const q=document.getElementById('q').value.toLowerCase().trim(),c=document.getElementById('fCol').value,g=document.getElementById('fGr').value,f=document.getElementById('fFoto').value;
- return D.filter(d=>(!q||d._s.includes(q))&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f)))}
+function filtrados(){const q=document.getElementById('q').value.toLowerCase().trim(),c=document.getElementById('fCol').value,g=document.getElementById('fGr').value,f=document.getElementById('fFoto').value,a=document.getElementById('fAut').value,mn=document.getElementById('fMen').value;
+ return D.filter(d=>{const m=M[d.id_registro]||{};return(!q||d._s.includes(q))&&(!a||d.autoria_origem===a)&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f))&&(!mn||(mn==='v'?!!m.valor_exibicao:m.situacao===mn))})}
 let atual=[];
 function render(){atual=filtrados();const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
@@ -228,11 +235,11 @@ document.getElementById('tb').addEventListener('click',e=>{const v=e.target.clos
 function abrirId(id){abrirReg(D.find(x=>x.id_registro===id))}
 document.getElementById('tb').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr');if(tr)abrir(+tr.dataset.i)}});
 document.getElementById('fechar').addEventListener('click',()=>document.getElementById('dlg').close());
-['q','fCol','fGr','fFoto'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
+['q','fAut','fCol','fGr','fFoto','fMen'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{pagina=0;render()}));
 document.getElementById('ant').addEventListener('click',()=>{if(pagina>0){pagina--;render()}});
 document.getElementById('prox').addEventListener('click',()=>{pagina++;render()});
 document.getElementById('grade').addEventListener('click',e=>{const b=e.target.closest('.ft');if(b)abrirId(b.dataset.id)});
-document.getElementById('gq').addEventListener('input',()=>{gpag=0;grender()});
+document.getElementById('gq').addEventListener('input',()=>{gpag=0;grender()});document.getElementById('gAut').addEventListener('input',()=>{gpag=0;grender()});
 document.getElementById('gant').addEventListener('click',()=>{if(gpag>0){gpag--;grender();document.getElementById('galeria').scrollIntoView()}});
 document.getElementById('gprox').addEventListener('click',()=>{gpag++;grender();document.getElementById('galeria').scrollIntoView()});
 }
