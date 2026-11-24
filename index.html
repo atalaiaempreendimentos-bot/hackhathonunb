@@ -97,7 +97,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
 <section class="band alt" id="consulta">
  <div class="wrap">
   <h2>Consulta ao inventário padronizado</h2>
-  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. A coluna Foto mostra cada obra da coleção Acervo em 3×4 cm, sem cortar a imagem. Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
+  <p>Busque por título, autoria, técnica, número de patrimônio ou qualquer outro campo. A coluna Imagem da Obra mostra cada obra da coleção Acervo em 3×4 cm, sem cortar a imagem; as obras com imagem aparecem primeiro. Clique numa linha para ver o registro completo, a decisão de reconhecimento, a mensuração e o link para o portal da CAL. Passe o mouse (ou toque) na classe de reconhecimento ou no valor para ler a justificativa e a nota metodológica.</p>
   <div class="ctl">
    <input id="q" type="search" placeholder="Buscar nos 2.197 registros" aria-label="Buscar">
    <select id="fAut" aria-label="Artista ou autor"><option value="">Todos os artistas/autores</option></select>
@@ -108,7 +108,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
    <select id="fRec" aria-label="Classe de reconhecimento"><option value="">Todas as classes de reconhecimento</option><option>Reconhecimento sustentado pelas evidências</option><option>Não reconhecimento fundamentado</option><option>Pendente de verificação</option></select>
   </div>
   <div class="mut" id="nRes">Carregando inventário…</div>
-  <div class="scroll"><table><thead><tr><th>ID</th><th>Foto (3×4)<sup class="fn"><a href="#n8">8</a></sup></th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Reconhecimento (NBC TSP 37)<sup class="fn"><a href="#n3">3</a></sup></th><th>Mensuração (NBC TSP 38; IPSAS 46)<sup class="fn"><a href="#n4">4</a></sup></th></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th>ID</th><th>Imagem da Obra<sup class="fn"><a href="#n8">8</a></sup></th><th>Título</th><th>Autoria ou grupo de origem</th><th>Coleção</th><th>Ano</th><th>Completude</th><th>Reconhecimento (NBC TSP 37)<sup class="fn"><a href="#n3">3</a></sup></th><th>Mensuração (NBC TSP 38; IPSAS 46)<sup class="fn"><a href="#n4">4</a></sup></th></tr></thead><tbody id="tb"></tbody></table></div>
   <div class="pg"><button id="ant" type="button">Anterior</button><span class="mut" id="pag"></span><button id="prox" type="button">Próxima</button></div>
  </div>
 </section>
@@ -255,7 +255,7 @@ function celRec(id){const r=RC[id];if(!r)return '<span class="sit">Carregando…
 function celMens(id){const m=M[id];if(!m)return '<span class="sit">Carregando…</span>';
  return m.valor_exibicao?`<button type="button" class="val" data-id="${esc(id)}" aria-describedby="pop">${esc(m.valor_exibicao)}</button>`:`<span class="sit">${esc(m.situacao)}</span>`}const FOTOS={};let G=[],gpag=0;const GPOR=48;
 const mini=f=>'acervo_1565/miniaturas_3x4/'+f.arquivo.replace(/^imagens\//,'').replace(/\.[a-z]+$/i,'')+'.jpg';
-function celFoto(d){const f=FOTOS[d.id_registro];return f?`<img loading="lazy" src="${esc(mini(f))}" alt="Foto de ${esc((d.titulo||'').split(' | ')[0])}" width="113" height="151">`:`<span class="semfoto">${d.colecao==='Acervo'?'Sem foto publicada':'Não se aplica'}</span>`}
+function celFoto(d){const f=FOTOS[d.id_registro];return f?`<img loading="lazy" src="${esc(mini(f))}" alt="Foto de ${esc((d.titulo||'').split(' | ')[0])}" width="113" height="151">`:`<span class="semfoto">${d.colecao==='Acervo'?'Sem imagem publicada':'Imagem não publicada (fora da coleção Acervo)'}</span>`}
 pegar('acervo_1565/fotos_publicadas.csv').then(R=>{R.forEach(f=>{if(/^imagens\/[\w.-]+$/.test(f.arquivo))FOTOS[f.id]=f});G=R.filter(f=>FOTOS[f.id]).map(f=>({...f,_s:(f.id+' '+f.titulo+' '+f.autoria+' '+f.numero_registro+' '+f.colecao).toLowerCase()}));
  const c={};G.forEach(f=>{if(f.autoria)c[f.autoria]=(c[f.autoria]||0)+1});const sel=document.getElementById('gAut');Object.keys(c).sort((a,b)=>a.localeCompare(b,'pt')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v+' ('+c[v]+')';sel.appendChild(o)});grender();if(D.length)render()}).catch(()=>{document.getElementById('gn').textContent='Galeria indisponível.'});
 function grender(){const q=document.getElementById('gq').value.toLowerCase().trim(),a=document.getElementById('gAut').value;const L=G.filter(f=>(!q||f._s.includes(q))&&(!a||f.autoria===a));const tp=Math.max(1,Math.ceil(L.length/GPOR));gpag=Math.min(gpag,tp-1);
@@ -273,7 +273,8 @@ pegar('dados/inventario.csv').then(R=>{D=R.map(r=>({...r,_s:Object.values(r).joi
 function filtrados(){const q=document.getElementById('q').value.toLowerCase().trim(),c=document.getElementById('fCol').value,g=document.getElementById('fGr').value,f=document.getElementById('fFoto').value,a=document.getElementById('fAut').value,mn=document.getElementById('fMen').value,rc=document.getElementById('fRec').value;
  return D.filter(d=>{const m=M[d.id_registro]||{};return(!rc||(RC[d.id_registro]||{}).classe_reconhecimento===rc)&&(!q||d._s.includes(q))&&(!a||d.autoria_origem===a)&&(!c||d.colecao===c)&&(!g||d.grupo_sugerido===g)&&(!f||(f==='1'?d._f:!d._f))&&(!mn||(mn==='v'?!!m.valor_exibicao:m.situacao===mn))})}
 let atual=[];
-function render(){atual=filtrados();const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
+const ordemImg=d=>FOTOS[d.id_registro]?0:(d.colecao==='Acervo'?1:2);
+function render(){atual=filtrados().map((d,i)=>[ordemImg(d),i,d]).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(x=>x[2]);const tp=Math.max(1,Math.ceil(atual.length/POR));pagina=Math.min(pagina,tp-1);
  document.getElementById('nRes').textContent=atual.length.toLocaleString('pt-BR')+' registros';
  document.getElementById('pag').textContent='Página '+(pagina+1)+' de '+tp;
  document.getElementById('tb').innerHTML=atual.slice(pagina*POR,(pagina+1)*POR).map((d,i)=>`<tr class="linha" tabindex="0" data-i="${pagina*POR+i}"><td class="n">${esc(d.id_registro)}</td><td class="f34">${celFoto(d)}</td><td>${esc((d.titulo||'').split(' | ')[0])}</td><td>${esc(d.autoria_origem)}</td><td>${esc(d.colecao)}${d.subcolecao?' / '+esc(d.subcolecao):''}</td><td>${esc(d.ano_periodo)}</td><td class="n">${esc(fmt(d.completude_pct))}%</td><td>${celRec(d.id_registro)}</td><td>${celMens(d.id_registro)}</td></tr>`).join('')}
