@@ -56,8 +56,8 @@ def main():
                  ("Obra contemporânea com suporte imaterial ou reprodutível: autenticidade e direitos dependem de certificado e contrato "
                   "com o artista." if "video" in (m.get("Material/Técnica/Suporte") or "").lower() else ""))
         valor = s.get("valor_exibicao") or "sem valor"
-        conclusao = "{} Mensuração: {}{}.".format(
-            r.get("classe_reconhecimento", ""), s.get("situacao", ""), " ({})".format(valor) if s.get("valor_exibicao") else "")
+        conclusao = "{} ({}). Mensuração: {}{}.".format(
+            r.get("classe_reconhecimento", ""), r.get("enquadramento_normativo", ""), s.get("situacao", ""), " ({})".format(valor) if s.get("valor_exibicao") else "")
         proc = ["conferir no local a existência e o estado de conservação"]
         video = "video" in (m.get("Material/Técnica/Suporte") or "").lower()
         if tipo == "Objeto etnográfico":
@@ -91,8 +91,9 @@ def main():
             v = (m.get(c) or "").strip()
             if v and v != "False":
                 md.append("| {} | {} |".format(c, v.replace("|", "/")[:220]))
-        md.append("\n**Reconhecimento.** Existência: {}. Controle: {}. Classe: {}. {}\n".format(
-            r.get("existencia", ""), r.get("controle", ""), r.get("classe_reconhecimento", ""), r.get("justificativa", "")))
+        md.append("\n**Reconhecimento.** Existência: {}. Controle: {}. Classe: {}. Enquadramento: {}. {} Divulgação: {}.\n".format(
+            r.get("existencia", ""), r.get("controle", ""), r.get("classe_reconhecimento", ""), r.get("enquadramento_normativo", ""),
+            r.get("justificativa", ""), r.get("divulgacao_exigida", "")))
         md.append("**Mensuração.** {}: {}. Base: {}. Técnica: {}. Nível de evidência: {}.{}\n".format(
             s.get("situacao", ""), valor, s.get("base_mensuracao", ""), s.get("tecnica", ""), s.get("nivel_evidencia", ""),
             " Fonte: {}.".format(s.get("fonte")) if s.get("fonte") else ""))

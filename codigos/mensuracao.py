@@ -15,9 +15,20 @@ Princípios (Regras do Hackathon, item 9):
   - sem evidência suficiente, registra-se "sem mensuração monetária fundamentada", resultado
     tecnicamente válido quando justificado (item 9.4); nunca se inventa valor (itens 9.4 e 17.10);
   - objetos de comunidades tradicionais não são presumidos mercadorias (item 4.3).
-O reconhecimento (existência, controle, potencial de serviços) segue a NBC TSP 37 / IPSAS 45 e a
-Estrutura Conceitual; a mensuração, a NBC TSP 38 / IPSAS 46. Os parágrafos aplicáveis devem ser
-conferidos pela equipe no texto das normas e citados no relatório.
+Fundamentação conferida no texto publicado das normas (metodologia/fundamentacao_normativa.md):
+  - doações e transferências são transações sem contraprestação: mensuração inicial pelo CUSTO
+    ATRIBUÍDO (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 7, 10 e 12(b)), determinado por base de
+    valor corrente;
+  - o acervo é mantido por sua capacidade operacional (potencial de serviço), não financeira: a base
+    de valor corrente é o VALOR CORRENTE OPERACIONAL (NBC TSP 37, item 27; NBC TSP 38, itens 6 e 23 a
+    25), preço de entrada que inclui os custos necessários (prêmio do comprador, custos de transação);
+  - técnicas (NBC TSP 38, itens 36 a 45): abordagem de mercado com comparáveis ajustados aos aspectos
+    únicos da obra (itens 24, 32 e 42); abordagem de custo (itens 43 e 44) só onde existe substituto
+    de utilidade comparável (mobiliário); abordagem de renda não se aplica (sem fluxos de caixa);
+  - mensuração confiável (NBC TSP 37, item 6(b); Estrutura Conceitual, itens 6.7 e 6.8) = níveis A ou
+    B; nível C é faixa indicativa, com incerteza elevada demais para reconhecimento;
+  - mensuração subsequente proposta: modelo do custo histórico (NBC TSP 37, itens 24 e 26), vida útil
+    indefinida sem depreciação (itens 52 e 53) e revisão anual de redução ao valor recuperável (56).
 
 Formato de dados/evidencias_mensuracao.csv (uma linha por registro com evidência):
   id_registro, base_mensuracao, tecnica, valor_min, valor_central, valor_max, moeda,
@@ -48,11 +59,13 @@ SIT_FUND = "Mensuração fundamentada"
 SIT_FAIXA = "Faixa indicativa"
 SIT_PEND = "Pendente de evidência"
 SIT_SEM = "Sem mensuração monetária fundamentada"
-SIT_FORA = "Fora do escopo (a confirmar no reconhecimento)"
+SIT_FORA = "Não aplicável (não é ativo)"
 SIT_CLASS = "Pendente de classificação"
 
-NORMAS = ("Reconhecimento: NBC TSP 37 / IPSAS 45 e Estrutura Conceitual. Bases de mensuração: "
-          "NBC TSP 38 / IPSAS 46. Critérios do Hackathon: Regras, item 9.")
+NORMAS = ("Fundamento: NBC TSP 37, itens 6, 7, 11 a 13 e 27; NBC TSP 38, itens 6, 10, 23 a 25 e 36 a 45; "
+          "Estrutura Conceitual (R1), itens 6.7 e 6.8; Regras, item 9.")
+BASE_DOACAO = ("Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10, "
+               "12(b) e 23 a 25)")
 
 
 def num(v):
@@ -74,12 +87,15 @@ def brl(v, moeda="BRL"):
 def aquisicao_txt(forma):
     f = (forma or "").strip().lower()
     if f == "doação":
-        return ("Ingresso por doação: não há custo histórico de aquisição; a base deve ser escolhida "
-                "entre as alternativas da NBC TSP 38 e justificada.")
+        return ("Ingresso por doação, transação sem contraprestação: mensuração inicial pelo custo atribuído "
+                "(NBC TSP 37, item 12; NBC TSP 38, itens 10 e 12(b)).")
     if f == "transferência":
-        return ("Ingresso por transferência: verificar se há valor contábil registrado na origem "
-                "(documentação patrimonial) antes de adotar outra base.")
-    return "Forma de aquisição não informada no portal: a base de mensuração depende dessa informação."
+        return ("Ingresso por transferência sem custo: mensuração inicial pelo custo atribuído (NBC TSP 37, "
+                "item 12; NBC TSP 38, item 12(b)); verificar antes o valor registrado na origem.")
+    if f == "compra":
+        return "Ingresso por compra: custo histórico, se houver documento de custo (NBC TSP 37, item 11)."
+    return ("Forma de aquisição não informada no portal: sem ela não se define entre custo histórico "
+            "(item 11) e custo atribuído (item 12) da NBC TSP 37.")
 
 
 def classificar(l):
@@ -89,41 +105,47 @@ def classificar(l):
     aq = aquisicao_txt(l.get("forma_aquisicao"))
     if col == "Memória Institucional":
         return ("Registro documental de atividade institucional",
-                "Não aplicável até o reconhecimento",
+                "Não aplicável: o registro não satisfaz a definição de ativo",
                 "Não aplicável",
                 SIT_FORA,
-                "Registro de evento, exposição ou atividade da CAL. Antes de mensurar, a matriz de "
-                "reconhecimento deve concluir se o registro corresponde a um recurso controlado com "
-                "potencial de serviços (NBC TSP 37 e Estrutura Conceitual; Regras, item 8).")
+                "Registro de evento, exposição ou atividade da CAL, sem recurso individualizado controlado "
+                "(Estrutura Conceitual (R1), item 5.6). Não há o que mensurar.")
     if grupo == "Etnográfica":
         return ("Bem cultural de comunidade tradicional",
-                "Não monetizado por padrão (proposta da equipe)",
-                "Evidenciação qualitativa",
+                "Custo atribuído pelo valor corrente operacional, se houver dados; não monetizado por padrão",
+                "Nenhuma técnica aplicável: evidenciação qualitativa (NBC TSP 37, item 77)",
                 SIT_SEM,
-                "As Regras vedam presumir que objetos de comunidades tradicionais são mercadorias "
-                "livremente negociáveis (item 4.3). Sem mercado ativo, custo documentado ou avaliação "
-                "especializada, registra-se a impossibilidade de estimativa confiável, resultado válido "
-                "quando justificado (item 9.4). " + aq)
+                "A abordagem de mercado (NBC TSP 38, item 42) presumiria que o objeto é mercadoria, o que as "
+                "Regras vedam (item 4.3); a abordagem de custo (itens 43 e 44) exige substituto de utilidade "
+                "comparável, inexistente para objeto único de comunidade tradicional; a de renda (item 45) não "
+                "se aplica. Sem mensuração confiável, o bem não é reconhecido e é divulgado em nota (NBC TSP 37, "
+                "itens 7 e 77; Regras, item 9.4). " + aq)
     if col == "Mobiliário moderno da UnB":
         return ("Mobiliário de valor histórico",
-                "Custo histórico, se houver registro patrimonial com valor; senão, base alternativa da NBC TSP 38",
-                "Documentação patrimonial; abordagem de custo ou de mercado",
+                "Custo histórico, se houver documento de custo (NBC TSP 37, item 11); senão, custo atribuído pelo valor corrente operacional",
+                "Abordagem de custo: custo de reposição de peça de utilidade comparável, ajustado por obsolescência "
+                "(NBC TSP 38, itens 43 e 44); abordagem de mercado para peças de design com transações",
                 SIT_PEND,
                 "Consultar o registro patrimonial (código patrimonial) para obter valor de entrada. "
-                "Sem esse dado, buscar evidência de mercado de peças comparáveis. " + aq)
+                "Sem esse dado, aplicar a abordagem de custo ou buscar transações de peças comparáveis. " + aq)
     if grupo in ("Arte", "Arte contemporânea"):
         contemporanea = grupo == "Arte contemporânea" or l.get("flag_possivel_contemporanea") == "sim"
         cat = "Obra de arte contemporânea" if contemporanea else "Obra de arte"
-        tecnica = ("Abordagem de mercado (transações comparáveis); abordagem de custo se não houver comparáveis"
-                   if contemporanea else "Abordagem de mercado (transações comparáveis)")
-        base = "Valor justo ou valor operacional corrente (NBC TSP 38), na ausência de custo histórico"
+        tecnica = ("Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra "
+                   "(NBC TSP 38, itens 24, 32 e 42); abordagem de custo só se houver substituto de utilidade "
+                   "comparável, como em tiragens reproduzíveis (itens 43 e 44)"
+                   if contemporanea else
+                   "Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra "
+                   "(NBC TSP 38, itens 24, 32 e 42)")
+        base = BASE_DOACAO
         falta = ("Autoria não identificada, o que dificulta encontrar comparáveis. "
                  if not autoria else "")
         return (cat, base, tecnica, SIT_PEND,
-                falta + "Valor só será atribuído com evidência registrada: resultados de leilão ou vendas "
-                "de obras comparáveis (mesmo artista, técnica, dimensões, tiragem), avaliações técnicas ou "
-                "documentos de custo, ajustados pelos fatores do item 9.2 das Regras. Preços anunciados "
-                "não são tratados como valor justo. " + aq)
+                falta + "Valor só será atribuído com evidência registrada: preços de entrada (arrematação com "
+                "prêmio do comprador e custos) de obras comparáveis do mesmo artista, técnica, dimensões e "
+                "tiragem, ajustados por condição, localização e restrições (NBC TSP 38, itens 24, 25 e 32; "
+                "Regras, item 9.2). Sem mensuração confiável, a obra não é reconhecida e é divulgada em nota "
+                "(NBC TSP 37, itens 6(b), 7 e 77). " + aq)
     return ("Não classificado",
             "A definir após classificação",
             "A definir",
@@ -186,8 +208,9 @@ def main():
                 lo = vmin if vmin is not None else vcen
                 hi = vmax if vmax is not None else vcen
                 r["valor_exibicao"] = "{} a {}".format(brl(lo, moeda), brl(hi, moeda)) if lo != hi else brl(lo, moeda)
-                nota = ("Faixa indicativa, não é valor justo: evidência nível C ({}), referência {}. "
-                        "Fonte: {}. {}".format(r["tipo_evidencia"] or "não informado", r["data_referencia"] or "sem data",
+                nota = ("Faixa indicativa, não é mensuração confiável: evidência nível C ({}), referência {}. A "
+                        "incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8; NBC "
+                        "TSP 37, item 6(b)). Fonte: {}. {}".format(r["tipo_evidencia"] or "não informado", r["data_referencia"] or "sem data",
                                                r["fonte"], e.get("observacao", "")))
             else:
                 r["situacao"] = SIT_SEM

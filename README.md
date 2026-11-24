@@ -14,7 +14,7 @@ Resultados acadêmicos; não constituem registro contábil oficial da UnB (Regra
 
 - Hugo Rodrigues Gomes
 - Yang Alfredo Florentino
-- Lucas (completar sobrenome)
+- Lucas Moura Nutels
 
 ## Estrutura
 
@@ -82,7 +82,7 @@ Ordem: Etapa I (`extrair_acervo_cal.py`), conciliação patrimonial (opcional), 
 | Completude cadastral | 32,9% |
 | Registros duplicados (possíveis) | 427 |
 | Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 1.303 (894 com não reconhecimento fundamentado) |
+| Reconhecimento pendente | 987 (outros 1.210 com não reconhecimento fundamentado: 511 pelo item 7 da NBC TSP 37 e 699 eventos) |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 639, dos quais 15 com faixa indicativa (nível C) |
 | Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
@@ -137,6 +137,7 @@ As duas opções produzem as mesmas tabelas.
 | `metadados_completos.csv` | Uma linha por item com todos os metadados de todas as coleções e os links e arquivos das fotos |
 | `galeria.html` | Galeria para o navegador: foto e todos os metadados, com busca e filtros |
 | `imagens/` | Fotos, somente com autorização da CAL registrada (`--autorizacao`) |
+| `miniaturas_3x4/` | Miniaturas das 1.244 fotos (até 240 × 320 px, a obra inteira, sem corte), exibidas em 3 × 4 cm na consulta e na galeria do site |
 | `dicionario_dados.md` | Dicionário de dados gerado automaticamente |
 | `log_extracao.json` | Data, parâmetros, requisições, avisos, erros e limitações |
 | `brutos/` | Respostas originais da API (JSON) com URL e data de consulta |
@@ -156,6 +157,10 @@ Cada obra fica ligada à sua foto pelos links (`url_foto_original`/`url_foto`, `
 
 `python3 codigos/comparaveis.py` aplica a abordagem de mercado a partir de `dados/comparaveis.csv` e, em seguida, `python3 codigos/mensuracao.py` aplica o modelo de mensuração a todos os registros de `dados/inventario.csv` e gera `dados/mensuracao.csv` e `dados/mensuracao_resumo.csv`. Valores entram somente por `dados/evidencias_mensuracao.csv`, com fonte e nível de evidência (A a D); sem evidência, o registro fica com a situação justificada (pendente, sem mensuração monetária fundamentada, fora do escopo ou pendente de classificação). Metodologia em `metodologia/mensuracao.md`. No site, a coluna de mensuração mostra o valor quando ele existe, com a nota metodológica ao passar o mouse.
 
+### Fundamentação normativa
+
+Os modelos seguem o texto publicado da NBC TSP Estrutura Conceitual (R1), da NBC TSP 37 (Ativo Imobilizado) e da NBC TSP 38 (Mensuração), conferido em 24/11/2026; as três vigoram a partir de 1º/01/2027 e são aplicadas antecipadamente, como pedem as Regras. Itens usados, síntese e links em `metodologia/fundamentacao_normativa.md`. Em resumo: definição de ativo pelos itens 5.6 a 5.13 da Estrutura Conceitual; reconhecimento pelos itens 6 e 7 da NBC TSP 37 (patrimônio cultural sem mensuração confiável não é reconhecido e é divulgado pelo item 77); mensuração inicial pelo custo atribuído, determinado pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25); evidenciação pelos itens 69 e 77 da NBC TSP 37 e 54 e 55 da NBC TSP 38.
+
 ### Etapa II: reconhecimento
 
 `python3 codigos/reconhecimento.py` aplica a matriz do item 8 a cada registro e grava `dados/reconhecimento.csv` (existência, controle, potencial de serviços, benefícios econômicos, natureza, condição de mensuração, classe, justificativa, investigação necessária, restrições e referência normativa). Regras de decisão em `metodologia/reconhecimento.md`.
@@ -172,7 +177,7 @@ Cada obra fica ligada à sua foto pelos links (`url_foto_original`/`url_foto`, `
 
 As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), https://www.acervocal.unb.br/, com direitos reservados (Lei nº 9.610/1998). No campo "Condições de reprodução", o portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização.
 
-As 1.244 fotos da pasta `acervo_1565/imagens/` (lista em `acervo_1565/fotos_publicadas.csv`) são publicadas neste repositório e no site para fins acadêmicos, com autorização para publicação online declarada pela equipe em 23/11/2026 (registrar: quem autorizou, por qual meio e em que data). Os direitos autorais das obras pertencem aos seus autores. Cada foto aparece com crédito ao Acervo CAL e link para o registro original. Titulares de direitos podem pedir a retirada de qualquer imagem abrindo uma issue neste repositório. A reprodução por terceiros continua sujeita à autorização da CAL/UnB.
+As 1.244 fotos da pasta `acervo_1565/imagens/` (lista em `acervo_1565/fotos_publicadas.csv`) são publicadas neste repositório e no site para fins acadêmicos, com autorização para publicação online declarada pela equipe em 23/11/2026. Registro da autorização: a publicação das fotos foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe, que responde por ela (declaração em 23/11/2026; registro neste README em 24/11/2026). Os direitos autorais das obras pertencem aos seus autores. Cada foto aparece com crédito ao Acervo CAL e link para o registro original. Titulares de direitos podem pedir a retirada de qualquer imagem abrindo uma issue neste repositório. A reprodução por terceiros continua sujeita à autorização da CAL/UnB.
 
 Os scripts continuam sem baixar fotos por padrão; o download exige registrar a autorização (`AUTORIZACAO_CAL` em `baixar_acervo_1565.py` ou `--autorizacao` no extrator).
 
@@ -205,6 +210,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Consulta ao texto publicado da Estrutura Conceitual (R1), da NBC TSP 37 e da NBC TSP 38 (legisweb.com.br e legismap.com.br); ajuste dos modelos de reconhecimento, mensuração e evidenciação aos itens conferidos (`metodologia/fundamentacao_normativa.md`); coluna de fotos 3 × 4 no site; relatório de aderência v2 | Itens citados conferidos no texto das normas; apêndices de orientação não consultados; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 
@@ -220,4 +226,4 @@ Registradas até 23/11/2026 (completar ao longo do hackathon):
 - A triagem automática de grupos deixou 697 registros como "A classificar" (695 da Memória Institucional, o registro do Mobiliário moderno e o ID 25320, com "Coleção = False").
 - Poucos comparáveis de mercado (dois), em dólar e sem conversão; o portal não informa dimensões e tiragem de muitas obras. A validação dos nove casos é documental, sem exame físico na CAL.
 - Na coleção 1565, 252 obras não têm foto no portal (181 da coleção Inicial, 39 da Galvão, 21 da Arte, 10 da Triangular e 1 sem coleção informada). Há inconsistências cadastrais: o ID 11924 (Videoarte, CE.008) consta "Com imagem? = Sim" sem foto; os IDs 1715 e 25973 têm o campo vazio; o ID 25320 tem "Coleção = False".
-- O portal informa, para 1.237 das 1.245 obras com foto da coleção 1565, que as fotografias não podem ser baixadas e/ou reproduzidas (Lei nº 9.610/1998). As fotos foram baixadas e publicadas para fins acadêmicos com autorização declarada pela equipe em 23/11/2026 (registrar quem autorizou, meio e data). A foto do ID 2841 não foi publicada: o portal devolveu uma página de erro no lugar da imagem.
+- O portal informa, para 1.237 das 1.245 obras com foto da coleção 1565, que as fotografias não podem ser baixadas e/ou reproduzidas (Lei nº 9.610/1998). As fotos foram baixadas e publicadas para fins acadêmicos; a publicação foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe (declaração em 23/11/2026, registrada em 24/11/2026). A foto do ID 2841 não foi publicada: o portal devolveu uma página de erro no lugar da imagem.

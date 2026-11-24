@@ -58,6 +58,7 @@ def main():
             "documento_ingresso": doc.group(1).strip() if doc else "não informado",
             "origem_sipat": origem.group(1) if origem else "",
             "data_tombamento": l.get("Data Tombamento", ""),
+            "_doc_custo": any((l.get(c) or "").strip() not in ("", "Não informado") for c in ("Nota Fiscal", "Empenho", "Fornecedor")),
             "termo": l.get("Termo", ""),
             "unidade_responsavel": l.get("Unidade Responsável", ""),
             "localidade": re.sub(r"_\d+$", "", l.get("Localidade", "")),
@@ -65,7 +66,7 @@ def main():
         })
     os.makedirs(DADOS, exist_ok=True)
     with open(os.path.join(DADOS, "cadastro_patrimonial_cal.csv"), "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(linhas[0].keys()))
+        w = csv.DictWriter(f, fieldnames=[k for k in linhas[0] if not k.startswith("_")], extrasaction="ignore")
         w.writeheader(); w.writerows(linhas)
 
     # conciliação com o acervo digital: procura os tombamentos em qualquer campo do portal
@@ -101,6 +102,13 @@ def main():
         ("Registros da coleção Acervo no portal", portal_acervo, "Acervo digital"),
         ("Tombamentos do cadastro encontrados no portal", len(achados), "Vínculo direto pelo número de tombamento"),
         ("Data de tombamento no sistema atual", linhas[0]["data_tombamento"], "Bens migrados do SIPAT"),
+        ("Obras de arte marcadas como não depreciáveis", sum(1 for x in obras if x["depreciavel"].strip().lower() in ("não", "nao")),
+         "Coerente com vida útil indefinida (NBC TSP 37, itens 52 e 53)"),
+        ("Obras de arte com vida útil informada", sum(1 for x in obras if x["vida_util_meses"].strip().isdigit()), ""),
+        ("Obras de arte com estado diferente de 'Em uso'", sum(1 for x in obras if x["estado"].strip() != "Em uso"),
+         "; ".join(sorted({x["estado"] for x in obras if x["estado"].strip() != "Em uso"}))),
+        ("Obras com nota fiscal, empenho ou fornecedor informados", sum(1 for x in obras if x["_doc_custo"]),
+         "Documento de custo histórico (NBC TSP 38, item 6)"),
     ]
     with open(os.path.join(DADOS, "conciliacao_patrimonial.csv"), "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f); w.writerow(["indicador", "valor", "observacao"]); w.writerows(resumo)

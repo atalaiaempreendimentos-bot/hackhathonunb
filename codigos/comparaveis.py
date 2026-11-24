@@ -11,7 +11,10 @@ e roda codigos/mensuracao.py para atualizar dados/mensuracao.csv e o site.
 Regras aplicadas (Regras do Hackathon, itens 9.1 a 9.4):
   - só entram comparáveis com fonte (URL) e do MESMO artista e da MESMA família de técnica
     (serigrafia, gravura em metal, litografia, xilogravura, desenho, pintura, escultura...);
-  - preço arrematado (transação realizada) é distinto de estimativa ou oferta (item 9.2);
+  - preço arrematado (transação realizada, dado de entrada observável) é distinto de estimativa ou
+    oferta (dado não observável) (item 9.2; NBC TSP 38, item 6);
+  - base: custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens
+    10 e 23 a 25); técnica: abordagem de mercado (NBC TSP 38, item 42);
   - nível A: 3 ou mais transações realizadas e a obra da CAL com dimensões e tiragem conhecidas;
     nível B: 3 ou mais transações realizadas; nível C: 1 ou 2 transações, ou só estimativas/ofertas;
   - valor central = mediana das transações realizadas (ou ponto médio das estimativas, nível C);
@@ -114,12 +117,15 @@ def main():
         if moeda != "BRL":
             lacunas.append("valores em {}; converter para BRL pela taxa da data de referência (ex.: PTAX/BCB), registrando a fonte".format(moeda))
         if any((c.get("inclui_premio") or "") == "não informado" for c in cs if c["tipo_preco"] == "arrematado"):
-            lacunas.append("verificar se o preço arrematado inclui prêmio do comprador")
+            lacunas.append("o valor corrente operacional é preço de entrada e inclui os custos necessários (NBC TSP 38, item 25(a)): "
+                           "confirmar se o preço arrematado inclui o prêmio do comprador")
+        lacunas.append("ajustar condição, localização e restrições da obra da CAL (NBC TSP 38, itens 24 e 32)")
         obs = "{} Comparáveis: {}. Limitações: {}.".format(MARCA, descr, "; ".join(lacunas) if lacunas else "nenhuma registrada")
         novas.append({
             "id_registro": l["id_registro"],
-            "base_mensuracao": "Valor justo (NBC TSP 38), na ausência de custo histórico",
-            "tecnica": "Abordagem de mercado: {} transação(ões) realizada(s), {} comparável(is) no total".format(len(realizados), len(cs)),
+            "base_mensuracao": "Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25)",
+            "tecnica": "Abordagem de mercado (NBC TSP 38, item 42): {} transação(ões) realizada(s), {} comparável(is) no total; dados de entrada {}".format(
+                len(realizados), len(cs), "observáveis (preços de transações de obras similares)" if realizados else "não observáveis (estimativas de leiloeiro)"),
             "valor_min": round(min(todos), 2), "valor_central": round(central, 2), "valor_max": round(max(todos), 2),
             "moeda": moeda, "data_referencia": datas[-1] if datas else "",
             "tipo_evidencia": "transacao" if realizados else "oferta",

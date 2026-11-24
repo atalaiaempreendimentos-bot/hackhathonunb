@@ -1,53 +1,72 @@
-# Minuta de nota explicativa: bens culturais sob guarda da Casa da Cultura da América Latina (CAL/UnB)
+# Minuta de nota explicativa: acervos do patrimônio cultural sob guarda da Casa da Cultura da América Latina (CAL/UnB)
 
 **Resultado acadêmico do Hackathon CULTIVA UnB 2026. Não constitui registro contábil oficial da Universidade de Brasília (Regras, item 17.13).**
 
-## a) Caracterização das coleções
+Estrutura: a nota segue os requisitos de divulgação da NBC TSP 37 (itens 69 e 77) e da NBC TSP 38 (itens 54 e 55) e cobre os conteúdos a) a j) do item 10 das Regras, indicados entre colchetes em cada seção.[^1]
 
-A CAL guarda coleções de arte, arte contemporânea e etnográficas. O acervo digital público reúne 2.197 registros em três coleções: Acervo (1.497 registros, com as subcoleções Arte, Triangular, Inicial, Galvão e Chocó), Memória Institucional (699) e Mobiliário moderno da UnB (1).[^1] A Coleção CNRC, listada no item 4.3 das Regras, não aparece em nenhum registro do portal.
+## 1 Caracterização das coleções [a, b]
 
-## b) Quantidade de registros analisados
+A CAL guarda coleções de arte, arte contemporânea e etnográficas. O acervo digital público reúne 2.197 registros em três coleções: Acervo (1.497 registros, com as subcoleções Arte, Triangular, Inicial, Galvão e Chocó), Memória Institucional (699) e Mobiliário moderno da UnB (1). Foram analisados todos os 2.197 registros (100,0% do universo digital identificável), com completude cadastral média de 32,9%.[^2] A Coleção CNRC, listada no item 4.3 das Regras, não aparece no portal. A cobertura digital não equivale ao patrimônio físico da CAL (Regras, item 4.4).
 
-Foram analisados 2.197 registros, 100,0% do universo digital identificável, com completude cadastral média de 32,9%.[^1] A cobertura digital não equivale ao patrimônio físico da CAL (Regras, item 4.4).
+## 2 Política contábil proposta [c, d]
 
-## c) Critérios de reconhecimento
+- **Classe:** "acervos do patrimônio cultural", classe do ativo imobilizado (NBC TSP 37, itens 5 e 34(l)); unidade de reconhecimento: o registro individual do catálogo (item 8).
+- **Reconhecimento:** o bem é reconhecido quando satisfaz a definição de ativo (recurso com potencial de serviços, controlado no presente, resultante de evento passado) e pode ser mensurado com confiabilidade (Estrutura Conceitual (R1), itens 5.6 a 5.13 e 6.2; NBC TSP 37, item 6). O patrimônio cultural que satisfaz a definição, mas não pode ser mensurado com confiabilidade, não é reconhecido e é divulgado nesta nota; deve ser reconhecido quando o custo ou o valor corrente estiver disponível (NBC TSP 37, item 7).[^3]
+- **Mensuração inicial:** os bens recebidos por doação ou transferência são mensurados pelo custo atribuído (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 10 e 12(b)), determinado pelo valor corrente operacional, porque o acervo é mantido por sua capacidade operacional e não financeira (NBC TSP 37, item 27; NBC TSP 38, itens 23 a 25).[^4]
+- **Mensuração subsequente:** modelo do custo histórico para a classe (NBC TSP 37, itens 24 e 26).
+- **Depreciação:** obras sob guarda museológica com vida útil indefinida, sem depreciação, e revisão anual de indicações de redução ao valor recuperável (NBC TSP 37, itens 52 a 56).
+- **Vigência:** a NBC TSP 37, a NBC TSP 38 e a Estrutura Conceitual (R1) aplicam-se a partir de 1º/01/2027; na aplicação inicial, o patrimônio cultural sem informação confiável de custo pode ser mensurado pelo custo atribuído (NBC TSP 37, item 87(a)).
 
-Cada registro foi examinado quanto a existência, controle, potencial de serviços, natureza e condições de reconhecimento, inclusive mensuração confiável.[^2] Resultado: 0 registros com reconhecimento sustentado, 894 com não reconhecimento fundamentado (dos quais 699 são registros de eventos e 195 são bens etnográficos sem mensuração monetária confiável) e 1.303 pendentes de verificação. 511 registros atendem à definição de ativo, com existência confirmada e controle documentado.
+## 3 Acervos registrados no cadastro patrimonial da UnB [f] (NBC TSP 37, item 69)
 
-## d) Bases de mensuração
+O cadastro patrimonial da UnB registra, na localidade da CAL, 242 obras de arte, das quais 232 próprias, com valor registrado de R$ 1.765.385,00, e 10 marcadas como bem de terceiro (R$ 173.015,00), que não compõem o ativo da UnB por falta de controle (Estrutura Conceitual (R1), item 5.11).[^5]
 
-Na ausência de custo histórico (os ingressos registrados no portal são doações e transferências), a base proposta para obras de arte é o valor justo ou o valor operacional corrente, estimado pela abordagem de mercado com obras comparáveis.[^3] Para bens de comunidades tradicionais não se atribui valor monetário por padrão (Regras, item 4.3).
+| Requisito do item 69 | Informação disponível na Lista da CAL |
+|---|---|
+| (a) critérios de mensuração do valor contábil bruto | Não informados: bens migrados do SIPAT em 05/01/2021 (termo 209/2021); obras com nota fiscal, empenho ou fornecedor informados: 0 |
+| (b) métodos de depreciação | 242 obras marcadas como não depreciáveis |
+| (c) vidas úteis | Obras com vida útil informada: 0; tratamento coerente com vida útil indefinida (itens 52 e 53) |
+| (d) valor contábil bruto e depreciação acumulada | R$ 1.765.385,00 (obras próprias); sem depreciação; saldos de início e fim de período não constam da Lista |
+| (e) conciliação do período | Não disponível: a Lista não traz movimentações |
 
-## e) Quantidade de ativos com mensuração fundamentada
+Nenhum número de tombamento desse cadastro aparece no acervo digital, o que impede vincular os valores registrados às obras catalogadas. Esse total é valor oficialmente registrado e não é somado às estimativas acadêmicas desta nota (Regras, item 10).
 
-0 registros. Há 15 obras com faixa indicativa (nível C de evidência), que não constitui valor justo.[^4]
+## 4 Itens do patrimônio cultural não reconhecidos [e, g, h] (NBC TSP 37, itens 7 e 77)
 
-## f) Montantes estimados
+511 registros satisfazem a definição de ativo, com localização confirmada e ingresso documentado, mas não têm mensuração confiável e, por isso, não são reconhecidos.[^3]
 
-Valor agregado das mensurações fundamentadas: R$ 0,00. Faixas indicativas, somadas por moeda e sem conversão: USD 8.700 a 29.160.[^4] Esses montantes não representam o valor total do patrimônio cultural da CAL (Regras, item 15).
+| Classe | Itens | (a) Dificuldades na obtenção de mensuração confiável | (b) Relevância para os objetivos da entidade |
+|---|---:|---|---|
+| Obras de arte | 161 | Poucas transações realizadas de obras comparáveis; portal sem dimensões e tiragem de muitas obras; preços em moeda estrangeira e sem indicação de prêmio do comprador, que integra o preço de entrada (NBC TSP 38, item 25(a)) | Acervo de referência para exposições da CAL e para atividades de ensino, pesquisa e extensão da Universidade[^6] |
+| Obras de arte contemporânea | 155 | Ausência de comparáveis diretos; obras em suporte digital, fotográfico ou de performance, com autenticidade e direitos dependentes de documentação do artista | Idem |
+| Objetos etnográficos | 195 | Nenhuma técnica aplicável sem tratar o objeto como mercadoria, o que as Regras vedam (item 4.3): a abordagem de custo exige substituto de utilidade comparável, inexistente para objeto único (NBC TSP 38, itens 43 e 44) | Documentação da cultura material de povos indígenas e comunidades tradicionais, com restrições culturais e éticas |
 
-Para comparação, o cadastro patrimonial da UnB registra, na localidade da CAL, 242 obras de arte, das quais 232 próprias, com valor registrado de R$ 1.765.385,00, e 10 marcadas como bem de terceiro (R$ 173.015,00).[^5] Nenhum número de tombamento desse cadastro aparece no acervo digital, o que impede vincular os valores registrados às obras do portal.
+Não foram identificados gastos subsequentes reconhecidos com esses itens (NBC TSP 37, item 78). Os demais 699 registros de não reconhecimento são eventos e atividades da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6).
 
-## g) Registros pendentes de reconhecimento ou mensuração
+## 5 Registros pendentes de verificação [g]
 
-1.303 registros pendentes de reconhecimento e 639 pendentes de mensuração. As pendências mais frequentes são a localização atual não informada no portal e a ausência de transações comparáveis.[^2][^3]
+987 registros ainda não permitem concluir se satisfazem a definição de ativo: 751 têm ingresso documentado, mas localização atual não confirmada (entre eles, 39 não localizados e 11 emprestados ou a verificar); 138 estão localizados, mas sem forma ou data de ingresso; 98 carecem das duas informações. Pendências de mensuração: 639 registros.[^3]
 
-## h) Incerteza
+## 6 Mensuração: base, técnicas, dados de entrada e incerteza [d, e, f, h] (NBC TSP 38, itens 54 e 55)
 
-As estimativas trazem intervalo (mínimo e máximo) e nível de evidência (A a D). Os comparáveis disponíveis são poucos, e o portal não informa dimensões nem tiragem das obras, o que impede os ajustes do item 9.2 das Regras.[^4]
+Registros com mensuração fundamentada: 0. Valor agregado das mensurações fundamentadas: R$ 0,00. Esse montante não representa o valor total do patrimônio cultural da CAL (Regras, item 15).
 
-## i) Restrições patrimoniais, culturais e documentais
+Há 15 obras com faixa indicativa (nível C), obtida pela abordagem de mercado (NBC TSP 38, item 42): 14 a partir de uma única transação realizada (dados observáveis) e 1 a partir de estimativa de leiloeiro (dados não observáveis). Somadas por moeda, sem conversão: USD 8.700 a 29.160. A incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8).[^7] Como não há vínculo com o cadastro, não é possível avaliar se o valor corrente difere materialmente do valor registrado (NBC TSP 37, item 76(d)).
 
-Bens etnográficos sujeitos a restrições culturais e éticas (Regras, item 4.3); fotografias com direitos reservados (Lei nº 9.610/1998); 10 bens no cadastro marcados como de terceiros; 39 registros do portal com situação "Não localizado" e 10 "Emprestado".[^2][^5]
+## 7 Restrições patrimoniais, culturais e documentais [i]
 
-## j) Limitações dos resultados
+Bens etnográficos sujeitos a restrições culturais e éticas (Regras, item 4.3); fotografias com direitos reservados (Lei nº 9.610/1998); 10 bens no cadastro marcados como de terceiros; 1 obra do cadastro em estado diferente de "Em uso"; registros do portal com situação "Não localizado" ou "Emprestado".
 
-Certificado TLS do portal vencido em 2026-11-23 19:12; coleta realizada sem verificação do certificado. Triagem de grupos automática e sujeita a revisão. Regras de reconhecimento e mensuração propostas pela equipe, a validar com a fundamentação normativa e com a CAL.[^1][^2][^3]
+## 8 Limitações dos resultados [j]
+
+Certificado TLS do portal vencido na data da coleta (23/11/2026, 19h12), feita sem verificação do certificado. Triagem de grupos automática e sujeita a revisão. Apêndices de orientação de aplicação da NBC TSP 37 e da NBC TSP 38 não consultados. Regras de decisão propostas pela equipe, a validar com a CAL e com a contabilidade da UnB.[^2][^3][^4]
 
 ---
 
-[^1]: Identificação: extração pela API pública do Tainacan em 2026-11-23 19:12 (`codigos/extrair_acervo_cal.py`); base padronizada em `dados/inventario.csv`, dicionário em `dados/dicionario_dados.md` e diagnóstico em `dados/diagnostico_qualidade.csv`.
-[^2]: Reconhecimento: matriz aplicada a todos os registros (`codigos/reconhecimento.py`, `dados/reconhecimento.csv`). Atende à definição de ativo o registro com existência confirmada (situação "Localizado") e controle documentado (doação ou transferência com data); a presença no portal, sozinha, não basta (Regras, item 8). Reconhecimento sustentado exige ainda mensuração com evidência nível A ou B. Fundamento indicado nas Regras (item 19.2): NBC TSP Estrutura Conceitual (R1) e NBC TSP 37, Ativo Imobilizado (convergente à IPSAS 45); os parágrafos aplicáveis devem ser conferidos no texto das normas.
-[^3]: Mensuração: base (custo histórico, valor justo ou valor operacional corrente; NBC TSP 38 / IPSAS 46) separada da técnica (abordagem de mercado ou de custo), conforme o item 9 das Regras (`codigos/mensuracao.py`, `metodologia/mensuracao.md`). Bens sem evidência suficiente recebem a classificação do item 9.4, sem valor arbitrário.
-[^4]: Abordagem de mercado: comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Moedas não convertidas sem taxa e fonte. Preço anunciado não é valor justo (Regras, item 9.2).
+[^1]: Normas conferidas no texto publicado em 24/11/2026: NBC TSP 37, de 11/12/2025 (DOU de 17/03/2026); NBC TSP 38, de 09/04/2026 (DOU de 17/04/2026); NBC TSP Estrutura Conceitual (R1), de 13/11/2025 (DOU de 07/04/2026). Itens e fontes em `metodologia/fundamentacao_normativa.md`.
+[^2]: Identificação: extração pela API pública do Tainacan em 23/11/2026, 19h12 (`codigos/extrair_acervo_cal.py`); base em `dados/inventario.csv`, dicionário em `dados/dicionario_dados.md` e diagnóstico em `dados/diagnostico_qualidade.csv`.
+[^3]: Reconhecimento: matriz aplicada a todos os registros (`codigos/reconhecimento.py`, `dados/reconhecimento.csv`). Controle avaliado pelos indicadores do item 5.12 da Estrutura Conceitual (R1): propriedade legal (ingresso por doação ou transferência com data), acesso (situação "Localizado") e meios de uso (guarda museológica). A presença no portal, sozinha, não basta (Regras, item 8). Reconhecimento sustentado exige mensuração de nível A ou B (NBC TSP 37, item 6(b)).
+[^4]: Mensuração: `codigos/mensuracao.py` e `metodologia/mensuracao.md`. O valor corrente operacional é o valor que a entidade pagaria pelo potencial de serviço remanescente; é preço de entrada, reflete o uso atual e inclui os custos necessários (NBC TSP 38, itens 6 e 25). Sem evidência suficiente, o registro recebe a classificação do item 9.4 das Regras, sem valor arbitrário.
 [^5]: Cadastro patrimonial: Lista da CAL fornecida pela equipe, com 243 bens tombados em 05/01/2021 (termo 209/2021), migrados do SIPAT; conciliação agregada em `dados/conciliacao_patrimonial.csv` (`codigos/cadastro_patrimonial.py`); a versão item a item, sem dados pessoais, fica fora do repositório público até a confirmação da autorização de divulgação (Regras, item 12).
+[^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
+[^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Conversão para reais só com taxa e fonte da data de referência.

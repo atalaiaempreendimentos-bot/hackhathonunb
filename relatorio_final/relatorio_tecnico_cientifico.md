@@ -2,7 +2,7 @@
 
 **Quanto vale o patrimônio cultural da UnB? Identificação, reconhecimento, mensuração e evidenciação dos ativos culturais do Acervo Digital da CAL/UnB**
 
-Hackathon CULTIVA UnB 2026. PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas [sobrenome a completar].
+Hackathon CULTIVA UnB 2026. PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas Moura Nutels.
 
 > Minuta gerada a partir dos resultados do repositório. Os trechos marcados com [a completar] dependem de leitura das fontes indicadas e de decisão da equipe. Resultados acadêmicos; não constituem registro contábil oficial da UnB (Regras, item 17.13).
 
@@ -16,7 +16,7 @@ Objetivo geral: desenvolver uma solução científica, contábil e tecnológica 
 
 ## iii. Fundamentação normativa e científica
 
-Normas indicadas nas Regras (item 19.2): NBC TSP Estrutura Conceitual (R1); NBC TSP 37, Ativo Imobilizado; NBC TSP 38, Mensuração; IPSAS 45 e IPSAS 46; MCASP e PCASP. [a completar: citação dos parágrafos aplicáveis, conferidos no texto das normas.]
+Normas indicadas nas Regras (item 19.2) e conferidas no texto publicado em 24/11/2026 (CONSELHO FEDERAL DE CONTABILIDADE, 2026a, 2026b, 2026c): NBC TSP Estrutura Conceitual (R1), definição de ativo (itens 5.6 a 5.13) e reconhecimento (itens 6.2, 6.7 e 6.8); NBC TSP 37, Ativo Imobilizado, convergente à IPSAS 45 (itens 5 a 8, 11 a 13, 24 a 27, 34(l), 52 a 56, 69, 77, 78 e 87(a)); NBC TSP 38, Mensuração, convergente à IPSAS 46 (itens 6, 7, 10, 12, 17 a 25, 29 a 45, 54 e 55). As três vigoram a partir de 1º/01/2027. Síntese de cada item e uso no modelo em `metodologia/fundamentacao_normativa.md`. MCASP e PCASP: [a completar].
 
 Base documental obrigatória (item 19.1): relatório de valoração de ativos culturais da UnB (UNIVERSIDADE DE BRASÍLIA, 2024); Oliveira, Freire e Costa, sobre valoração de ativos culturais nas universidades federais; Lima et al. (2024), sobre extração automatizada de informações de ativos culturais. [a completar: síntese das contribuições, após leitura.]
 
@@ -25,8 +25,8 @@ Base documental obrigatória (item 19.1): relatório de valoração de ativos cu
 Fluxo automatizado em Python (biblioteca padrão), executado por `codigos/executar_pipeline.py`:
 
 1. **Identificação** (`extrair_acervo_cal.py`): API REST do Tainacan; padronização das 16 variáveis do item 7; dicionário de dados; diagnóstico de completude e de duplicidades. Detalhes em `metodologia/identificacao.md`.
-2. **Reconhecimento** (`reconhecimento.py`): matriz com os oito critérios do item 8 aplicada a cada registro; classes "Reconhecimento sustentado", "Não reconhecimento fundamentado" e "Pendente de verificação". Detalhes em `metodologia/reconhecimento.md`.
-3. **Mensuração** (`mensuracao.py`, `comparaveis.py`): escolha da base (custo histórico, valor justo, valor operacional corrente) separada da técnica (mercado, custo); níveis de evidência A a D; faixas e medianas a partir de comparáveis com fonte; registros sem evidência classificados conforme o item 9.4. Detalhes em `metodologia/mensuracao.md`.
+2. **Reconhecimento** (`reconhecimento.py`): definição de ativo pela Estrutura Conceitual (R1) e critérios dos itens 6 e 7 da NBC TSP 37, aplicados a cada registro; classes "Reconhecimento sustentado", "Não reconhecimento fundamentado" e "Pendente de verificação". Detalhes em `metodologia/reconhecimento.md`.
+3. **Mensuração** (`mensuracao.py`, `comparaveis.py`): doações e transferências mensuradas pelo custo atribuído, determinado pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25); abordagem de mercado com comparáveis ajustados (NBC TSP 38, itens 24, 32 e 42); níveis de evidência A a D, em que só A e B são mensuração confiável (NBC TSP 37, item 6(b)); registros sem evidência classificados conforme o item 9.4 das Regras. Detalhes em `metodologia/mensuracao.md`.
 4. **Validação** (`validacao_casos.py`): nove casos (item 6.3).
 5. **Evidenciação** (`evidenciacao.py`): minuta de nota explicativa, quadro consolidado e indicadores do item 15. Detalhes em `metodologia/evidenciacao.md`.
 6. **Conciliação patrimonial** (`cadastro_patrimonial.py`): leitura da Lista da CAL (cadastro patrimonial da UnB), sem dados pessoais.
@@ -45,14 +45,14 @@ Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497
 | Completude cadastral | 32,9% |
 | Registros duplicados (possíveis) | 427 |
 | Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 1.303 |
+| Reconhecimento pendente | 987 |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 639 (inclui 15 com faixa indicativa) |
 | Valor agregado estimado | R$ 0,00 |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
 
-Não reconhecimento fundamentado: 894 registros (699 da Memória Institucional e 195 bens etnográficos com definição de ativo atendida, mas sem mensuração monetária confiável). Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
+Não reconhecimento fundamentado: 1.210 registros: 699 eventos da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6), e 511 bens que satisfazem a definição, mas não têm mensuração confiável (161 de arte, 155 de arte contemporânea e 195 etnográficos), tratados pelo item 7 da NBC TSP 37: não reconhecidos e divulgados conforme o item 77. Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
 
 ## vii. Discussão
 
@@ -70,10 +70,17 @@ Certificado TLS do portal vencido em 23/11/2026; triagem automática de grupos; 
 
 BRASIL. Lei nº 9.610, de 19 de fevereiro de 1998. Altera, atualiza e consolida a legislação sobre direitos autorais e dá outras providências. Brasília, DF, 1998.
 
+CONSELHO FEDERAL DE CONTABILIDADE. **NBC TSP 37, de 11 de dezembro de 2025**. Aprova a NBC TSP 37: Ativo Imobilizado. Diário Oficial da União, Brasília, DF, 17 mar. 2026a. Disponível em: https://www.legisweb.com.br/legislacao/?id=492508. Acesso em: 24 nov. 2026.
+
+CONSELHO FEDERAL DE CONTABILIDADE. **NBC TSP 38, de 9 de abril de 2026**. Aprova a NBC TSP 38: Mensuração. Diário Oficial da União, Brasília, DF, 17 abr. 2026b. Disponível em: https://www.legisweb.com.br/legislacao/?id=494368. Acesso em: 24 nov. 2026.
+
+CONSELHO FEDERAL DE CONTABILIDADE. **NBC TSP Estrutura Conceitual (R1), de 13 de novembro de 2025**. Estrutura Conceitual para Elaboração e Divulgação de Informação Contábil de Propósito Geral pelas Entidades do Setor Público. Diário Oficial da União: seção 1, Brasília, DF, p. 199-209, 7 abr. 2026c. Disponível em: https://legismap.com.br/leis-e-normas/norma-brasileira-de-contabilidade-nbc-tsp-estrutura-conceitual-r1-de-13-11-2025. Acesso em: 24 nov. 2026.
+
 PPGCONT/UnB. Programa de Pós-Graduação em Ciências Contábeis. **Hackathon CULTIVA UnB 2026**: quanto vale o patrimônio cultural da Universidade de Brasília? Regras do Hackathon. Brasília: FACE/UnB, 2026.
 
 UNIVERSIDADE DE BRASÍLIA. Casa da Cultura da América Latina. **Acervo Digital da CAL**. Brasília, [2026]. Disponível em: https://www.acervocal.unb.br/. Acesso em: 23 nov. 2026.
 
 UNIVERSIDADE DE BRASÍLIA. **Relatório Final**: Valoração de Ativos Culturais da UnB. Edital nº 01/2023. Brasília, 2024. [obra indicada nas Regras; conferir antes de citar o conteúdo]
 
-[a completar: NBC TSP, IPSAS, MCASP, PCASP e os estudos de Oliveira, Freire e Costa e de Lima et al. (2024), com os dados de publicação conferidos nas próprias fontes.]
+[a completar: IPSAS, MCASP, PCASP e os estudos de Oliveira, Freire e Costa e de Lima et al. (2024), com os dados de publicação conferidos nas próprias fontes.]
+
