@@ -64,6 +64,8 @@ SIT_CLASS = "Pendente de classificação"
 # Valor oficial que a UnB registrou no ato de incorporação publicado no Boletim de Atos Oficiais
 # (codigos/vinculo_bao.py). Não é estimativa da equipe: fica fora do valor agregado estimado (Regras, itens 10 e 15).
 SIT_REG = "Custo atribuído registrado no ato de incorporação"
+# Grupo: o ato dá o valor de cada tombamento do doador, mas não diz qual tombamento é qual obra do portal.
+SIT_REG_G = "Custo atribuído registrado no ato de incorporação, por grupo"
 BASE_REG = ("Custo atribuído registrado pela UnB na incorporação da doação (NBC TSP 37, itens 12 e 13; aplicação "
             "inicial, item 87(a))")
 TEC_REG = ("Valor do ato de incorporação publicado no Boletim de Atos Oficiais, fixado com a avaliação da comissão "
@@ -179,6 +181,7 @@ def main():
 
     arq_bao = os.path.join(DADOS, "vinculo_bao.csv")
     bao = {b["id_registro"]: b for b in csv.DictReader(open(arq_bao, encoding="utf-8-sig"))} if os.path.exists(arq_bao) else {}
+    grupos = {}  # doador -> total do grupo, contado uma vez por doador
 
     saida, avisos = [], []
     for l in linhas:
@@ -241,6 +244,19 @@ def main():
                             ato, b["tombamento"], ", entre os do mesmo doador" if b["tipo_vinculo"] == "valor único" else "",
                             b["tipo_vinculo"], b["confianca"],
                             " Valor abaixo de R$ 200,00: a equipe decide se é simbólico." if v < 200 else "")
+            elif b["tipo_vinculo"] == "grupo":
+                vg = float(b["valor_grupo"])
+                r.update(situacao=SIT_REG_G, base_mensuracao=BASE_REG, tecnica=TEC_REG, nivel_evidencia="Registro oficial (grupo)",
+                         moeda="BRL", data_referencia=b["data_publicacao"], tipo_evidencia="ato de incorporação",
+                         fonte=b["fonte"], valor_exibicao="Grupo: {} ({} obras)".format(brl(vg, "BRL"), b["bens_atos_doador"]))
+                grupos[b["doador_ato"]] = vg
+                nota = ("Uma das {} obras do doador no ato de incorporação ({}; tombamentos {}), que somam {}. Cada tombamento "
+                        "tem valor próprio no cadastro patrimonial (camada A2), mas o ato não diz qual corresponde a qual "
+                        "registro do portal: o valor individual não é identificado nem rateado (Regras, item 9.4). O valor já "
+                        "está no total oficialmente registrado e não é somado ao valor agregado estimado (Regras, itens 10 e "
+                        "15). Base do valor: avaliação da comissão especial, no processo do SEI, não examinado.{}").format(
+                            b["bens_atos_doador"], ato, b["tombamento"], brl(vg, "BRL"),
+                            " Há valor abaixo de R$ 200,00 no grupo: a equipe decide se é simbólico." if b["valor_baixo"] else "")
             else:
                 nota = (nota.strip() + " Ato de incorporação publicado ({}): {} bem(ns), total de {}, para {} obra(s) do "
                         "doador no portal; o valor individual não é identificado (vínculo: {}).").format(
@@ -256,11 +272,14 @@ def main():
 
     # resumo (Regras, item 15)
     resumo = []
-    for sit in (SIT_FUND, SIT_REG, SIT_FAIXA, SIT_PEND, SIT_SEM, SIT_FORA, SIT_CLASS):
+    for sit in (SIT_FUND, SIT_REG, SIT_REG_G, SIT_FAIXA, SIT_PEND, SIT_SEM, SIT_FORA, SIT_CLASS):
         resumo.append({"indicador": "Registros: " + sit, "valor": sum(1 for r in saida if r["situacao"] == sit), "observacao": ""})
     resumo.append({"indicador": "Valor registrado nos atos de incorporação (registros vinculados)",
                    "valor": round(sum(float(r["valor_central"]) for r in saida if r["situacao"] == SIT_REG), 2),
                    "observacao": "Valor oficial já contido no cadastro patrimonial (camada A2); não é somado ao valor agregado estimado."})
+    resumo.append({"indicador": "Valor registrado nos atos de incorporação, por grupo (total dos doadores)",
+                   "valor": round(sum(grupos.values()), 2),
+                   "observacao": "{} doadores; valor oficial já contido no cadastro patrimonial (camada A2), sem rateio entre as obras.".format(len(grupos))})
     fund = [r for r in saida if r["situacao"] == SIT_FUND and r["valor_central"] != ""]
     por_base = {}
     for r in fund:

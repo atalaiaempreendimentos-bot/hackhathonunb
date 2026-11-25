@@ -196,6 +196,11 @@ def main():
             c6b = ("atendido: valor registrado pela UnB no ato de incorporação publicado, após avaliação de comissão especial "
                    "(NBC TSP 37, itens 6(b), 12, 13 e 87(a); Instrução DAF nº 001/2018, art. 19, V)")
             ok6b = True
+        elif sm == "Custo atribuído registrado no ato de incorporação, por grupo":
+            cm = "atendida (custo atribuído registrado no ato de incorporação, valor individual entre os tombamentos do doador)"
+            c6b = ("atendido: cada tombamento do doador tem valor registrado pela UnB no ato de incorporação publicado; a "
+                   "obra corresponde a um deles (NBC TSP 37, itens 6(b), 12, 13 e 87(a); Instrução DAF nº 001/2018, art. 19, V)")
+            ok6b = True
         elif sm == "Faixa indicativa":
             cm = "parcial (faixa indicativa, nível C)"
             c6b, ok6b = "não atendido: faixa indicativa de nível C, incerteza elevada demais (EC 6.8)", False
@@ -221,12 +226,17 @@ def main():
             just = ("Satisfaz a definição de ativo (acesso confirmado e ingresso documentado) e há mensuração confiável, "
                     "nível {}.".format(nivel))
             refs += "; NBC TSP 37, itens 12 e 13"
-            if sm == "Custo atribuído registrado no ato de incorporação":
+            if sm.startswith("Custo atribuído registrado no ato de incorporação"):
                 enq = ("Reconhecer: bem já reconhecido no cadastro patrimonial (camada A2), identificado no portal pelo ato de "
                        "incorporação publicado; mensuração inicial pelo custo atribuído registrado (NBC TSP 37, itens 6, 12, 13 e 87(a))")
                 just = ("Satisfaz a definição de ativo e corresponde a bem já reconhecido no cadastro patrimonial: o ato de "
                         "incorporação publicado registra tombamento e valor ({}). O valor já está no total do cadastro e não é "
                         "somado de novo (Regras, item 10).".format(ms.get("valor_exibicao", "")))
+                if sm.endswith("por grupo"):
+                    just = ("Satisfaz a definição de ativo e corresponde a um dos tombamentos do doador no ato de incorporação "
+                            "publicado ({}), cada um com valor registrado no cadastro patrimonial. O ato não diz qual tombamento é "
+                            "esta obra; o valor individual não é rateado (Regras, item 9.4) e o total já está no cadastro, sem "
+                            "ser somado de novo (Regras, item 10).".format(ms.get("valor_exibicao", "")))
                 refs += " e 87(a)"
         elif definicao == "sim" and grupo in ("Arte", "Arte contemporânea"):
             classe = PEND
