@@ -119,17 +119,41 @@ table.cam{font-size:14.5px}.cam td.n{white-space:nowrap}
 .chip{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12.5px;font-weight:700;border:1px solid var(--ln)}.chip.s{background:#e3f1e6;color:#14532d;border-color:#9fd0ad}.chip.p{background:#fff4ce;color:#5b4500;border-color:#e6cf7a}.chip.n{background:#fbe3e0;color:#7a1d10;border-color:#eba79d}
 .rec small{display:block;font-weight:600;color:var(--mut);font-size:11.5px}
 .barra.fun{grid-template-columns:minmax(0,17em) minmax(0,1fr) 3.6em}.barra.fun i.ok{background:#1b7a43}.barra.fun i.cz{background:light-dark(#9aa9bb,#4a5d76)}.barra.fun i.nt{background:var(--ac)}
+.cab{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,330px);gap:20px 48px;align-items:start}
+.cab nav{grid-column:1/-1}
+.painel{margin:4px 0 0;display:flex;flex-direction:column;gap:10px}
+.azul{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;aspect-ratio:1;padding:3px;background:#002a55;border-radius:3px}
+.az{position:relative;display:block;transition:opacity .7s ease,filter .7s ease,box-shadow .5s ease}
+.az svg{display:block;width:100%;height:100%;transform:rotate(var(--r,0deg));transition:transform .8s cubic-bezier(.6,-.25,.3,1.3);transition-delay:var(--d,0s)}
+.az svg .fd{transition:fill .6s ease}
+.az.ev{opacity:.18;filter:grayscale(1)}
+.az.def{box-shadow:0 0 0 3px #d9412b;z-index:1}
+.az.val svg .fd{fill:#e9b44c}
+.az.apaga{opacity:.32}
+.leg{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;color:#dce7f3;font-size:14.5px;line-height:1.35;min-height:3.9em}
+.leg b{display:block;font:800 13px Archivo,sans-serif;color:#ffd5cc;letter-spacing:.02em}
+.leg button{flex:none;min-height:34px;padding:0 12px;background:transparent;color:#fff;border-color:#9cbbe0;font-size:13.5px}
+.marcas{display:flex;gap:6px;margin:0;padding:0;list-style:none}.marcas li{flex:1;height:4px;background:#2c5a8c;border-radius:2px;transition:background .4s}.marcas li.on{background:#ffd5cc}
+@media(max-width:900px){.cab{grid-template-columns:1fr}.painel{max-width:520px}.azul{grid-template-columns:repeat(12,1fr);aspect-ratio:auto}}
+@media(prefers-reduced-motion:reduce){.az,.az svg,.az svg .fd,.marcas li{transition:none}}
 footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{max-width:none}
 @media(max-width:600px){table{font-size:13px}.barra{grid-template-columns:7em minmax(0,1fr) 3em}}
 </style>
 </head>
 <body>
 <header class="band top">
- <div class="wrap">
-  <h1>Quanto vale o patrimônio cultural da UnB? Acervo Digital da CAL/UnB</h1>
-  <p>Hackathon CULTIVA UnB 2026: um funil que leva cada bem cultural da Casa da Cultura da América Latina da identificação ao balanço, com as normas de contabilidade aplicada ao setor público.</p>
-  <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas Moura Nutels.</div>
-  <div class="aviso">Resultados acadêmicos; não são registros contábeis oficiais da UnB. Valores do cadastro são os oficialmente registrados pela UnB.</div>
+ <div class="wrap cab">
+  <div>
+   <h1>Quanto vale o patrimônio cultural da UnB? Acervo Digital da CAL/UnB</h1>
+   <p>Hackathon CULTIVA UnB 2026: um funil que leva cada bem cultural da Casa da Cultura da América Latina da identificação ao balanço, com as normas de contabilidade aplicada ao setor público.</p>
+   <div class="meta">PPGCont/UnB, Valoração de Ativos Culturais e Ambientais (318710), 2026/2. Profa. Fátima de Souza Freire e Prof. Jorge Madeira Nogueira. Equipe: Hugo Rodrigues Gomes, Yang Alfredo Florentino e Lucas Moura Nutels.</div>
+   <div class="aviso">Resultados acadêmicos; não são registros contábeis oficiais da UnB. Valores do cadastro são os oficialmente registrados pela UnB.</div>
+  </div>
+  <figure class="painel" aria-labelledby="legTxt">
+   <div class="azul" id="azul" role="img" aria-label="Painel de azulejos geométricos que se reorganiza a cada etapa do funil: o acervo se monta, os registros que não são bens apagam, os bens que atendem à definição de ativo ganham contorno vermelho e os bens mensurados ficam dourados e se alinham."></div>
+   <ol class="marcas" id="marcas" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li></ol>
+   <figcaption class="leg"><span id="legTxt"><b>Acervo</b>2.197 registros no portal e 1.026 bens tombados</span><button type="button" id="pausa" aria-pressed="false">Pausar</button></figcaption>
+  </figure>
   <nav aria-label="Seções"><a href="#fluxo">Funil</a><a href="#etapa1">I Identificar</a><a href="#etapa2">II Reconhecer</a><a href="#etapa3">III Mensurar</a><a href="#evidenciacao">IV Evidenciar</a><a href="#consulta">Consulta</a><a href="#validacao">Validação</a><a href="#dados">Métodos e dados</a></nav>
  </div>
 </header>
@@ -326,6 +350,7 @@ footer{font-size:14px;color:var(--mut);border-top:1px solid var(--ln)}footer p{m
   <h2>Limitações e direitos das imagens</h2>
   <p>O acervo digital não registra o tombamento patrimonial, e a Lista da CAL não registra título ou autoria; sem chave comum, o cadastro não serve de evidência de controle nem de custo atribuído obra a obra (<a href="#limCorr">quadro na Etapa II</a>; nota<sup class="fn"><a href="#n11">11</a></sup>).</p>
   <p>A cobertura refere-se ao universo digital público do portal e não equivale ao patrimônio físico da CAL (Regras, item 4.4). Em 23/11/2026 o portal apresentou certificado TLS vencido, e a coleta foi feita sem verificação do certificado, por decisão da equipe; pelo mesmo motivo, o robots.txt e as condições de uso do portal não puderam ser registrados. A Coleção CNRC não consta do portal. O cadastro patrimonial e o portal não têm chave comum. Há poucos comparáveis de mercado, e a validação dos nove casos é documental, sem exame físico na CAL.</p>
+  <p>O painel animado do cabeçalho é desenho original da equipe, com módulos geométricos simples; não reproduz obra de nenhum artista. Os subconjuntos de azulejos são ilustrativos e não proporcionais; os números da legenda vêm dos arquivos de dados.</p>
   <p>As fotografias são do Acervo Digital da Casa da Cultura da América Latina (CAL/UnB), com direitos reservados (Lei nº 9.610/1998). O portal informa que elas não podem ser baixadas e/ou reproduzidas sem autorização; sua publicação aqui atende a fins acadêmicos e foi autorizada e atualizada por Hugo Rodrigues Gomes, integrante da equipe. Os direitos das obras pertencem aos seus autores, e a reprodução por terceiros continua sujeita à autorização da CAL/UnB. Titulares de direitos podem pedir a retirada de uma imagem abrindo uma <a href="https://github.com/atalaiaempreendimentos-bot/hackhathonunb/issues">issue no repositório</a>.</p>
  </div>
 </section>
@@ -365,6 +390,7 @@ Promise.all([pegar('dados/indicadores.csv'),pegar('dados/reconhecimento_resumo.c
  const funil=(el,rows)=>{const top=Math.max(1,rows[0].n);document.getElementById(el).innerHTML=rows.map(r=>{const w=Math.max(30,100*r.n/top);
   return `<a class="fstep" href="${r.href}"><span class="et">Etapa ${r.et}<span>${r.nome}</span></span><span class="fbar${r.n===0?' zero':r.ok?' ok':''}" style="width:${w.toFixed(1)}%"><b>${fmt(r.n)}</b><span>${r.txt}</span></span>${r.sai?`<span class="fsai">${r.sai}</span>`:''}</a>`}).join('')};
  document.getElementById('fU1').textContent=fmt(tot)+' registros';
+ window.dispatchEvent(new CustomEvent('funil-pronto',{detail:{tot,ev,bens,def,cTot,sN,sV:R$(sV),nota:cn('B')+fNota}}));
  funil('funil1',[
   {et:'I',nome:'Identificar',n:bens,txt:'bens identificados',sai:`${fmt(ev)} registros de evento saem: não são bens`,href:'#etapa1'},
   {et:'II',nome:'Reconhecer',n:def,txt:'satisfazem a definição de ativo',sai:`${fmt(fPend)} ficam pendentes: falta evidência de existência ou de controle`,href:'#etapa2'},
@@ -536,6 +562,45 @@ const abreNota=h=>{const t=h&&/^#n\d+$/.test(h)?document.getElementById(h.slice(
 document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#n"]');if(a&&/^#n\d+$/.test(a.getAttribute('href'))){e.preventDefault();history.replaceState(null,'',a.getAttribute('href'));abreNota(a.getAttribute('href'))}});
 if(location.hash)abreNota(location.hash);
 document.getElementById('casos').addEventListener('click',e=>{const a=e.target.closest('a[data-id]');if(a){e.preventDefault();abrirId(a.dataset.id)}});
+}
+</script>
+<script>
+{
+const box=document.getElementById('azul');
+// módulos geométricos originais (40 x 40): quarto de círculo nos cantos, meia diagonal, meio disco, faixa com disco
+const MOD=['<path class="fd" d="M0 0h20A20 20 0 0 1 0 20z M40 40H20A20 20 0 0 1 40 20z"/>','<path class="fd" d="M0 0L40 40H0z"/>','<path class="fd" d="M0 40A20 20 0 0 1 40 40z"/><circle class="fd" cx="20" cy="12" r="5"/>','<path class="fd" d="M0 14h40v12H0z"/><circle class="fd" cx="20" cy="20" r="9"/>'];
+const COR=[['#ffffff','#003d7a'],['#cfe0f2','#003d7a'],['#ffffff','#5f8fc4'],['#003d7a','#cfe0f2'],['#ffffff','#d9412b']];
+const N=36;let semente=7;const rnd=()=>(semente=(semente*9301+49297)%233280)/233280;
+const T=[];for(let i=0;i<N;i++){const m=Math.floor(rnd()*MOD.length),c=COR[rnd()<.08?4:Math.floor(rnd()*4)];
+ const el=document.createElement('span');el.className='az';el.innerHTML=`<svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect width="40" height="40" fill="${c[0]}"/><g fill="${c[1]}">${MOD[m].replace(/class="fd"/g,'class="fd" fill="'+c[1]+'"')}</g></svg>`;
+ box.appendChild(el);T.push({el,r:0})}
+// subconjuntos aninhados do funil (ilustrativos, não proporcionais): saem 12; dos 24 bens, 9 atendem à definição; 5 deles são mensurados
+const ordem=[...Array(N).keys()].sort(()=>rnd()-.5),EV=new Set(ordem.slice(0,12)),DEF=new Set(ordem.slice(12,21)),VAL=new Set(ordem.slice(12,17));
+let NUM={tot:'2.197',ev:'699',bens:'1.498',def:'522',cTot:'1.026',sN:'258',sV:'R$ 1.859.185,00',nota:'509'};
+const f=v=>typeof v==='number'?v.toLocaleString('pt-BR'):v;
+addEventListener('funil-pronto',e=>{const d=e.detail;NUM={tot:f(d.tot),ev:f(d.ev),bens:f(d.bens),def:f(d.def),cTot:f(d.cTot),sN:f(d.sN),sV:d.sV,nota:f(d.nota)};mostrar(fase,true)});
+const FASES=[
+ ['Acervo',()=>`${NUM.tot} registros no portal e ${NUM.cTot} bens tombados`],
+ ['I Identificar',()=>`${NUM.bens} bens; ${NUM.ev} registros de evento saem`],
+ ['II Reconhecer',()=>`${NUM.def} bens do portal atendem à definição de ativo`],
+ ['III Mensurar',()=>`${NUM.sN} bens com mensuração confiável no cadastro`],
+ ['IV Evidenciar',()=>`${NUM.sV} no balanço; ${NUM.nota} itens em nota explicativa`]];
+const leg=document.getElementById('legTxt'),marcas=[...document.querySelectorAll('#marcas li')];
+let fase=0,timer=null,parado=false;
+function girar(todos){T.forEach((t,i)=>{if(!todos&&!VAL.has(i)){t.r+=90*(1+Math.floor(rnd()*2))}else if(todos){t.r+=90*(1+Math.floor(rnd()*3))}
+ t.el.firstChild.style.setProperty('--d',((i%6)+Math.floor(i/6))*0.05+'s');t.el.firstChild.style.setProperty('--r',t.r+'deg')})}
+function mostrar(k,soTexto){fase=k;leg.innerHTML=`<b>${FASES[k][0]}</b>${FASES[k][1]()}`;marcas.forEach((m,i)=>m.classList.toggle('on',i<=k));if(soTexto)return;
+ T.forEach((t,i)=>{const c=t.el.classList;c.toggle('ev',k>=1&&EV.has(i));c.toggle('def',k>=2&&k<4&&DEF.has(i));c.toggle('val',k>=3&&VAL.has(i));c.toggle('apaga',k>=4&&!VAL.has(i)&&!EV.has(i))});
+ if(k===0)girar(true);
+ if(k===4)T.forEach((t,i)=>{if(VAL.has(i)){t.r=Math.ceil(t.r/360)*360;t.el.firstChild.style.setProperty('--d','0s');t.el.firstChild.style.setProperty('--r',t.r+'deg')}})}
+function passo(){mostrar((fase+1)%FASES.length)}
+const reduz=matchMedia('(prefers-reduced-motion: reduce)');
+function iniciar(){parar();if(parado||reduz.matches)return;timer=setInterval(passo,3400)}
+function parar(){if(timer){clearInterval(timer);timer=null}}
+const bt=document.getElementById('pausa');
+bt.addEventListener('click',()=>{parado=!parado;bt.setAttribute('aria-pressed',String(parado));bt.textContent=parado?'Continuar':'Pausar';parado?parar():iniciar()});
+if(reduz.matches){mostrar(4);bt.hidden=true}else{mostrar(0);iniciar()}
+new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting?iniciar():parar()})).observe(box);
 }
 </script>
 </body>
