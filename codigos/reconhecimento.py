@@ -35,6 +35,16 @@ Regras de decisão (proposta da equipe):
   4. Definição atendida sem mensuração confiável: "Não reconhecimento fundamentado" (NBC TSP 37, item 7),
      com divulgação do item 77 e reavaliação quando houver custo ou valor corrente confiável.
   5. Existência ou controle sem evidência suficiente: "Pendente de verificação" (EC 5.11 a 5.13).
+
+Versão 2 (24/11/2026), conforme o Parecer de Reconhecimento dos Ativos da CAL v1:
+  6. Obra de arte ou de arte contemporânea que satisfaz a definição de ativo, sem mensuração própria: "Pendente de
+     verificação" (vínculo), porque é provável que corresponda a bem já reconhecido no cadastro patrimonial (Triangular:
+     Lista da CAL, doações de 2019 e 2020; Arte: origens PESFIS, BACEN ou FUB). Concluir "não reconhecer" pelo item 7
+     contrariaria o cadastro (versão 1 aplicava o item 7).
+  7. Coleção Galvão: de propriedade da UnB (1977), devolvida em 2002 por rescisão do acordo de guarda (PINTO, 2019);
+     registros "Emprestado" têm empréstimo de saída a outros museus (ENTIDADES e peles, 2025), indicador de acesso
+     (EC 5.12(b)). Não tombada: item 7.
+  8. Coluna funil: etapa em que o registro sai do funil identificar, reconhecer, mensurar e evidenciar.
 """
 import csv
 import os
@@ -47,12 +57,18 @@ CLASSE = "Ativo imobilizado, classe acervos do patrimônio cultural (NBC TSP 37,
 CONC = ("conciliar com o cadastro patrimonial: se o bem corresponder a um tombamento, já está reconhecido pela UnB e o "
         "valor registrado pode ser tratado como custo atribuído na aplicação inicial (NBC TSP 37, item 87(a))")
 
+FUNIL = ["I. Sai na identificação: registro de evento, não é bem",
+         "II. Para no reconhecimento: definição de ativo não confirmada",
+         "II. Definição atendida: aguarda vínculo com bem já reconhecido no cadastro",
+         "III. Definição atendida, sem mensuração confiável: nota explicativa (NBC TSP 37, item 77)",
+         "IV. Reconhecido no balanço"]
+
 COLS = ["id_registro", "colecao", "subcolecao", "grupo_sugerido", "titulo", "autoria_origem",
         "recurso_potencial_servicos", "controle_propriedade_legal", "controle_acesso", "controle_meios_uso",
         "evento_passado", "existencia", "controle", "potencial_servicos", "beneficios_economicos",
         "atende_definicao_ativo", "classificacao_contabil", "unidade_reconhecimento", "criterio_6a", "criterio_6b",
         "condicao_mensuracao", "vinculo_cadastro", "classe_reconhecimento", "enquadramento_normativo",
-        "divulgacao_exigida", "justificativa", "investigacao_necessaria", "restricoes", "referencia_normativa"]
+        "divulgacao_exigida", "justificativa", "investigacao_necessaria", "restricoes", "referencia_normativa", "funil"]
 
 
 def main():
@@ -98,7 +114,8 @@ def main():
                      justificativa="Registro de evento, exposição ou atividade da CAL (campos de evento, datas e equipe): não "
                                    "identifica recurso individualizado controlado pela UnB com potencial de serviços próprio.",
                      investigacao_necessaria="Verificar se algum registro corresponde a objeto físico (cartaz, catálogo) incorporado ao acervo.",
-                     restricoes="", referencia_normativa="Regras, item 8; NBC TSP Estrutura Conceitual (R1), item 5.6")
+                     restricoes="", referencia_normativa="Regras, item 8; NBC TSP Estrutura Conceitual (R1), item 5.6",
+                     funil=FUNIL[0])
             saida.append(r)
             continue
 
@@ -109,6 +126,10 @@ def main():
         elif sit == "Não localizado":
             acesso, ex, ex_ok = "não atendido: bem não localizado (EC 5.12(b))", "não confirmado (situação: Não localizado)", False
             falta.append("confirmar a existência física (bem não localizado)")
+        elif sit == "Emprestado" and l["subcolecao"] == "Galvão":
+            acesso = ("atendido: empréstimo de saída da CAL ao Museu das Bandeiras (GO) e ao Museu do Descobrimento "
+                      "(Porto Seguro), segundo o catálogo Entidades e peles (2025); conferir o termo de empréstimo (EC 5.12(b))")
+            ex, ex_ok = "atendido (situação: Emprestado a outro museu)", True
         elif sit == "Emprestado":
             acesso, ex, ex_ok = "a verificar: bem emprestado (EC 5.12(b))", "a verificar (situação: Emprestado)", False
             falta.append("verificar se o empréstimo é de saída (bem da UnB) ou de entrada (bem de terceiro)")
@@ -138,6 +159,18 @@ def main():
             prop, evento = "não documentado (EC 5.12(a))", "não documentado (EC 5.13)"
             ct, ct_ok = "não documentado", False
             falta.append("documentar a forma de aquisição (doação, transferência ou compra)")
+        if l["subcolecao"] == "Galvão" and ct_ok:
+            prop = ("indício forte: coleção de propriedade da UnB (1977), devolvida pelo IPHAN em 2002 por rescisão do acordo de "
+                    "guarda (PINTO, 2019, p. 44 e 49); titularidade a confirmar no termo de rescisão (EC 5.12(a))")
+            evento = ("atendido: coleção formada na UnB nos anos 1960 e devolvida à UnB em {} (EC 5.13); a \"Transferência\" do "
+                      "portal é o fim da guarda, não uma aquisição".format(data))
+            falta.append("confirmar a titularidade no termo de rescisão do acordo de guarda (2002) e decidir com a DGM o registro "
+                         "patrimonial, pois a origem IPHAN não aparece no relatório de bens")
+        if l["subcolecao"] == "Chocó" and not ct_ok:
+            falta.append("obter o documento de ingresso: a coleção está sob a responsabilidade da CAL desde o II FLAAC, em 1989 "
+                         "(ENTIDADES e peles, 2025), mas a forma de ingresso (doação ou depósito) não está documentada")
+        if l["subcolecao"] == "Inicial" and data.endswith("1993"):
+            falta.append("conferir a data de aquisição: o catálogo Entidades e peles (2025) indica doação no FLAAC de 1987")
         c_cad = cad.get(i, {})
         if not ct_ok and c_cad.get("confianca") == "Confirmado" and c_cad.get("status_cadastro") not in ("ALIENADO",):
             prop = "indício forte: tombamento {} no cadastro patrimonial da UnB (EC 5.12(a))".format(c_cad["tombamentos"])
@@ -177,6 +210,23 @@ def main():
             just = ("Satisfaz a definição de ativo (acesso confirmado e ingresso documentado) e há mensuração confiável, "
                     "nível {}.".format(nivel))
             refs += "; NBC TSP 37, itens 12 e 13"
+        elif definicao == "sim" and grupo in ("Arte", "Arte contemporânea"):
+            classe = PEND
+            enq = ("Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: "
+                   "concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)")
+            div = "Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g))"
+            if l["subcolecao"] == "Triangular":
+                just = ("Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). A subcoleção Triangular é a "
+                        "provável contrapartida das obras da Lista da CAL doadas em 2019 e 2020, já reconhecidas pela UnB com valor "
+                        "registrado; sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento.")
+            else:
+                just = ("Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). Doações de pessoas físicas e do "
+                        "Banco Central e transferências internas têm provável tombamento no cadastro patrimonial (origens PESFIS, "
+                        "BACEN ou FUB nas localidades da CAL); sem o vínculo obra a obra, não se pode concluir pelo reconhecimento "
+                        "nem pelo não reconhecimento.")
+            falta.append("vincular o registro ao tombamento pelos atos de ingresso; se o valor registrado for custo atribuído "
+                         "confiável, reconhecer (NBC TSP 37, item 6); se não, mensurar ou aplicar o item 7")
+            refs += "; NBC TSP 37, itens 6 e 7"
         elif definicao == "sim":
             classe = NAO
             enq = ("Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) "
@@ -212,7 +262,8 @@ def main():
                               else "a confirmar com a existência e o controle"),
                  criterio_6b=c6b, condicao_mensuracao=cm, vinculo_cadastro=vinculo(i)[0], classe_reconhecimento=classe,
                  enquadramento_normativo=enq, divulgacao_exigida=div, justificativa=just + vinculo(i)[1],
-                 investigacao_necessaria="; ".join(falta + [CONC]), restricoes="; ".join(restr), referencia_normativa=refs)
+                 investigacao_necessaria="; ".join(falta + [CONC]), restricoes="; ".join(restr), referencia_normativa=refs,
+                 funil=(FUNIL[4] if classe == SUST else FUNIL[3] if classe == NAO else FUNIL[2] if definicao == "sim" else FUNIL[1]))
         saida.append(r)
 
     with open(os.path.join(DADOS, "reconhecimento.csv"), "w", encoding="utf-8-sig", newline="") as f:
@@ -224,6 +275,8 @@ def main():
         resumo.append({"indicador": "Atende à definição de ativo: " + c, "valor": sum(1 for r in saida if r["atende_definicao_ativo"] == c)})
     for e in sorted({r["enquadramento_normativo"] for r in saida}):
         resumo.append({"indicador": "Enquadramento: " + e, "valor": sum(1 for r in saida if r["enquadramento_normativo"] == e)})
+    for f_ in FUNIL:
+        resumo.append({"indicador": "Funil: " + f_, "valor": sum(1 for r in saida if r["funil"] == f_)})
     for g in sorted({r["grupo_sugerido"] for r in saida}):
         for c in (SUST, NAO, PEND):
             n = sum(1 for r in saida if r["grupo_sugerido"] == g and r["classe_reconhecimento"] == c)

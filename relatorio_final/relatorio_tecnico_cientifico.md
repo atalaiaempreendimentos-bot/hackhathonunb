@@ -44,15 +44,15 @@ Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497
 | Cobertura | 100,0% |
 | Completude cadastral | 34,1% |
 | Registros duplicados (possíveis) | 48 (4 prováveis e 44 a conferir) |
-| Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 986 |
+| Reconhecimento sustentado | 0 no acervo digital; 258 no cadastro patrimonial |
+| Reconhecimento pendente | 1.292 |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 638 (inclui 15 com faixa indicativa) |
 | Valor agregado estimado | R$ 0,00 |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
 
-Não reconhecimento fundamentado: 1.211 registros: 699 eventos da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6), e 512 bens que satisfazem a definição, mas não têm mensuração confiável (161 de arte, 155 de arte contemporânea e 196 etnográficos), tratados pelo item 7 da NBC TSP 37: não reconhecidos e divulgados conforme o item 77. Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
+Não reconhecimento fundamentado: 905 registros do acervo digital: 699 eventos da Memória Institucional, que não satisfazem a definição de ativo (Estrutura Conceitual (R1), item 5.6), e 206 objetos etnográficos (139 da Coleção Galvão e 67 da Inicial) que satisfazem a definição, mas não têm mensuração confiável, tratados pelo item 7 da NBC TSP 37: não reconhecidos e divulgados conforme o item 77. Outros 316 registros de arte e arte contemporânea satisfazem a definição e aguardam o vínculo com bens já reconhecidos no cadastro. No cadastro patrimonial, 258 bens (R$ 1.859.185,00) têm reconhecimento sustentado pelas evidências: 27 doações de 2024 a 2026 e 231 obras próprias da Lista da CAL; 455 (R$ 338.429,60) dependem da confirmação da base do valor; 303 estão tombados por R$ 0,01, custo simbólico (NBC TSP 37, item 13); 10 são bens de terceiros. Faixas indicativas: 15 obras (14 serigrafias de Cícero Dias, USD 600 a 2.040 cada; uma serigrafia de Tarsila do Amaral, USD 300 a 600).
 
 ## vii. Discussão
 

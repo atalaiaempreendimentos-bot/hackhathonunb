@@ -47,7 +47,7 @@ Motivo da escolha: Comparável apenas por estimativa. Registro no portal: [CAL.1
 | Situação | Localizado |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Não reconhecimento fundamentado. Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado), mas ainda não há custo nem valor corrente mensurável com confiabilidade (há apenas faixa indicativa de nível C). Pelo item 7 da NBC TSP 37, não se reconhece por ora, divulgam-se as informações do item 77 e a obra deve ser reconhecida quando houver evidência de nível A ou B. Divulgação: Nota explicativa, NBC TSP 37, item 77: (a) dificuldades na obtenção de mensuração confiável e (b) relevância dos itens para os objetivos da UnB.
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). Doações de pessoas físicas e do Banco Central e transferências internas têm provável tombamento no cadastro patrimonial (origens PESFIS, BACEN ou FUB nas localidades da CAL); sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
 **Mensuração.** Faixa indicativa: USD 300 a USD 600. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25). Técnica: Abordagem de mercado (NBC TSP 38, item 42): 0 transação(ões) realizada(s), 1 comparável(is) no total; dados de entrada não observáveis (estimativas de leiloeiro). Nível de evidência: C. Fonte: https://www.invaluable.com/artist/amaral-tarsila-do-h6z52teo81/sold-at-auction-prices/.
 
@@ -55,7 +55,7 @@ Motivo da escolha: Comparável apenas por estimativa. Registro no portal: [CAL.1
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; medir a obra e registrar tiragem e assinatura; ampliar os comparáveis para 3 transações e converter a moeda pela taxa da data, com fonte; localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Não reconhecimento fundamentado (Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)). Mensuração: Faixa indicativa (USD 300 a USD 600).
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Faixa indicativa (USD 300 a USD 600).
 
 
 ## Caso 3: Gravura (Obra de arte)
@@ -75,7 +75,7 @@ Motivo da escolha: Artista com mercado, sem comparável com preço realizado. Re
 | Situação | Localizado |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Não reconhecimento fundamentado. Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado), mas ainda não há custo nem valor corrente mensurável com confiabilidade. Pelo item 7 da NBC TSP 37, não se reconhece por ora, divulgam-se as informações do item 77 e a obra deve ser reconhecida quando houver evidência de nível A ou B. Divulgação: Nota explicativa, NBC TSP 37, item 77: (a) dificuldades na obtenção de mensuração confiável e (b) relevância dos itens para os objetivos da UnB.
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). Doações de pessoas físicas e do Banco Central e transferências internas têm provável tombamento no cadastro patrimonial (origens PESFIS, BACEN ou FUB nas localidades da CAL); sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
 **Mensuração.** Pendente de evidência: sem valor. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10, 12(b) e 23 a 25). Técnica: Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra (NBC TSP 38, itens 24, 32 e 42). Nível de evidência: D.
 
@@ -83,7 +83,7 @@ Motivo da escolha: Artista com mercado, sem comparável com preço realizado. Re
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; medir a obra e registrar tiragem e assinatura; pesquisar ao menos 3 transações realizadas de obras comparáveis; localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Não reconhecimento fundamentado (Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)). Mensuração: Pendente de evidência.
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Pendente de evidência.
 
 
 ## Caso 4: Sem título, da série "Notícias de América" (Obra contemporânea)
@@ -108,7 +108,7 @@ Motivo da escolha: Registro mais completo da coleção Triangular. Registro no p
 | Estado de conservação | Bom |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 10/08/2020). Classe: Não reconhecimento fundamentado. Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado), mas ainda não há custo nem valor corrente mensurável com confiabilidade. Pelo item 7 da NBC TSP 37, não se reconhece por ora, divulgam-se as informações do item 77 e a obra deve ser reconhecida quando houver evidência de nível A ou B. Divulgação: Nota explicativa, NBC TSP 37, item 77: (a) dificuldades na obtenção de mensuração confiável e (b) relevância dos itens para os objetivos da UnB.
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 10/08/2020). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). A subcoleção Triangular é a provável contrapartida das obras da Lista da CAL doadas em 2019 e 2020, já reconhecidas pela UnB com valor registrado; sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
 **Mensuração.** Pendente de evidência: sem valor. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10, 12(b) e 23 a 25). Técnica: Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra (NBC TSP 38, itens 24, 32 e 42); abordagem de custo só se houver substituto de utilidade comparável, como em tiragens reproduzíveis (itens 43 e 44). Nível de evidência: D.
 
@@ -116,7 +116,7 @@ Motivo da escolha: Registro mais completo da coleção Triangular. Registro no p
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; pesquisar ao menos 3 transações realizadas de obras do artista ou, na falta delas, documentar o custo de reprodução ou de aquisição (abordagem de custo, Regras, item 9), pois obras contemporâneas raramente têm comparáveis diretos (item 4.2); localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Não reconhecimento fundamentado (Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)). Mensuração: Pendente de evidência.
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Pendente de evidência.
 
 
 ## Caso 5: Patrão é Patrão, da série "Mestres de Cerimônias" (Obra contemporânea)
@@ -141,7 +141,7 @@ Motivo da escolha: Fotografia contemporânea com dimensões e tiragem. Registro 
 | Estado de conservação | Bom |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 20/01/2020). Classe: Não reconhecimento fundamentado. Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado), mas ainda não há custo nem valor corrente mensurável com confiabilidade. Pelo item 7 da NBC TSP 37, não se reconhece por ora, divulgam-se as informações do item 77 e a obra deve ser reconhecida quando houver evidência de nível A ou B. Divulgação: Nota explicativa, NBC TSP 37, item 77: (a) dificuldades na obtenção de mensuração confiável e (b) relevância dos itens para os objetivos da UnB.
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 20/01/2020). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). A subcoleção Triangular é a provável contrapartida das obras da Lista da CAL doadas em 2019 e 2020, já reconhecidas pela UnB com valor registrado; sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
 **Mensuração.** Pendente de evidência: sem valor. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10, 12(b) e 23 a 25). Técnica: Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra (NBC TSP 38, itens 24, 32 e 42); abordagem de custo só se houver substituto de utilidade comparável, como em tiragens reproduzíveis (itens 43 e 44). Nível de evidência: D.
 
@@ -149,7 +149,7 @@ Motivo da escolha: Fotografia contemporânea com dimensões e tiragem. Registro 
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; pesquisar ao menos 3 transações realizadas de obras do artista ou, na falta delas, documentar o custo de reprodução ou de aquisição (abordagem de custo, Regras, item 9), pois obras contemporâneas raramente têm comparáveis diretos (item 4.2); localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Não reconhecimento fundamentado (Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)). Mensuração: Pendente de evidência.
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Pendente de evidência.
 
 
 ## Caso 6: Pajé-Onça caçando na Avenida Paulista (Obra contemporânea)
@@ -172,7 +172,7 @@ Motivo da escolha: Videoperformance: materialidade e direitos. Registro no porta
 | Procedência | Denilson de Oliveira Monteiro |
 | Situação | Localizado |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 23/01/2020). Classe: Não reconhecimento fundamentado. Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado), mas ainda não há custo nem valor corrente mensurável com confiabilidade. Pelo item 7 da NBC TSP 37, não se reconhece por ora, divulgam-se as informações do item 77 e a obra deve ser reconhecida quando houver evidência de nível A ou B. Divulgação: Nota explicativa, NBC TSP 37, item 77: (a) dificuldades na obtenção de mensuração confiável e (b) relevância dos itens para os objetivos da UnB.
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 23/01/2020). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). A subcoleção Triangular é a provável contrapartida das obras da Lista da CAL doadas em 2019 e 2020, já reconhecidas pela UnB com valor registrado; sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
 **Mensuração.** Pendente de evidência: sem valor. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10, 12(b) e 23 a 25). Técnica: Abordagem de mercado: transações de obras comparáveis ajustadas aos aspectos únicos da obra (NBC TSP 38, itens 24, 32 e 42); abordagem de custo só se houver substituto de utilidade comparável, como em tiragens reproduzíveis (itens 43 e 44). Nível de evidência: D.
 
@@ -182,7 +182,7 @@ Motivo da escolha: Videoperformance: materialidade e direitos. Registro no porta
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; registrar formato, duração, edição e certificado de autenticidade da obra; pesquisar ao menos 3 transações realizadas de obras do artista ou, na falta delas, documentar o custo de reprodução ou de aquisição (abordagem de custo, Regras, item 9), pois obras contemporâneas raramente têm comparáveis diretos (item 4.2); localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Não reconhecimento fundamentado (Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)). Mensuração: Pendente de evidência.
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Pendente de evidência.
 
 
 ## Caso 7: Banco ornitomorfo (Objeto etnográfico)
@@ -264,7 +264,7 @@ Motivo da escolha: Coleção Chocó. Registro no portal: [CAL.0482](https://www.
 | Estado de conservação | Bom |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: indício (ingresso em 1989, sem forma). Classe: Pendente de verificação. Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13). Faltam informações para concluir: documentar a forma de aquisição (doação, transferência ou compra). Divulgação: Evidenciar como registro pendente de verificação (Regras, item 10(g)).
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: indício (ingresso em 1989, sem forma). Classe: Pendente de verificação. Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13). Faltam informações para concluir: documentar a forma de aquisição (doação, transferência ou compra); obter o documento de ingresso: a coleção está sob a responsabilidade da CAL desde o II FLAAC, em 1989 (ENTIDADES e peles, 2025), mas a forma de ingresso (doação ou depósito) não está documentada. Divulgação: Evidenciar como registro pendente de verificação (Regras, item 10(g)).
 
 **Mensuração.** Sem mensuração monetária fundamentada: sem valor. Base: Custo atribuído pelo valor corrente operacional, se houver dados; não monetizado por padrão. Técnica: Nenhuma técnica aplicável: evidenciação qualitativa (NBC TSP 37, item 77). Nível de evidência: D.
 

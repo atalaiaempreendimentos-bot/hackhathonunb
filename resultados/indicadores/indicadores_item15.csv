@@ -4,8 +4,9 @@ Registros recuperados,2197,Total recuperado e organizado
 Cobertura (%),100.0,Recuperados / identificados no universo digital
 Completude cadastral (%),34.1,Preenchimento médio das 13 variáveis principais
 Registros duplicados,48,Registros possivelmente duplicados: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)
-Reconhecimento sustentado,0,Fundamentação suficiente para reconhecer
-Reconhecimento pendente,986,Necessitam de informações complementares
+Reconhecimento sustentado,0,"Registros do acervo digital com fundamentação suficiente para reconhecer; o valor e o tombamento ficam no cadastro patrimonial, sem chave comum com o portal"
+Reconhecimento sustentado no cadastro patrimonial,258,"Bens tombados com controle, ingresso e valor documentados (camadas A1 e A2): R$ 1.859.185,00 em valores oficialmente registrados, não estimados pela equipe (dados/reconhecimento_cadastro_resumo.csv)"
+Reconhecimento pendente,1292,Necessitam de informações complementares
 Mensuração fundamentada,0,Valores com evidência nível A ou B
 Mensuração pendente,638,Sem evidência suficiente (inclui 15 com faixa indicativa)
 Valor agregado estimado,"R$ 0,00",Soma dos valores fundamentados (detalhe por base e categoria em resultados/demonstrativos/valor_agregado_por_base.csv); não é o valor total do patrimônio da CAL

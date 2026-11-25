@@ -35,7 +35,8 @@ cultiva-unb-trio/
 │   ├── identificacao_inbcm.py     Etapa I: elementos do INBCM (Resolução Normativa Ibram nº 6/2021) e classificação pelo Tesauro
 │   ├── verificar_inconsistencias.py Etapa I: inconsistências cadastrais (datas, dimensões, situação, numeração, grafia)
 │   ├── tesauro.py                 classificação pelo Tesauro de Objetos, usada pelo extrator e pelo INBCM
-│   ├── reconhecimento.py          Etapa II: matriz de reconhecimento
+│   ├── reconhecimento.py          Etapa II: matriz de reconhecimento do acervo digital, com a etapa do funil
+│   ├── reconhecimento_cadastro.py Etapa II: reconhecimento no cadastro patrimonial, por camada
 │   ├── mensuracao.py              Etapa III: modelo de mensuração
 │   ├── comparaveis.py             Etapa III: abordagem de mercado por comparáveis
 │   ├── validacao_casos.py         Produto 4: validação de nove casos
@@ -62,14 +63,23 @@ cultiva-unb-trio/
 
 ## Fluxo completo (todas as etapas)
 
-O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos culturais da CAL/UnB de forma sistemática, fundamentada, transparente e reproduzível (Regras, item 2). Cada etapa responde a uma pergunta orientadora das Regras e tem metodologia, código e resultados próprios:
+O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos culturais da CAL/UnB de forma sistemática, fundamentada, transparente e reproduzível (Regras, item 2). O fluxo funciona como um funil: cada etapa responde a uma pergunta orientadora das Regras e só deixa passar os bens que atendem ao critério. Como o acervo digital e o cadastro patrimonial não têm chave comum, o site mostra dois funis lado a lado:
+
+| Etapa | Acervo digital (2.197 registros) | Cadastro patrimonial (1.026 bens, R$ 2.370.632,63) |
+|---|---|---|
+| I. Identificar | 1.498 bens; 699 registros de evento saem | 1.026 obras de arte tombadas; 27 recentes sem registro no portal |
+| II. Reconhecer | 522 satisfazem a definição de ativo; 976 pendentes | 1.016 controladas pela UnB; 10 bens de terceiros saem |
+| III. Mensurar | 0 com mensuração própria; 316 aguardam vínculo com o cadastro; 206 sem mensuração possível | 258 com mensuração confiável; 455 com base a confirmar; 303 com R$ 0,01 |
+| IV. Evidenciar | 206 em nota (item 77); 1.292 pendentes | 258 no balanço (R$ 1.859.185,00); 303 em nota; 455 com ressalva |
+
+Metodologia, código e resultados de cada etapa:
 
 ```mermaid
 flowchart LR
   I["<b>I. Identificar</b><br/>Quais bens estão documentados<br/>e com que qualidade?<br/>2.197 registros: 1.498 bens<br/>e 699 registros de evento"]
-  R["<b>II. Reconhecer</b><br/>Há evidência para reconhecer<br/>como ativo da UnB?<br/>EC 5.6 a 5.13; NBC TSP 37, itens 6 e 7<br/>0 sustentado, 1.211 não, 986 pendentes"]
+  R["<b>II. Reconhecer</b><br/>Há evidência para reconhecer<br/>como ativo da UnB?<br/>EC 5.6 a 5.13; NBC TSP 37, itens 6 e 7<br/>Portal: 522 com definição atendida<br/>Cadastro: 258 sustentados"]
   M["<b>III. Mensurar</b><br/>Com que base e com que<br/>evidência mensurar?<br/>NBC TSP 37, itens 11 a 13; NBC TSP 38<br/>0 fundamentada, 15 faixas indicativas"]
-  E["<b>IV. Evidenciar</b><br/>Como apresentar de forma<br/>transparente e útil?<br/>NBC TSP 37, itens 69 e 77<br/>512 itens divulgados pelo item 77"]
+  E["<b>IV. Evidenciar</b><br/>Como apresentar de forma<br/>transparente e útil?<br/>NBC TSP 37, itens 69 e 77<br/>Balanço: 258 bens, R$ 1.859.185,00<br/>Nota (item 77): 303 + 206"]
   I --> R --> M --> E
   M -. "condição de mensuração<br/>alimenta o critério 6(b)" .-> R
 ```
@@ -77,7 +87,7 @@ flowchart LR
 | Etapa | Pergunta orientadora (Regras) | Metodologia | Código | Resultado principal |
 |---|---|---|---|---|
 | I. Identificar | Quais bens culturais estão documentados e qual a qualidade das informações? (item 7). Padrão de referência: INBCM (Resolução Normativa Ibram nº 6/2021) | [`identificacao.md`](metodologia/identificacao.md) | `extrair_acervo_cal.py`, `verificar_duplicidades.py`, `identificacao_inbcm.py`, `cadastro_patrimonial.py`, `cadastro_unb_relatorio.py` | `dados/inventario.csv`, `dados/identificacao_inbcm.csv` |
-| II. Reconhecer | Quais registros têm evidência suficiente para o reconhecimento como ativos da UnB? (item 8) | [`reconhecimento.md`](metodologia/reconhecimento.md) | `reconhecimento.py` | `dados/reconhecimento.csv` |
+| II. Reconhecer | Quais registros têm evidência suficiente para o reconhecimento como ativos da UnB? (item 8) | [`reconhecimento.md`](metodologia/reconhecimento.md) | `reconhecimento.py`, `reconhecimento_cadastro.py` | `dados/reconhecimento.csv`, `dados/reconhecimento_cadastro_resumo.csv` |
 | III. Mensurar | Como mensurar, considerando características, finalidade e evidências? (item 9) | [`mensuracao.md`](metodologia/mensuracao.md) | `comparaveis.py`, `mensuracao.py` | `dados/mensuracao.csv` |
 | IV. Evidenciar | Como apresentar as informações de forma transparente e útil à gestão pública? (item 10) | [`evidenciacao.md`](metodologia/evidenciacao.md) | `evidenciacao.py` | `resultados/nota_explicativa/minuta_nota_explicativa.md` |
 | V. Inovação | Como tornar os procedimentos eficientes, atualizáveis e reproduzíveis? (item 11) | este README | `executar_pipeline.py` | um comando reproduz I a IV |
@@ -93,7 +103,7 @@ python3 codigos/executar_pipeline.py --cadastro Lista_da_CAL.numbers   # inclui 
 python3 codigos/executar_pipeline.py --relatorio-bens relatorio_bens_UnB_Total.xlsx   # valor de cada registro no cadastro da UnB
 ```
 
-Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), conciliação patrimonial (opcional), Etapa III (`comparaveis.py`, que chama `mensuracao.py`), Etapa II (`reconhecimento.py`, que usa a condição de mensuração), validação (`validacao_casos.py`) e Etapa IV (`evidenciacao.py`). O resultado é determinístico: a mesma entrada produz os mesmos arquivos.
+Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), conciliação patrimonial (opcional), Etapa III (`comparaveis.py`, que chama `mensuracao.py`), Etapa II (`reconhecimento.py`, que usa a condição de mensuração, e `reconhecimento_cadastro.py`, que exige os arquivos locais do cadastro), validação (`validacao_casos.py`) e Etapa IV (`evidenciacao.py`). O resultado é determinístico: a mesma entrada produz os mesmos arquivos.
 
 ### Aplicação a novos registros e a outros acervos (Etapa V)
 
@@ -101,7 +111,7 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 - Outro acervo Tainacan: `python3 codigos/executar_pipeline.py --atualizar --base https://outro-acervo/wp-json/tainacan/v2`. O de-para de campos (`dados/mapeamento_campos.csv`) é revisável, e as regras de grupo, reconhecimento e mensuração ficam em funções isoladas de cada script.
 - Novas evidências de mercado: uma linha em `dados/comparaveis.csv`, com fonte, e o fluxo recalcula níveis, faixas e indicadores.
 
-## Resultados (23/11/2026)
+## Resultados (24/11/2026)
 
 | Indicador (Regras, item 15) | Resultado |
 |---|---|
@@ -109,8 +119,8 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 | Cobertura | 100,0% do universo digital |
 | Completude cadastral | 34,1% (13 variáveis principais; só dados do portal) |
 | Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
-| Reconhecimento sustentado | 0 |
-| Reconhecimento pendente | 986 (outros 1.211 com não reconhecimento fundamentado: 512 pelo item 7 da NBC TSP 37 e 699 eventos) |
+| Reconhecimento sustentado | 0 no acervo digital; 258 bens no cadastro patrimonial (R$ 1.859.185,00 em valores oficialmente registrados) |
+| Reconhecimento pendente | 1.292 no acervo digital (316 aguardam o vínculo com bens já reconhecidos; outros 905 com não reconhecimento fundamentado: 206 pelo item 7 da NBC TSP 37 e 699 eventos); 455 bens do cadastro com base do valor a confirmar |
 | Mensuração fundamentada | 0 |
 | Mensuração pendente | 638, dos quais 15 com faixa indicativa (nível C) |
 | Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
@@ -196,7 +206,7 @@ Os modelos seguem o texto publicado da NBC TSP Estrutura Conceitual (R1), da NBC
 
 ### Etapa II: reconhecimento
 
-`python3 codigos/reconhecimento.py` aplica a matriz do item 8 a cada registro e grava `dados/reconhecimento.csv` (existência, controle, potencial de serviços, benefícios econômicos, natureza, condição de mensuração, classe, justificativa, investigação necessária, restrições e referência normativa). Regras de decisão em `metodologia/reconhecimento.md`.
+`python3 codigos/reconhecimento.py` aplica a matriz do item 8 a cada registro e grava `dados/reconhecimento.csv` (existência, controle, potencial de serviços, benefícios econômicos, natureza, condição de mensuração, classe, justificativa, investigação necessária, restrições, referência normativa e etapa do funil). `python3 codigos/reconhecimento_cadastro.py` classifica os bens do cadastro patrimonial por camada e grava os agregados em `dados/reconhecimento_cadastro_resumo.csv`. Regras de decisão em `metodologia/reconhecimento.md`.
 
 ### Conciliação com o cadastro patrimonial
 
@@ -246,6 +256,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Parecer sobre os bens passíveis de reconhecimento: releitura dos itens 6, 7, 11 a 13 e 87 da NBC TSP 37 e 6, 7, 10 a 12 da NBC TSP 38; pesquisa documental sobre as coleções Galvão, Inicial, Chocó e CNRC (Pinto, 2019; catálogo Entidades e peles, 2025); matriz versão 2 (`codigos/reconhecimento.py`), reconhecimento no cadastro por camada (`codigos/reconhecimento_cadastro.py`) e site reorganizado como funil | Somas conferidas por script (258 bens e R$ 1.859.185,00; universo de 1.026 bens e R$ 2.370.632,63); páginas de Pinto (2019) a conferir no PDF pela equipe; site testado no navegador em 1366 px e 390 px |
 | 24/11/2026 | Claude (Anthropic) | Verificação dos critérios de identificação (Regras, item 7) e ajustes: extrator 1.3.0 (grupo indígena, exposições, separação de técnica e suporte, local de produção, data de aquisição padronizada, situação, classificação pelo Tesauro fora da completude), relatório de inconsistências e textos sobre consulta, exportação e procedimentos autorizados | Recontagem de cada coluna antes e depois; classes de reconhecimento e situações de mensuração conferidas sem alteração; nada inferido além do que consta no portal |
 | 24/11/2026 | Claude (Anthropic) | Identificação pelo INBCM (Resolução Normativa Ibram nº 6/2021), classificação pelo Tesauro de Objetos e subgrupo dos 27 bens recentes do cadastro (`codigos/identificacao_inbcm.py`, `codigos/cadastro_unb_relatorio.py`) | Texto da norma conferido no portal do Ibram; termos do Tesauro conferidos no texto publicado, com equivalências a confirmar marcadas; nada é completado além do que está escrito na denominação |
 | 24/11/2026 | Claude (Anthropic) | Fluxo das etapas no site e no README; documentação da falta de chave comum entre o acervo digital e o cadastro patrimonial, com indicadores de grupo em `dados/conciliacao_patrimonial.csv` | Texto da limitação redigido a partir de parágrafo do Hugo; descrição do Tainacan conferida em tainacan.org; indícios de grupo não usados como vínculo obra a obra |

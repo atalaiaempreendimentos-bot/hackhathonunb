@@ -30,20 +30,49 @@ Classificação contábil: ativo imobilizado tangível (NBC TSP 37, item 5), cla
 | Definição atendida e mensuração de nível A ou B | Reconhecimento sustentado pelas evidências | Reconhecer (NBC TSP 37, item 6), mensuração inicial pelo custo atribuído (itens 12 e 13) | NBC TSP 37, item 69; NBC TSP 38, itens 54 e 55 |
 | Definição atendida sem mensuração confiável | Não reconhecimento fundamentado | Não reconhecer: falha o item 6(b) (NBC TSP 37, item 7); reconhecer quando houver custo ou valor corrente confiável | NBC TSP 37, item 77: dificuldades de mensuração e relevância dos itens |
 | Existência ou controle sem evidência suficiente | Pendente de verificação | Definição de ativo não confirmada (EC, itens 5.11 a 5.13) | Registro pendente (Regras, item 10(g)) |
+| Obra de arte ou de arte contemporânea com definição atendida, sem mensuração própria (versão 2) | Pendente de verificação | Provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7) | Registro pendente de vínculo (Regras, item 10(g)) |
+| Bem do cadastro com tombamento, ingresso documentado e valor atribuído na incorporação | Reconhecimento sustentado pelas evidências | Custo atribuído na incorporação (NBC TSP 37, item 12; NBC TSP 38, item 10) | NBC TSP 37, item 69 |
+| Bem do cadastro com valor de base desconhecida | Pendente de verificação | Confirmar a base ou mensurar pelo custo atribuído na aplicação inicial (NBC TSP 37, item 87(a)) | Valor registrado com ressalva |
+| Bem do cadastro tombado por R$ 0,01 | Não reconhecimento fundamentado | Custo simbólico não é custo atribuído (NBC TSP 37, item 13): item 7 | NBC TSP 37, item 77 |
+| Bem de terceiro sob guarda | Não reconhecimento fundamentado | Sem controle (EC, itens 5.11 e 5.12) | Restrição patrimonial (Regras, item 10(i)) |
 
-## Resultado (24/11/2026)
+## O funil
+
+Cada registro recebe, na coluna `funil` de `dados/reconhecimento.csv`, a etapa em que sai do fluxo: (I) registro de evento, que não é bem; (II) definição de ativo não confirmada; (II) definição atendida, à espera do vínculo com bem já reconhecido no cadastro; (III) definição atendida sem mensuração confiável, divulgada em nota pelo item 77; (IV) reconhecido no balanço. O site mostra dois funis lado a lado, um para o acervo digital e outro para o cadastro patrimonial, porque as duas fontes não têm chave comum e não podem ser somadas.
+
+## Resultado no acervo digital (24/11/2026, versão 2)
 
 | Grupo | Sustentado | Não reconhecimento fundamentado | Pendente |
 |---|---:|---:|---:|
-| Arte | 0 | 161 | 315 |
-| Arte contemporânea | 0 | 155 | 7 |
-| Etnográfica | 0 | 196 | 664 |
+| Arte | 0 | 0 | 476 |
+| Arte contemporânea | 0 | 0 | 162 |
+| Etnográfica | 0 | 206 | 654 |
 | Registro de evento (não é bem) | 0 | 699 | 0 |
-| **Total** | **0** | **1.211** | **986** |
+| **Total** | **0** | **905** | **1.292** |
 
-Satisfazem a definição de ativo 512 registros (161 de arte, 155 de arte contemporânea e 196 etnográficos); todos ficam fora do balanço pelo item 7 da NBC TSP 37, porque nenhum tem, até aqui, três transações comparáveis realizadas (nível B). Dos 986 pendentes, 776 têm ingresso documentado mas localização não confirmada, 137 estão localizados sem forma ou data de ingresso e 73 carecem das duas informações.
+Satisfazem a definição de ativo 522 registros. Desses, 316 (161 de arte e 155 da Triangular) provavelmente correspondem a bens já reconhecidos no cadastro e aguardam o vínculo obra a obra; 206 etnográficos (139 da Galvão e 67 da Inicial) seguem o item 7 da NBC TSP 37. Outros 976 não permitem concluir se satisfazem a definição: 766 têm ingresso documentado mas localização não confirmada, 137 estão localizados sem forma ou data de ingresso e 73 carecem das duas informações.
 
-Mudança em relação à versão de 23/11/2026: as 316 obras de arte e de arte contemporânea que satisfazem a definição de ativo passaram de "Pendente de verificação" para "Não reconhecimento fundamentado", porque o item 7 da NBC TSP 37 dá o tratamento exato desse caso (não reconhecer, divulgar pelo item 77 e reconhecer quando houver mensuração confiável).
+Mudanças em relação à versão 1 (24/11/2026), conforme o Parecer de Reconhecimento dos Ativos da CAL v1 (código anterior em `codigos/versoes_anteriores/reconhecimento_v1.py`):
+
+1. As 316 obras de arte e de arte contemporânea com definição atendida passaram de "Não reconhecimento fundamentado" (item 7) para "Pendente de verificação": concluir que não se reconhecem contrariaria o cadastro, que provavelmente já as reconhece (Triangular: Lista da CAL; Arte: doações de pessoas físicas e do Banco Central).
+2. Os 10 registros "Emprestado" da Coleção Galvão passaram a satisfazer a definição de ativo: o catálogo de 2025 informa 17 peças emprestadas ao Museu das Bandeiras (GO) e ao Museu do Descobrimento (Porto Seguro), e o empréstimo de saída é indicador de acesso (EC, item 5.12(b)) (ENTIDADES e peles, 2025).
+3. A propriedade legal da Coleção Galvão passou a se apoiar na trajetória documentada: coleção formada na UnB, depositada no Centro Nacional de Referência Cultural em 1977 e devolvida em 2002 por termo de rescisão do acordo de guarda (PINTO, 2019, p. 44 e 49). A "Transferência" do portal é o fim da guarda, não uma aquisição. Ressalva: o trabalho registra cessão à Fundação Nacional Pró-Memória e pedido de reintegração (PINTO, 2019, p. 46-47); a titularidade deve ser confirmada no termo de 2002.
+4. Coleção Chocó: sob a responsabilidade da CAL desde 1989, sem documento de ingresso (ENTIDADES e peles, 2025); segue pendente. Coleção Inicial: doada no FLAAC de 1987, enquanto o portal registra 1993 em 262 registros, inconsistência a conferir. Coleção CNRC: de propriedade do IPHAN, sob cessão de uso (PINTO, 2019, p. 49 e 54); fora do portal e do ativo da UnB.
+
+## Resultado no cadastro patrimonial (24/11/2026)
+
+`codigos/reconhecimento_cadastro.py` aplica o teste aos 1.026 bens do relatório de bens da UnB nas localidades da CAL e aos bens recentes (`dados/reconhecimento_cadastro_resumo.csv`; a versão bem a bem fica fora do repositório público):
+
+| Camada | Bens | Valor registrado | Classe |
+|---|---:|---:|---|
+| A1. Doações de 2024 a 2026, com termo ou processo SEI e valor individual | 27 | R$ 113.800,00 | Reconhecimento sustentado pelas evidências |
+| A2. Lista da CAL: obras próprias doadas em 2019 e 2020, por ato de ingresso | 231 | R$ 1.745.385,00 | Reconhecimento sustentado pelas evidências |
+| A3. Outros bens com valor registrado, migrados do SIPAT sem data de ingresso | 455 | R$ 338.429,60 | Pendente de verificação (base do valor) |
+| B. Bens tombados por R$ 0,01 (custo simbólico) | 303 | R$ 3,03 | Não reconhecimento fundamentado (itens 7 e 13) |
+| D. Bens de terceiros | 10 | R$ 173.015,00 | Não reconhecimento fundamentado (sem controle) |
+| **Total** | **1.026** | **R$ 2.370.632,63** | |
+
+Memória de cálculo: 27 + 231 = 258 bens com reconhecimento sustentado; R$ 113.800,00 + R$ 1.745.385,00 = R$ 1.859.185,00. Valores oficialmente registrados pela UnB, não estimados pela equipe (Regras, item 10). Ressalvas: a base de cada valor (avaliação ou declaração do doador) está nos processos e atos de ingresso, não examinados; no ato 217, 80 obras têm o mesmo valor de R$ 5.000,00, o que sugere valor convencionado, a confirmar.
 
 ## Conciliação com o cadastro patrimonial
 
@@ -57,12 +86,18 @@ O relatório de bens da UnB com todas as obras de arte (código de material 5244
 
 O acervo digital não registra o número de tombamento, e a Lista da CAL não registra título, autoria ou número do portal (`metodologia/identificacao.md`). Isso afeta o teste de reconhecimento em três pontos:
 
-1. **Controle e existência.** O cadastro patrimonial é a principal evidência de propriedade legal (EC, item 5.12(a)) e de localização. Sem chave comum, o registro do portal não pode usá-la, e as Regras vedam presumir o controle pela presença no portal (item 8). Só os 27 registros com tombamento confirmado no relatório de bens ganharam essa evidência; boa parte dos 986 pendentes decorre dessa lacuna.
+1. **Controle e existência.** O cadastro patrimonial é a principal evidência de propriedade legal (EC, item 5.12(a)) e de localização. Sem chave comum, o registro do portal não pode usá-la, e as Regras vedam presumir o controle pela presença no portal (item 8). Só os 27 registros com tombamento confirmado no relatório de bens ganharam essa evidência; boa parte dos 976 pendentes decorre dessa lacuna.
 2. **Mensuração confiável (NBC TSP 37, item 6(b)).** A Lista da CAL traz valores registrados no ingresso por doação, com ato de ingresso: R$ 1.765.385,00 para 232 obras próprias. Com o vínculo obra a obra, o valor seria evidência de custo atribuído (NBC TSP 37, itens 11 a 13; NBC TSP 38, itens 7, 10 e 12(b)). Sem ele, o critério 6(b) não é atendido no registro, e os bens que satisfazem a definição de ativo seguem o item 7: não reconhecimento e divulgação pelo item 77. É o caso de 155 das 162 obras da subcoleção Triangular, a provável contrapartida da lista.
 3. **Unidade de reconhecimento e dupla contagem.** As obras da lista já constam do cadastro da UnB com valor. Reconhecer registros do portal com valoração própria poderia contar o mesmo objeto duas vezes ou omitir obras que não estão no portal. Por isso os valores oficiais não são somados às estimativas acadêmicas (Regras, item 10).
 
-A situação é reversível: o item 7 da NBC TSP 37 manda reconhecer o bem a partir da data em que o custo ou o valor corrente estiver disponível, e o item 87(a) admite o custo atribuído na aplicação inicial. Com os atos de doação, parte das obras da Triangular poderia passar a "Reconhecimento sustentado pelas evidências", hoje sem nenhum registro.
+A situação é reversível: o item 7 da NBC TSP 37 manda reconhecer o bem a partir da data em que o custo ou o valor corrente estiver disponível, e o item 87(a) admite o custo atribuído na aplicação inicial. Com os atos de doação, até 155 registros da Triangular podem passar a "Reconhecimento sustentado pelas evidências", com o valor já registrado na camada A2 do cadastro.
 
 ## Reprodução
 
-`python3 codigos/reconhecimento.py` (lê `dados/inventario.csv`, `dados/metadados_completos.csv` e `dados/mensuracao.csv`; gera `dados/reconhecimento.csv` e `dados/reconhecimento_resumo.csv`).
+`python3 codigos/reconhecimento.py` e `python3 codigos/reconhecimento_cadastro.py` (este exige os arquivos locais do cadastro). O primeiro lê `dados/inventario.csv`, `dados/metadados_completos.csv` e `dados/mensuracao.csv`; gera `dados/reconhecimento.csv` e `dados/reconhecimento_resumo.csv`).
+
+## Referências
+
+ENTIDADES e peles: desvendando máscaras dos povos originários: exposição do acervo da Casa da Cultura da América Latina. Curadoria de Gustavo Hamilton Menezes. Brasília, DF: Ed. dos Autores, 2025. E-book (PDF). ISBN 978-65-01-60206-6. Disponível em: https://bdce.unb.br/wp-content/uploads/tainacan-items/18648/42894/af_entidades-e-peles_28x21cm_30jul25_isbn.pdf. Acesso em: 24 nov. 2026.
+
+PINTO, Tamine Alana Oliveira. **Classificação museológica e coleções etnográficas**: trajetória da Coleção Galvão da Casa da Cultura da América Latina da Universidade de Brasília. Orientador: Clovis Carvalho Britto. 2019. 85 f. Trabalho de Conclusão de Curso (Graduação em Museologia), Faculdade de Ciência da Informação, Universidade de Brasília, Brasília, 2019. Disponível em: https://bdm.unb.br/bitstream/10483/23735/1/2019_TamineAlanaOliveiraPinto_tcc.pdf. Acesso em: 24 nov. 2026.
