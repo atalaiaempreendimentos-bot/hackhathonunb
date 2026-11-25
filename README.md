@@ -33,6 +33,8 @@ cultiva-unb-trio/
 │   ├── extrair_acervo_cal.py      Etapa I: extrator (API REST do Tainacan), sem dependências externas
 │   ├── verificar_duplicidades.py  Etapa I: verificação de registros duplicados
 │   ├── identificacao_inbcm.py     Etapa I: elementos do INBCM (Resolução Normativa Ibram nº 6/2021) e classificação pelo Tesauro
+│   ├── verificar_inconsistencias.py Etapa I: inconsistências cadastrais (datas, dimensões, situação, numeração, grafia)
+│   ├── tesauro.py                 classificação pelo Tesauro de Objetos, usada pelo extrator e pelo INBCM
 │   ├── reconhecimento.py          Etapa II: matriz de reconhecimento
 │   ├── mensuracao.py              Etapa III: modelo de mensuração
 │   ├── comparaveis.py             Etapa III: abordagem de mercado por comparáveis
@@ -105,7 +107,7 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 |---|---|
 | Registros identificados e recuperados | 2.197 e 2.197 |
 | Cobertura | 100,0% do universo digital |
-| Completude cadastral | 32,9% |
+| Completude cadastral | 34,1% (13 variáveis principais; só dados do portal) |
 | Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
 | Reconhecimento sustentado | 0 |
 | Reconhecimento pendente | 986 (outros 1.211 com não reconhecimento fundamentado: 512 pelo item 7 da NBC TSP 37 e 699 eventos) |
@@ -151,6 +153,7 @@ As duas opções produzem as mesmas tabelas.
 | Arquivo | Conteúdo |
 |---|---|
 | `inventario.csv` | Base padronizada com as variáveis do item 7 das Regras (identificador, coleção, categoria, título, autoria ou grupo de origem, ano, técnica, materiais, dimensões, proveniência, forma de aquisição, localização, estado de conservação, nº de patrimônio, descrição, fonte e URL), mais triagem de grupo, completude e duplicidade |
+| `inconsistencias.csv` | Inconsistências cadastrais por registro (tipo, campo, valor, o que conferir); resumo em `inconsistencias_resumo.csv` |
 | `identificacao_inbcm.csv` | Para cada bem, os elementos do INBCM (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º) presentes e ausentes, outros números propostos e classificação proposta pelo Tesauro de Objetos (FERREZ, 2016); resumo em `identificacao_inbcm_resumo.csv` |
 | `denominacoes.csv` | As 290 denominações do acervo digital (INBCM, inciso IV), com bens, grupos e classificação proposta; comparadas no site com a denominação do cadastro patrimonial |
 | `vocabulario_tesauro.csv` | Vocabulário revisável: denominação do portal, termo e código do Tesauro, verificação |
@@ -243,6 +246,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 23/11/2026 | Claude (Anthropic) | Abordagem de mercado por comparáveis (`codigos/comparaveis.py`), pesquisa de comparáveis na web e filtros por artista e por situação no site | Fontes registradas em `dados/comparaveis.csv`; equipe deve conferir cada fonte antes da defesa |
 | 23/11/2026 | Claude (Anthropic) | Modelo de mensuração (`codigos/mensuracao.py`, `metodologia/mensuracao.md`) e coluna de mensuração no site | Nenhum valor monetário atribuído sem evidência; regras de categoria a revisar pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Site do projeto (`index.html`, GitHub Pages) com indicadores, consulta, galeria e créditos das fotos | Fotos conferidas: 1.244 imagens válidas, cada uma ligada ao registro na planilha |
+| 24/11/2026 | Claude (Anthropic) | Verificação dos critérios de identificação (Regras, item 7) e ajustes: extrator 1.3.0 (grupo indígena, exposições, separação de técnica e suporte, local de produção, data de aquisição padronizada, situação, classificação pelo Tesauro fora da completude), relatório de inconsistências e textos sobre consulta, exportação e procedimentos autorizados | Recontagem de cada coluna antes e depois; classes de reconhecimento e situações de mensuração conferidas sem alteração; nada inferido além do que consta no portal |
 | 24/11/2026 | Claude (Anthropic) | Identificação pelo INBCM (Resolução Normativa Ibram nº 6/2021), classificação pelo Tesauro de Objetos e subgrupo dos 27 bens recentes do cadastro (`codigos/identificacao_inbcm.py`, `codigos/cadastro_unb_relatorio.py`) | Texto da norma conferido no portal do Ibram; termos do Tesauro conferidos no texto publicado, com equivalências a confirmar marcadas; nada é completado além do que está escrito na denominação |
 | 24/11/2026 | Claude (Anthropic) | Fluxo das etapas no site e no README; documentação da falta de chave comum entre o acervo digital e o cadastro patrimonial, com indicadores de grupo em `dados/conciliacao_patrimonial.csv` | Texto da limitação redigido a partir de parágrafo do Hugo; descrição do Tainacan conferida em tainacan.org; indícios de grupo não usados como vínculo obra a obra |
 | 24/11/2026 | Claude (Anthropic) | Árvore de decisão da triagem por grupo (extrator 1.2.0): natureza do registro, grupo do bem e resíduo pela sequência do número de registro | Critério gravado em cada registro; inferência pela sequência marcada como provável; versão 1.1.3 preservada em `codigos/versoes_anteriores/` |
@@ -271,7 +275,7 @@ flowchart LR
   L -- "241 de 243 coincidem" --- R
 ```
 - A cobertura refere-se ao universo digital público: 2.197 registros em 3 coleções (Acervo, 1.497; Memória Institucional, 699; Mobiliário moderno da UnB, 1), todos recuperados. Isso não equivale ao patrimônio físico da CAL (Regras, item 4.4).
-- Completude cadastral média de 32,9% nas 13 variáveis principais. Duplicidades: nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir na CAL (`resultados/verificacao_duplicidades.md`).
+- Completude cadastral média de 34,1% nas 13 variáveis principais (32,9% antes do extrator 1.3.0, que mapeou o grupo indígena e as exposições e separou técnica e suporte; ver `metodologia/identificacao.md`). Inconsistências cadastrais em 340 bens (`resultados/inconsistencias.md`). O robots.txt e as condições de uso do portal não foram registrados; a consulta em 24/11/2026 foi recusada por certificado vencido. Duplicidades: nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir na CAL (`resultados/verificacao_duplicidades.md`).
 - A triagem por grupo (árvore de decisão do extrator 1.2.0) não deixa registro "A classificar": os 699 da Memória Institucional são registros de evento, não bens; a Cadeira UnB vai para Arte (design autoral); o ID 25320, com "Coleção = False", vai para Etnográfica como provável, pela sequência do número de registro (`metodologia/identificacao.md`). A triagem continua sujeita a revisão da equipe.
 - Poucos comparáveis de mercado (dois), em dólar e sem conversão; o portal não informa dimensões e tiragem de muitas obras. A validação dos nove casos é documental, sem exame físico na CAL.
 - Na coleção 1565, 252 obras não têm foto no portal (181 da coleção Inicial, 39 da Galvão, 21 da Arte, 10 da Triangular e 1 sem coleção informada). Há inconsistências cadastrais: o ID 11924 (Videoarte, CE.008) consta "Com imagem? = Sim" sem foto; os IDs 1715 e 25973 têm o campo vazio; o ID 25320 tem "Coleção = False".

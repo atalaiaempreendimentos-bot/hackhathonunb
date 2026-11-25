@@ -10,6 +10,14 @@ Pergunta orientadora (Regras, item 7): quais bens culturais estão documentados 
 - Identificadores originais preservados: `id_registro` (ID do Tainacan), `url_registro`, número de registro da CAL (CAL.xxxx, CE.xxx) e código patrimonial, quando existem.
 - Limitação de acesso: em 23/11/2026 o portal apresentava certificado TLS vencido; a coleta dispensou a verificação do certificado por decisão da equipe (dados públicos, somente leitura).
 
+### Possibilidades de consulta, exportação e recuperação (Regras, item 7(c))
+
+O portal oferece duas vias de acesso público. A primeira é a interface web do Tainacan, com busca e filtros pelas taxonomias de cada coleção (no Acervo: Coleção, Grupo indígena, Autoria, Local de produção, Material/Técnica/Suporte e Procedência, conforme `dados/metadados_colecoes.csv`); ela serve à consulta, mas exigiria copiar ou exportar registro a registro, sem garantia de reprodução. A segunda é a API REST pública do Tainacan, que devolve em JSON todos os itens e todos os metadados de cada coleção, com paginação (`/collections`, `/collection/{id}/metadata` e `/collection/{id}/items`). A equipe adotou a API porque ela recupera o universo inteiro de forma documentada, repetível e com o horário de cada resposta; a coleta pelo Console do navegador (`codigos/coletar_no_navegador.js`) usa a mesma API e é a alternativa para quem não puder rodar o Python. Opções de exportação da própria interface não foram usadas nem testadas.
+
+### Procedimentos autorizados (Regras, itens 7(d) e 17.12)
+
+A coleta usou apenas rotas públicas, sem autenticação, com uma requisição por segundo, identificação do robô no cabeçalho User-Agent, novas tentativas com espera crescente e cache local, de modo que nenhuma página foi pedida duas vezes. O robots.txt e as condições de uso do portal não foram registrados na data da coleta. A tentativa de consulta em 24/11/2026, às 21h, foi recusada pelo navegador por certificado TLS vencido (ERR_CERT_DATE_INVALID), e a equipe não contornou a recusa. A verificação deve ser registrada quando o certificado for renovado; até lá, fica como limitação.
+
 ## Universo e cobertura
 
 | Coleção do portal | Registros declarados | Recuperados |
@@ -49,7 +57,41 @@ Os registros de evento não entram na contagem de bens, mas não são descartado
 
 ## Qualidade cadastral
 
-Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 32,9% no total; Arte 45,9%; Arte contemporânea 66,3%; Etnográfica 24,7%; Registro de evento 26,6% (as variáveis principais descrevem objetos e, em geral, não se aplicam a eventos). Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%). O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. A triagem inicial do extrator (título, autoria e dimensões, mesmo vazias) apontou 427 registros (`dados/duplicidades.csv`), mas essa chave agrupa homônimos. Em 24/11/2026, `codigos/verificar_duplicidades.py` refinou a verificação:
+Completude média das 13 variáveis principais (`dados/diagnostico_qualidade.csv`): 34,1% no total; Arte 44,1%; Arte contemporânea 70,5%; Etnográfica 27,7%; Registro de evento 26,6% (as variáveis principais descrevem objetos e, em geral, não se aplicam a eventos). Campos mais ausentes no total: localização (0,0%), número de patrimônio (0,0%), estado de conservação (7,0%), dimensões (11,8%) e categoria (13,9%, só nos registros de evento).
+
+### Mapeamento e separação de campos (extrator 1.3.0, 24/11/2026)
+
+A versão 1.3.0 do extrator corrigiu o de-para e separou campos que a versão anterior juntava; a completude passou de 32,9% para 34,1%. A completude mede só o que está no portal: a classificação pelo Tesauro e o tombamento vindo do cadastro patrimonial ficam em colunas próprias, fora do cálculo.
+
+| Ajuste | Antes | Agora | Efeito nos 1.498 bens |
+|---|---|---|---|
+| Grupo indígena do portal | não mapeado | `autoria_origem` (grupo de origem, Regras, item 7) | autoria de 645 para 1.217 bens |
+| Exposições e Fontes bibliográficas | não mapeados | `descricao` (descrição histórica ou cultural) | de 1 para 141 bens |
+| Material/Técnica/Suporte | o mesmo texto em `tecnica` e `materiais` | `material_tecnica` (original); `tecnica` e `materiais` separados pelo padrão "técnica sobre suporte" (428) ou por termo de técnica (135) ou de material (58); quando não há como separar, o valor se repete e `criterio_tecnica` registra | técnica em 601 e materiais em 524 bens, em vez de 659 e 659 repetidos |
+| Local de produção | somado à proveniência | `local_producao` (INBCM, inciso XII) | proveniência de 1.459 para 1.432 bens, sem misturar origem geográfica e procedência |
+| Data de aquisição | somada à forma de aquisição | `data_aquisicao`, `data_aquisicao_padronizada` e `precisao_data_aquisicao` | 525 datas com dia, 3 com mês, 893 com ano, 6 com ano incerto e 1 ilegível |
+| Situação | não mapeada | `situacao` (INBCM, inciso III) | 698 bens |
+| Categoria | vazia nos bens | `classificacao_tesauro` e `categoria_tesauro`, propostas pela equipe (FERREZ, 2016) | 938 bens; 560 a classificar |
+| Valores "False" de taxonomias vazias | gravados como texto | descartados na origem | nenhum "False" na base |
+
+A separação de forma e data de aquisição corrigiu também a nota metodológica da mensuração: antes, a forma "Doação | 29/11/2019" não era reconhecida como doação, e 1.296 bens recebiam o texto "forma de aquisição não informada"; agora esse texto aparece só nos 202 bens em que a forma de fato falta. As classes de reconhecimento e as situações de mensuração não mudaram.
+
+### Inconsistências cadastrais (Regras, item 7(g))
+
+`codigos/verificar_inconsistencias.py` lista valores presentes, mas incoerentes, fora do padrão da coleção ou fora das opções do INBCM (`dados/inconsistencias.csv`, `resultados/inconsistencias.md`). Nada é corrigido: cada linha indica registro, campo, valor e o que conferir. Resultado: 340 bens com ao menos uma inconsistência.
+
+| Tipo | Bens |
+|---|---:|
+| Data de aquisição sem forma de aquisição | 166 |
+| Denominação com variante de grafia (acento, singular e plural, grafia próxima) | 73 |
+| Dimensões sem unidade de medida | 71 |
+| Número de registro fora do padrão da subcoleção (numérico na Inicial, onde predomina CAL.nnnn) | 40 |
+| Situação fora das opções do INBCM ("Emprestado") | 10 |
+| Data de aquisição incerta ("(?)") | 6 |
+| "Com imagem?" divergente da imagem publicada | 3 |
+| Número de registro ausente, subcoleção não informada, data de produção sem ano, data de aquisição ilegível | 1 cada |
+
+A heterogeneidade de formatos (datas por extenso, numéricas ou só com o ano; dimensões com ou sem unidade e com convenções próprias de eixos) está no mesmo relatório. O campo "Situação" do portal (Localizado, Não localizado, Emprestado) informa a existência física, mas não o local de guarda. A triagem inicial do extrator (título, autoria e dimensões, mesmo vazias) apontou 427 registros (`dados/duplicidades.csv`), mas essa chave agrupa homônimos. Em 24/11/2026, `codigos/verificar_duplicidades.py` refinou a verificação:
 
 | Critério | Grupos | Registros | Classificação |
 |---|---:|---:|---|

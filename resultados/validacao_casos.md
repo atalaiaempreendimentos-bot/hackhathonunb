@@ -264,7 +264,7 @@ Motivo da escolha: Coleção Chocó. Registro no portal: [CAL.0482](https://www.
 | Estado de conservação | Bom |
 | Condições de reprodução | Direitos Reservados. As fotografias do acervo não podem ser baixadas e/ou reproduzidas, estando o uso não autorizado destas imagens sujeito às penalidades dispostas na Lei de Direito Autoral, Lei nº 9.610 de 19 de fevere |
 
-**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: indício (1989 sem data). Classe: Pendente de verificação. Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13). Faltam informações para concluir: documentar a data e o ato de incorporação. Divulgação: Evidenciar como registro pendente de verificação (Regras, item 10(g)).
+**Reconhecimento.** Existência: atendido (situação: Localizado). Controle: indício (ingresso em 1989, sem forma). Classe: Pendente de verificação. Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13). Faltam informações para concluir: documentar a forma de aquisição (doação, transferência ou compra). Divulgação: Evidenciar como registro pendente de verificação (Regras, item 10(g)).
 
 **Mensuração.** Sem mensuração monetária fundamentada: sem valor. Base: Custo atribuído pelo valor corrente operacional, se houver dados; não monetizado por padrão. Técnica: Nenhuma técnica aplicável: evidenciação qualitativa (NBC TSP 37, item 77). Nível de evidência: D.
 

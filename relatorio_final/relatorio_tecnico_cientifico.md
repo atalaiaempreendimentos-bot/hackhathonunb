@@ -33,7 +33,7 @@ Fluxo automatizado em Python (biblioteca padrão), executado por `codigos/execut
 
 ## v. Caracterização dos dados
 
-Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497; Memória Institucional 699; Mobiliário moderno da UnB 1), cobertura de 100,0% do universo digital identificável, completude cadastral média de 32,9% e nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo. Grupos (árvore de decisão do extrator 1.2.0, 24/11/2026): Arte 476 (inclui a Cadeira UnB, design autoral), Arte contemporânea 162, Etnográfica 860 (Inicial 349 e o ID 25320, provável; Galvão 347; Chocó 163) e Registro de evento (não é bem) 699, que é toda a Memória Institucional; nenhum registro "A classificar". A Coleção CNRC não consta do portal. Pelo padrão do INBCM (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º), nenhum bem tem os 9 elementos obrigatórios; faltam no portal os incisos II (outros números) e VII (classificação), e a classificação proposta pelo Tesauro de Objetos (FERREZ, 2016) alcança 938 bens. No cadastro patrimonial há 27 bens recentes, com denominação descritiva e sem registro no acervo digital (R$ 113.800,00). Cadastro patrimonial: 243 bens na localidade da CAL, dos quais 242 obras de arte (232 próprias, R$ 1.765.385,00; 10 de terceiros, R$ 173.015,00).
+Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497; Memória Institucional 699; Mobiliário moderno da UnB 1), cobertura de 100,0% do universo digital identificável, completude cadastral média de 34,1% (extrator 1.3.0; 340 bens com inconsistências cadastrais) e nenhum identificador repetido; 4 registros em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo. Grupos (árvore de decisão do extrator 1.2.0, 24/11/2026): Arte 476 (inclui a Cadeira UnB, design autoral), Arte contemporânea 162, Etnográfica 860 (Inicial 349 e o ID 25320, provável; Galvão 347; Chocó 163) e Registro de evento (não é bem) 699, que é toda a Memória Institucional; nenhum registro "A classificar". A Coleção CNRC não consta do portal. Pelo padrão do INBCM (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º), nenhum bem tem os 9 elementos obrigatórios; faltam no portal os incisos II (outros números) e VII (classificação), e a classificação proposta pelo Tesauro de Objetos (FERREZ, 2016) alcança 938 bens. No cadastro patrimonial há 27 bens recentes, com denominação descritiva e sem registro no acervo digital (R$ 113.800,00). Cadastro patrimonial: 243 bens na localidade da CAL, dos quais 242 obras de arte (232 próprias, R$ 1.765.385,00; 10 de terceiros, R$ 173.015,00).
 
 ## vi. Resultados
 
@@ -42,7 +42,7 @@ Consulta em 23/11/2026, 19h12: 2.197 registros em três coleções (Acervo 1.497
 | Registros identificados | 2.197 |
 | Registros recuperados | 2.197 |
 | Cobertura | 100,0% |
-| Completude cadastral | 32,9% |
+| Completude cadastral | 34,1% |
 | Registros duplicados (possíveis) | 48 (4 prováveis e 44 a conferir) |
 | Reconhecimento sustentado | 0 |
 | Reconhecimento pendente | 986 |

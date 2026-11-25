@@ -3,7 +3,7 @@
 26193,Mobiliário moderno da UnB,26201,codigo-patrimonial,Código patrimonial,numero_patrimonio,palavra-chave: patrimon
 26193,Mobiliário moderno da UnB,26213,autoria,Autoria,autoria_origem,palavra-chave: autor
 26193,Mobiliário moderno da UnB,26217,data-de-producao-2,Data de produção,ano_periodo,palavra-chave: data
-26193,Mobiliário moderno da UnB,26209,material-e-tecnica-2,Material e técnica,tecnica+materiais,palavra-chave: tecnica
+26193,Mobiliário moderno da UnB,26209,material-e-tecnica-2,Material e técnica,material_tecnica,palavra-chave: tecnica materia
 26193,Mobiliário moderno da UnB,26220,assinatura-marca-fabricante,Assinatura/marca/fabricante,autoria_origem,palavra-chave: fabricante
 26193,Mobiliário moderno da UnB,26244,dimensoes-2,Dimensões,dimensoes,palavra-chave: dimens
 26193,Mobiliário moderno da UnB,26198,descricao-3,Descrição,descricao,palavra-chave: descri
@@ -32,22 +32,22 @@
 1565,Acervo,1569,title-3,Denominação,titulo,palavra-chave: denomina
 1565,Acervo,1570,numero-de-registro,Número de Registro,outros_identificadores,palavra-chave: registro
 1565,Acervo,1579,colecao,Coleção,subcolecao,palavra-chave: colec
-1565,Acervo,4882,grupo-indigena,Grupo indígena,,sem correspondência
+1565,Acervo,4882,grupo-indigena,Grupo indígena,autoria_origem,palavra-chave: grupo indigena
 1565,Acervo,1608,autor,Autoria,autoria_origem,palavra-chave: autor
 1565,Acervo,4865,titulo,Título,titulo,palavra-chave: titulo
-1565,Acervo,4889,local-de-producao,Local de produção,proveniencia,palavra-chave: local de producao
+1565,Acervo,4889,local-de-producao,Local de produção,local_producao,palavra-chave: local de producao
 1565,Acervo,4894,data-de-producao,Data de produção,ano_periodo,palavra-chave: data
-1565,Acervo,1602,material-tecnica,Material/Técnica/Suporte,tecnica+materiais,palavra-chave: tecnica
+1565,Acervo,1602,material-tecnica,Material/Técnica/Suporte,material_tecnica,palavra-chave: material tecnica
 1565,Acervo,5128,dimensoes,Dimensões,dimensoes,palavra-chave: dimens
 1565,Acervo,4921,marcas-inscricoes,Marcas/Inscrições,descricao,palavra-chave: inscri
 1565,Acervo,4924,tiragem,Tiragem,tiragem,palavra-chave: tiragem
 1565,Acervo,4707,com-imagem,Com imagem?,,sem correspondência
 1565,Acervo,1594,forma-de-aquisicao,Forma de aquisição,forma_aquisicao,palavra-chave: aquisi
-1565,Acervo,1591,data-de-aquisicao,Data de aquisição,forma_aquisicao,palavra-chave: aquisi
+1565,Acervo,1591,data-de-aquisicao,Data de aquisição,data_aquisicao,palavra-chave: data de aquisi
 1565,Acervo,1587,procedencia,Procedência,proveniencia,palavra-chave: procedencia
-1565,Acervo,4949,situacao,Situação,,sem correspondência
+1565,Acervo,4949,situacao,Situação,situacao,palavra-chave: situacao
 1565,Acervo,4955,estado-de-conservacao,Estado de conservação,estado_conservacao,palavra-chave: conserva
 1565,Acervo,4967,condicoes-de-reproducao,Condições de reprodução,direitos_restricoes,palavra-chave: reproduc
-1565,Acervo,4970,exposicoes,Exposições,,sem correspondência
-1565,Acervo,4973,fontes-bibliograficas,Fontes bibliográficas,,sem correspondência
+1565,Acervo,4970,exposicoes,Exposições,descricao,palavra-chave: exposic
+1565,Acervo,4973,fontes-bibliograficas,Fontes bibliográficas,descricao,palavra-chave: bibliograf
 1565,Acervo,1568,description-3,Description,descricao,palavra-chave: descri

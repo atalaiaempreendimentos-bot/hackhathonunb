@@ -2,7 +2,7 @@
 Registros identificados,2197,Maior valor entre a soma dos itens públicos declarados pelas coleções (2197) e o total do repositório na API (2197).
 Registros recuperados,2197,Itens distintos efetivamente baixados e organizados.
 Cobertura (%),100.0,"Recuperados / identificados, no universo digital público."
-Completude cadastral média (%),32.9,Média do preenchimento das 13 variáveis principais.
+Completude cadastral média (%),34.1,Média do preenchimento das 13 variáveis principais.
 Registros com possível duplicidade,427,Ver duplicidades.csv; requer conferência manual.
 Rastreabilidade da fonte (%),100.0,Registros com URL de origem e data de consulta. Decisões de reconhecimento e mensuração entram nas etapas II e III.
 Registros no grupo sugerido: Arte,476,"Triagem automática, sujeita a revisão."

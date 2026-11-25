@@ -44,6 +44,13 @@ Uso
                                                     # monta as tabelas a partir do JSON baixado
                                                     # pelo trecho coletar_no_navegador.js
 
+Versão 1.3.0: "Grupo indígena" alimenta autoria_origem (grupo de origem, Regras, item 7); "Exposições" e
+"Fontes bibliográficas" alimentam a descrição histórica ou cultural; local de produção, data de aquisição
+(com forma padronizada), situação e material/técnica ganham colunas próprias; técnica e materiais são
+separados quando o texto permite ("técnica sobre suporte" ou termo inequívoco); a classificação proposta pelo
+Tesauro de Objetos (FERREZ, 2016) entra em colunas próprias, fora da completude; valores "False" de
+taxonomias vazias são descartados na origem.
+
 Triagem por grupo (versão 1.2.0): árvore de decisão em três níveis, cada registro com o critério aplicado
 (coluna criterio_grupo): (1) natureza do registro, que separa registros de evento (sem objeto) dos bens;
 (2) grupo do bem pela subcoleção, pela coleção e por termos de categoria e técnica; (3) para o resíduo,
@@ -71,7 +78,12 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSAO = "1.2.0"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tesauro import carregar_vocabulario, classificar as classificar_tesauro  # noqa: E402
+
+VOCAB = []
+
+VERSAO = "1.3.0"
 BASE_PADRAO = "https://www.acervocal.unb.br"
 API = "/wp-json/tainacan/v2"
 USER_AGENT = ("CULTIVA-UnB-2026/{} (pesquisa academica PPGCont/UnB; coleta com "
@@ -90,23 +102,33 @@ VARIAVEIS = [
     ("grupo_sugerido", "Triagem automática: Arte, Arte contemporânea, Etnográfica, Registro de evento (não é bem) ou A classificar. Sujeita a revisão."),
     ("criterio_grupo", "Termo que motivou a triagem do grupo (rastreabilidade da regra)."),
     ("flag_possivel_contemporanea", "'sim' quando técnica, categoria ou suporte indicam obra contemporânea (vídeo, instalação, arte postal etc.)."),
-    ("categoria", "Categoria, tipologia ou classificação do bem."),
+    ("categoria", "Categoria, tipologia ou classificação do bem, como consta no portal (nos bens, o portal não tem esse campo; na Memória Institucional, é o tipo do evento)."),
+    ("classificacao_tesauro", "Classificação proposta pela equipe para a categoria do bem: termo e código do Tesauro de Objetos do Patrimônio Cultural nos Museus Brasileiros (FERREZ, 2016), pela denominação, com o vocabulário revisável dados/vocabulario_tesauro.csv; vazio quando não há termo correspondente. Fora da completude."),
+    ("categoria_tesauro", "Categoria de primeiro nível do Tesauro correspondente à classificação proposta (por exemplo, 06 Objetos de atividades artísticas). Fora da completude."),
+    ("verificacao_classificacao", "Se o termo foi localizado literalmente no Tesauro ou é equivalência a confirmar."),
     ("titulo", "Título ou denominação."),
-    ("autoria_origem", "Artista, autor ou grupo de origem (inclui etnia ou povo, nas coleções etnográficas)."),
+    ("autoria_origem", "Artista, autor ou grupo de origem; nas coleções etnográficas, o grupo indígena informado no portal (inclusive \"Não identificado\")."),
     ("ano_periodo", "Ano, data ou período de produção, como consta no portal."),
     ("ano_inicial_extraido", "Primeiro ano com quatro dígitos encontrado em ano_periodo (apoio a filtros; não substitui o dado original)."),
-    ("tecnica", "Técnica."),
-    ("materiais", "Materiais ou suporte."),
+    ("material_tecnica", "Material, técnica e suporte como constam no portal, em campo único (INBCM, inciso X)."),
+    ("tecnica", "Técnica, separada de material_tecnica: a parte antes de \"sobre\" ou o termo de técnica; quando a separação não é possível, repete o valor original (ver criterio_tecnica)."),
+    ("materiais", "Materiais ou suporte, separados de material_tecnica: a parte depois de \"sobre\" ou o termo de material; quando a separação não é possível, repete o valor original (ver criterio_tecnica)."),
+    ("criterio_tecnica", "Como técnica e materiais foram separados: padrão \"técnica sobre suporte\", termo de técnica, termo de material, ou não separável."),
     ("dimensoes", "Dimensões, como constam no portal."),
     ("tiragem", "Tiragem, edição ou numeração de exemplar (gravuras, fotografias, múltiplos)."),
-    ("proveniencia", "Proveniência, procedência ou local de origem."),
+    ("proveniencia", "Proveniência ou procedência (de quem ou de onde o bem veio para o acervo)."),
+    ("local_producao", "Local de produção, indicação geográfica de onde o bem foi feito (INBCM, inciso XII)."),
     ("forma_aquisicao", "Forma de aquisição ou incorporação (compra, doação, transferência etc.)."),
+    ("data_aquisicao", "Data de aquisição ou incorporação, como consta no portal."),
+    ("data_aquisicao_padronizada", "Data de aquisição em forma padronizada: AAAA-MM-DD, AAAA-MM ou AAAA, quando legível."),
+    ("precisao_data_aquisicao", "Precisão da data padronizada: dia, mês, ano, ano incerto (\"(?)\" no portal) ou ilegível."),
     ("localizacao", "Localização atual do bem."),
+    ("situacao", "Situação do bem no portal: localizado, não localizado ou emprestado (INBCM, inciso III)."),
     ("estado_conservacao", "Estado de conservação."),
     ("numero_patrimonio", "Número de patrimônio ou de tombo."),
     ("outros_identificadores", "Outros números de registro, inventário ou código."),
     ("direitos_restricoes", "Direitos, licenças ou restrições de acesso e divulgação."),
-    ("descricao", "Descrição histórica ou cultural (descrição do item somada a campos descritivos)."),
+    ("descricao", "Descrição histórica ou cultural: descrição do item somada a campos descritivos (marcas e inscrições, exposições, fontes bibliográficas)."),
     ("url_registro", "Endereço eletrônico do registro no portal."),
     ("fonte", "Fonte do dado."),
     ("data_consulta", "Data e hora da consulta (UTC-3)."),
@@ -120,9 +142,55 @@ VARIAVEIS = [
     ("campos_principais_preenchidos", "Quantidade de variáveis principais preenchidas (ver completude)."),
     ("completude_pct", "Percentual de preenchimento das variáveis principais."),
     ("possivel_duplicata", "Indica possível duplicidade e o critério usado."),
-    ("chave_duplicidade", "Chave normalizada título+autoria+dimensões usada na detecção."),
+    ("chave_duplicidade", "Chave normalizada título+autoria individual+dimensões usada na triagem inicial de duplicidades (o grupo de origem não entra na chave); a verificação refinada está em verificacao_duplicidades.csv."),
 ]
 COLUNAS = [c for c, _ in VARIAVEIS]
+
+# Arquivos derivados (gerados pelos demais scripts do fluxo), descritos no dicionário de dados
+DERIVADOS = [
+    ("identificacao_inbcm.csv", "identificacao_inbcm.py", [
+        ("id_registro, colecao, grupo_sugerido", "Identificação do bem, como no inventário (só bens; registros de evento ficam fora)."),
+        ("numero_registro", "Número de registro museológico (INBCM, inciso I)."),
+        ("outros_numeros_portal / outros_numeros_proposto", "Número patrimonial informado no portal / tombamento confirmado no relatório de bens da UnB, proposto pela equipe (inciso II)."),
+        ("situacao_portal / situacao_conforme_rn", "Situação no portal e se está entre as opções da norma (inciso III)."),
+        ("denominacao", "Nome do objeto (inciso IV)."),
+        ("classificacao_termo, classificacao_codigo, classificacao_hierarquia, classificacao_verificacao", "Classificação proposta pelo Tesauro de Objetos (inciso VII; FERREZ, 2016) e sua verificação."),
+        ("obrigatorios_preenchidos / obrigatorios_ausentes / facultativos_preenchidos", "Elementos do art. 7º, § 1º, da Resolução Normativa Ibram nº 6/2021 presentes e ausentes."),
+    ]),
+    ("denominacoes.csv", "identificacao_inbcm.py", [
+        ("denominacao / variantes", "Denominação do acervo digital (forma mais frequente) e variações só de acento ou caixa."),
+        ("registros / grupos", "Bens com a denominação e sua distribuição por grupo."),
+        ("classificacao_*", "Classificação proposta pelo Tesauro, como em identificacao_inbcm.csv."),
+    ]),
+    ("vocabulario_tesauro.csv", "revisão manual", [
+        ("chave / correspondencia", "Denominação normalizada e tipo de correspondência (exata ou pela primeira palavra)."),
+        ("termo_tesauro, codigo, hierarquia", "Termo, código e categoria no Tesauro de Objetos (FERREZ, 2016)."),
+        ("verificacao / fonte", "Se o termo foi localizado literalmente ou é equivalência a confirmar; fonte."),
+    ]),
+    ("inconsistencias.csv", "verificar_inconsistencias.py", [
+        ("id_registro, colecao, grupo_sugerido, titulo, url_registro", "Identificação do bem."),
+        ("tipo / campo / valor", "Tipo de inconsistência, campo do portal e valor encontrado."),
+        ("o_que_conferir", "O que verificar na CAL; nada é corrigido automaticamente."),
+    ]),
+    ("verificacao_duplicidades.csv", "verificar_duplicidades.py", [
+        ("grupo / criterio / classificacao", "Grupo de registros comparados, critério e resultado (provável duplicidade, a conferir, registros distintos)."),
+        ("demais colunas", "Dados do registro usados na comparação e observação."),
+    ]),
+    ("valores_cadastro_unb.csv", "cadastro_unb_relatorio.py", [
+        ("id_registro / numero_registro_portal / procedencia_portal", "Registro do Acervo e dados do portal usados no vínculo."),
+        ("tombamentos / origem_sipat / localidade / status_cadastro", "Dados do relatório de bens da UnB, quando há vínculo."),
+        ("valor_registrado / valor_exibicao", "Valor registrado no cadastro (informação oficial, não mensuração)."),
+        ("criterio_vinculo / confianca / observacao", "Critério (identificador ou procedência), grau (confirmado, provável, sem vínculo) e ressalvas."),
+    ]),
+    ("bens_recentes_cadastro.csv", "cadastro_unb_relatorio.py", [
+        ("tombamento, data_tombamento, termo, localidade, status, estado, valor_registrado", "Dados do relatório de bens da UnB, sem nomes ou matrículas."),
+        ("titulo, serie, data_producao, material_tecnica, dimensoes, denominacao_inbcm", "Elementos lidos da denominação do cadastro, sem completar o que não está escrito."),
+        ("grupo_sugerido, criterio_grupo, indicio_contemporanea, registro_acervo_digital", "Triagem do subgrupo e verificação de registro no acervo digital."),
+    ]),
+    ("reconhecimento.csv e mensuracao.csv", "reconhecimento.py e mensuracao.py", [
+        ("todas", "Etapas II e III; colunas descritas em metodologia/reconhecimento.md e metodologia/mensuracao.md."),
+    ]),
+]
 
 # Variáveis principais para a completude cadastral (Regras, itens 7 e 15)
 PRINCIPAIS = ["categoria", "titulo", "autoria_origem", "ano_periodo", "tecnica", "materiais",
@@ -132,6 +200,10 @@ PRINCIPAIS = ["categoria", "titulo", "autoria_origem", "ano_periodo", "tecnica",
 # Regras de de-para por palavra-chave, na ordem de prioridade.
 # Cada regra: (variavel, padrões que casam, padrões que excluem)
 REGRAS_MAPA = [
+    ("situacao", [r"^situacao\b"], []),
+    ("data_aquisicao", [r"data de (aquisi|incorpora|entrada|doacao)"], []),
+    ("local_producao", [r"local de (producao|fabricacao|criacao|confeccao)"], []),
+    ("material_tecnica", [r"materia\w*\W+tecnica", r"tecnica\W+materia", r"tecnica\W+suporte"], []),
     ("numero_patrimonio", [r"patrimon", r"\btombo", r"tombamento"], []),
     ("estado_conservacao", [r"conserva", r"estado fisico", r"estado do (bem|objeto|item)", r"\bcondicao"], []),
     ("forma_aquisicao", [r"aquisi", r"incorpora", r"\bdoa(cao|dor)", r"forma de entrada",
@@ -144,10 +216,10 @@ REGRAS_MAPA = [
                    r"diametro", r"\bmedida", r"\bpeso\b", r"\bespessura"], []),
     ("tecnica", [r"tecnica"], []),
     ("materiais", [r"materia", r"\bsuporte"], []),
-    ("proveniencia", [r"proveni", r"procedencia", r"\borigem", r"local de (producao|coleta|fabricacao|criacao)",
+    ("proveniencia", [r"proveni", r"procedencia", r"\borigem", r"local de coleta",
                       r"\bregiao", r"\bpais\b", r"\bcidade", r"localidade", r"\bcoleta\b", r"coletor"], []),
     ("subcolecao", [r"\bcolec", r"\bconjunto", r"\bfundo\b", r"nucleo"], []),
-    ("autoria_origem", [r"\bautor", r"artista", r"criador", r"\betnia", r"\bpovo", r"grupo (etnico|cultural|de origem)",
+    ("autoria_origem", [r"\bautor", r"artista", r"criador", r"\betnia", r"\bpovo", r"grupo (etnico|cultural|de origem|indigena)",
                         r"comunidade", r"fabricante", r"realizador", r"nome artistico"],
      [r"biografia", r"sinonimo"]),
     ("ano_periodo", [r"\bdata\b", r"\bano\b", r"periodo", r"datacao", r"\bepoca", r"\bseculo"],
@@ -155,7 +227,7 @@ REGRAS_MAPA = [
     ("categoria", [r"categoria", r"classifica", r"tipologia", r"\btipo\b", r"\bclasse\b", r"\bgenero\b",
                    r"\bnatureza\b", r"\bobjeto\b"], [r"midia", r"documento"]),
     ("titulo", [r"titulo", r"denomina", r"nome do (objeto|bem|item)"], []),
-    ("descricao", [r"descri", r"historic", r"observa", r"contexto", r"\bnota", r"biografia",
+    ("descricao", [r"descri", r"historic", r"observa", r"contexto", r"\bnota", r"biografia", r"\bexposic", r"bibliograf",
                    r"resumo", r"significado", r"\bfuncao", r"\buso\b", r"inscri", r"assinatura"], []),
     ("outros_identificadores", [r"identifica", r"codigo", r"registro", r"inventario", r"\bnumero",
                                 r"\bn[ou]?\b"], []),
@@ -555,10 +627,7 @@ def classificar_metadado(nome, slug, dc=None):
     for var, padroes, exclui in REGRAS_MAPA:
         p = casa(padroes, texto)
         if p and not casa(exclui, texto):
-            extra = []
-            if var == "tecnica" and casa([r"materia", r"\bsuporte"], texto):
-                extra = ["materiais"]
-            return [var] + extra, "palavra-chave: " + p
+            return [var], "palavra-chave: " + p
     if dc:
         return [DUBLIN_CORE[dc]], "Dublin Core: " + dc
     return [], "sem correspondência"
@@ -644,6 +713,70 @@ def triagem_residual(inventario, vizinhos=3, distancia=10):
                 ref["subcolecao"])
             alterados += 1
     return alterados
+
+
+TERMOS_TECNICA = [r"litograf", r"serigraf", r"xilograv", r"linoleograv", r"gravura", r"agua.?forte", r"agua.?tinta",
+                  r"ponta.?seca", r"\bburil", r"desenho", r"\bvideo", r"fotomontagem", r"fotolito", r"fotograf",
+                  r"anima[cç]", r"pixilation", r"estencil", r"colagem", r"bordad", r"esculpid", r"entalh", r"pintad",
+                  r"tingid", r"datilograf", r"impress", r"monotipia", r"aquarela", r"pintura", r"tecnica mista",
+                  r"instala", r"performance", r"gravad", r"tecelagem", r"trancad", r"modelad"]
+TERMOS_MATERIAL = [r"madeira", r"ceramica", r"prego", r"cordao", r"borracha", r"palha", r"algodao", r"ferr", r"vidro",
+                   r"acrilic", r"filtro", r"\btinta", r"tecido", r"\bmdf\b", r"\bterra\b", r"porcelana", r"couro",
+                   r"jacaranda", r"barbante", r"\bcorda\b", r"\bpedra", r"areia", r"palmeira", r"buriti", r"sisal",
+                   r"\bvime", r"\bbucha", r"antimonio", r"corrente", r"plastic", r"silicone", r"ladrilho", r"\baco\b",
+                   r"camisa", r"azulejo", r"microfone", r"pedestal", r"carvao", r"samambaia", r"anilina", r"\bcafe\b",
+                   r"bandeira", r"metacrilato", r"boneco", r"caneta", r"etiqueta", r"franja", r"\blinha\b", r"\bouro\b",
+                   r"serragem", r"poltrona", r"\bbalsa\b", r"baralho", r"formica", r"\bpapel", r"\btela\b", r"vinil",
+                   r"\bfibra", r"\bpena", r"pluma", r"semente", r"\bosso", r"micanga", r"\bmetal\b", r"\bbronze",
+                   r"\bgesso", r"argila", r"\bbarro", r"cabaca", r"bambu", r"taquara", r"\bcipo", r"\bdente", r"concha",
+                   r"resina", r"\bcobre", r"\bprata\b", r"latao", r"terracota", r"\bla\b", r"\bseda"]
+
+
+def separar_material_tecnica(valor):
+    """Separa técnica e materiais de um campo único do portal, sem inventar o que não está escrito."""
+    tecs, mats, crit = [], [], set()
+    for p in [x.strip() for x in (valor or "").split(" | ") if x.strip()]:
+        m = re.match(r"^(.*?)\s+sobre\s+(.+)$", p, flags=re.I)
+        if m:
+            tecs.append(m.group(1).strip()); mats.append(m.group(2).strip()); crit.add("padrão técnica sobre suporte")
+            continue
+        k = normaliza(p)
+        t_, m_ = casa(TERMOS_TECNICA, k), casa(TERMOS_MATERIAL, k)
+        if t_ and not m_:
+            tecs.append(p); crit.add("termo de técnica")
+        elif m_ and not t_:
+            mats.append(p); crit.add("termo de material")
+        else:
+            tecs.append(p); mats.append(p); crit.add("não separável: mesmo valor nas duas colunas")
+    return junta(tecs), junta(mats), "; ".join(sorted(crit))
+
+
+MESES = {"janeiro": 1, "fevereiro": 2, "marco": 3, "abril": 4, "maio": 5, "junho": 6, "julho": 7, "agosto": 8,
+         "setembro": 9, "outubro": 10, "novembro": 11, "dezembro": 12}
+
+
+def padronizar_data(valor):
+    """Devolve (data padronizada, precisão) para datas como 29/11/2019, 07 de agosto de 2008, maio de 1993, 1995 (?)."""
+    v = unicodedata.normalize("NFKD", (valor or "").split(" | ")[0])
+    v = re.sub(r"\s+", " ", "".join(c for c in v if not unicodedata.combining(c)).lower()).strip()
+    if not v:
+        return "", ""
+    m = re.fullmatch(r"(\d{1,2})/(\d{1,2})/(\d{4})", v)
+    if m:
+        return "{}-{:02d}-{:02d}".format(m.group(3), int(m.group(2)), int(m.group(1))), "dia"
+    m = re.fullmatch(r"(\d{1,2}) de (\w+) de (\d{4})", v)
+    if m and m.group(2) in MESES:
+        return "{}-{:02d}-{:02d}".format(m.group(3), MESES[m.group(2)], int(m.group(1))), "dia"
+    m = re.fullmatch(r"(\w+) de (\d{4})", v)
+    if m and m.group(1) in MESES:
+        return "{}-{:02d}".format(m.group(2), MESES[m.group(1)]), "mês"
+    m = re.fullmatch(r"(\d{4})\s*\(\?\)", v)
+    if m:
+        return m.group(1), "ano incerto"
+    m = re.fullmatch(r"(\d{4})", v)
+    if m:
+        return m.group(1), "ano"
+    return "", "ilegível"
 
 
 # --------------------------------------------------------------------------------------
@@ -749,6 +882,8 @@ def main():
 
     inicio = agora()
     saida = args.saida
+    global VOCAB
+    VOCAB = carregar_vocabulario(os.path.join(saida, "vocabulario_tesauro.csv"))
     os.makedirs(saida, exist_ok=True)
     log = {"script": "extrair_acervo_cal.py", "versao": VERSAO, "base": args.base,
            "inicio": inicio.isoformat(), "python": sys.version.split()[0],
@@ -898,6 +1033,7 @@ def main():
         for it in itens:
             meta = it.get("metadata") or {}
             acum = {c: [] for c in COLUNAS}
+            autoria_individual = []  # chave de duplicidade sem o grupo de origem (comparável à versão 1.2.0)
             foto_orig, foto_grande = urls_foto(it)
             linha_larga = {"id_registro": it.get("id"), "titulo_item": limpa_texto(it.get("title")),
                            "url_registro": it.get("url"), "url_foto": foto_orig,
@@ -926,8 +1062,10 @@ def main():
                               "metadado_slug": slug, "metadado_nome": limpa_texto(m.get("name")),
                               "valor": val})
                 for var in mapa_col.get(slug, []):
-                    if val:
+                    if val and normaliza(val) not in VALORES_VAZIOS:
                         acum[var].append(val)
+                        if var == "autoria_origem" and not re.search(r"grupo|etnia|povo", normaliza(m.get("name"))):
+                            autoria_individual.append(val)
             larga.append(linha_larga)
             completos.append(comp)
 
@@ -945,6 +1083,9 @@ def main():
                       and str(it.get("document")).startswith("http") else "",
                       "url_foto": foto_orig, "url_foto_grande": foto_grande, "arquivo_foto": ""})
             l["ano_inicial_extraido"] = primeiro_ano(l["ano_periodo"])
+            if l.get("material_tecnica"):
+                l["tecnica"], l["materiais"], l["criterio_tecnica"] = separar_material_tecnica(l["material_tecnica"])
+            l["data_aquisicao_padronizada"], l["precisao_data_aquisicao"] = padronizar_data(l.get("data_aquisicao"))
             if normaliza(l["subcolecao"]) in VALORES_VAZIOS:
                 l["subcolecao"] = ""
             eh_evento = any(comp.get(c) for c in CAMPOS_EVENTO) and not any(
@@ -952,13 +1093,18 @@ def main():
             grupo, crit = triagem_grupo(cnome, l["subcolecao"], l["categoria"], l["tecnica"],
                                         l["materiais"], l["titulo"], eh_evento)
             l["grupo_sugerido"], l["criterio_grupo"] = grupo, crit
+            cls = classificar_tesauro(l["titulo"].split(" | ")[0], VOCAB) if VOCAB and grupo != GRUPO_EVENTO else None
+            if cls:
+                l["classificacao_tesauro"] = "{} ({})".format(cls["termo_tesauro"], cls["codigo"])
+                l["categoria_tesauro"] = cls["hierarquia"].split(" > ")[0]
+                l["verificacao_classificacao"] = cls["verificacao"]
             pc = casa(TERMOS_CONTEMPORANEA, normaliza(" ".join([l["categoria"], l["tecnica"], l["materiais"],
                                                                   l["subcolecao"], cnome])))
             l["flag_possivel_contemporanea"] = "sim" if (pc or grupo == "Arte contemporânea") else ""
             n = sum(1 for c in PRINCIPAIS if l.get(c))
             l["campos_principais_preenchidos"] = n
             l["completude_pct"] = round(100.0 * n / len(PRINCIPAIS), 1)
-            l["chave_duplicidade"] = "|".join(normaliza(l[c]) for c in ("titulo", "autoria_origem", "dimensoes"))
+            l["chave_duplicidade"] = "|".join(normaliza(x) for x in (l["titulo"], junta(autoria_individual), l["dimensoes"]))
             inventario.append(l)
 
         por_colecao[(cid, cnome)] = larga
@@ -1024,7 +1170,8 @@ def main():
         grupos_id.setdefault(str(l["id_registro"]), []).append(l)
         if l["numero_patrimonio"]:
             grupos_pat.setdefault(normaliza(l["numero_patrimonio"]), []).append(l)
-        if normaliza(l["titulo"]) and (normaliza(l["autoria_origem"]) or normaliza(l["dimensoes"])):
+        _t, _a, _d = (l["chave_duplicidade"].split("|") + ["", "", ""])[:3]
+        if _t and (_a or _d):
             grupos_chave.setdefault(l["chave_duplicidade"], []).append(l)
     tab_dup = []
     for criterio, grupos in (("mesmo id_registro", grupos_id), ("mesmo número de patrimônio", grupos_pat),
@@ -1132,6 +1279,9 @@ def main():
         f.write("## inventario.csv (base padronizada)\n\n| Coluna | Descrição |\n|---|---|\n")
         for c, d in VARIAVEIS:
             f.write("| `{}` | {} |\n".format(c, d))
+        f.write("\nCompletude cadastral: média, por registro, do preenchimento das 13 variáveis principais ({}). "
+                "Mede só o que consta no portal; as colunas propostas pela equipe (classificacao_tesauro, categoria_tesauro) "
+                "ficam fora do cálculo.\n".format(", ".join(PRINCIPAIS)))
         f.write("\nAs variáveis padronizadas são preenchidas pelo de-para em `mapeamento_campos.csv`. "
                 "Quando mais de um campo original alimenta a mesma variável, os valores são unidos por ` | `. "
                 "Campos vazios significam que o dado não consta no portal; nada é inferido ou inventado.\n\n")
@@ -1142,6 +1292,13 @@ def main():
             for m in [m for m in tab_metadados if m["colecao_id"] == cid]:
                 f.write("| {} | `{}` | {} | {} |\n".format(m["metadado_nome"], m["metadado_slug"], m["tipo"],
                                                          m["variavel_padronizada"] or "(não mapeado)"))
+            f.write("\n")
+        f.write("## Arquivos derivados\n\n"
+                "Gerados pelos demais scripts de `codigos/` a partir desta base (`codigos/executar_pipeline.py`).\n\n")
+        for arq, script, cols_d in DERIVADOS:
+            f.write("### {} ({})\n\n| Coluna | Descrição |\n|---|---|\n".format(arq, script))
+            for c, d in cols_d:
+                f.write("| `{}` | {} |\n".format(c, d))
             f.write("\n")
         f.write("## Demais arquivos\n\n"
                 "- `inventario_bruto_longo.csv`: todos os metadados de todos os itens, um valor por linha.\n"

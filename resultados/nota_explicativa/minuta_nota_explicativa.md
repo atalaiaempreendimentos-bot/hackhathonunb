@@ -6,7 +6,7 @@ Estrutura: a nota segue os requisitos de divulgação da NBC TSP 37 (itens 69 e 
 
 ## 1 Caracterização das coleções [a, b]
 
-A CAL guarda coleções de arte, arte contemporânea e etnográficas. O acervo digital público reúne 2.197 registros em três coleções: Acervo (1.497 registros, com as subcoleções Arte, Triangular, Inicial, Galvão e Chocó), Memória Institucional (699) e Mobiliário moderno da UnB (1). Foram analisados todos os 2.197 registros (100,0% do universo digital identificável), com completude cadastral média de 32,9%.[^2] A Coleção CNRC, listada no item 4.3 das Regras, não aparece no portal. A cobertura digital não equivale ao patrimônio físico da CAL (Regras, item 4.4).
+A CAL guarda coleções de arte, arte contemporânea e etnográficas. O acervo digital público reúne 2.197 registros em três coleções: Acervo (1.497 registros, com as subcoleções Arte, Triangular, Inicial, Galvão e Chocó), Memória Institucional (699) e Mobiliário moderno da UnB (1). Foram analisados todos os 2.197 registros (100,0% do universo digital identificável), com completude cadastral média de 34,1%.[^2] A Coleção CNRC, listada no item 4.3 das Regras, não aparece no portal. A cobertura digital não equivale ao patrimônio físico da CAL (Regras, item 4.4).
 
 ## 2 Política contábil proposta [c, d]
 

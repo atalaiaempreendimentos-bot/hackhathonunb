@@ -129,6 +129,11 @@ def main():
             evento = "parcial: {} sem data (EC 5.13)".format(forma.lower())
             ct, ct_ok = "indício ({} sem data)".format(forma), False
             falta.append("documentar a data e o ato de incorporação")
+        elif data:
+            prop = "não documentado: forma de aquisição não informada (EC 5.12(a))"
+            evento = "parcial: ingresso em {}, sem forma de aquisição (EC 5.13)".format(data)
+            ct, ct_ok = "indício (ingresso em {}, sem forma)".format(data), False
+            falta.append("documentar a forma de aquisição (doação, transferência ou compra)")
         else:
             prop, evento = "não documentado (EC 5.12(a))", "não documentado (EC 5.13)"
             ct, ct_ok = "não documentado", False

@@ -5,7 +5,7 @@ Sugestão de sequência, a ajustar pela equipe. Todos os integrantes participam 
 | Tempo | Bloco | Conteúdo e evidência no repositório |
 |---|---|---|
 | 0 a 1 min | Abertura | Problema do item 2 e lema do projeto; equipe |
-| 1 a 3 min | Etapa I | Estratégia de coleta pela API Tainacan; 2.197 registros, cobertura de 100,0%, completude de 32,9%; ausência da Coleção CNRC (`metodologia/identificacao.md`) |
+| 1 a 3 min | Etapa I | Estratégia de coleta pela API Tainacan; 2.197 registros, cobertura de 100,0%, completude de 34,1%; ausência da Coleção CNRC (`metodologia/identificacao.md`) |
 | 3 a 5 min | Etapa II | Definição de ativo (Estrutura Conceitual (R1), itens 5.6 a 5.13) e NBC TSP 37, itens 6 e 7: 0 sustentado, 1.211 não reconhecimento fundamentado (512 pelo item 7), 986 pendentes; controle não presumido (`dados/reconhecimento.csv`) |
 | 5 a 8 min | Etapa III | Base separada da técnica; níveis A a D; 15 faixas indicativas com fonte; por que nenhum valor foi inventado (`metodologia/mensuracao.md`) |
 | 8 a 10 min | Validação | Três casos dos nove: uma serigrafia de Cícero Dias, uma videoperformance e um objeto etnográfico (`resultados/validacao_casos.md`) |

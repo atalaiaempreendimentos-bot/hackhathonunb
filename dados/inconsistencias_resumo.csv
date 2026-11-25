@@ -1,0 +1,13 @@
+﻿tipo,registros,exemplo
+Data de aquisição sem forma de aquisição,166,ID 3544: 1993
+Denominação com variante de grafia,73,ID 2662: boneca
+Dimensões sem unidade de medida,71,ID 25696: 42 x 32
+Número de registro fora do padrão da subcoleção,40,ID 26143: 0130809
+Situação fora das opções do INBCM,10,ID 1805: Emprestado
+Data de aquisição incerta,6,ID 2848: 1995 (?)
+"""Com imagem?"" divergente da imagem publicada",3,ID 20691: Não
+Número de registro ausente,1,ID 26277: 
+Subcoleção não informada,1,ID 25320: False
+Data de produção sem ano legível,1,ID 20301: de castigo
+Data de aquisição ilegível,1,ID 13145: Fernanda Cristina Pereira Lima Siqueira Maravilha
+Registros com ao menos uma inconsistência,340,

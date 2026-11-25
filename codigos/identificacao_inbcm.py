@@ -27,6 +27,10 @@ import os
 import re
 import unicodedata
 from collections import Counter
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tesauro import carregar_vocabulario, classificar  # noqa: E402
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
@@ -68,25 +72,11 @@ def valor(m, campos):
     return ""
 
 
-def classificar(denominacao, vocab):
-    d = re.sub(r"\(.*?\)|\d+", " ", norm(denominacao)).split()
-    if not d:
-        return None
-    primeira = d[0]
-    for v in vocab:
-        if v["correspondencia"] == "exata" and " ".join(d) == v["chave"]:
-            return v
-    for v in vocab:
-        if v["correspondencia"] == "prefixo" and primeira in (v["chave"], v["chave"] + "s"):
-            return v
-    return None
-
-
 def main():
     ler = lambda n: list(csv.DictReader(open(os.path.join(DADOS, n), encoding="utf-8-sig")))
     inv = ler("inventario.csv")
     meta = {r["id_registro"]: r for r in ler("metadados_completos.csv")}
-    vocab = ler("vocabulario_tesauro.csv")
+    vocab = carregar_vocabulario(os.path.join(DADOS, "vocabulario_tesauro.csv"))
     cad = {}
     if os.path.exists(os.path.join(DADOS, "valores_cadastro_unb.csv")):
         cad = {r["id_registro"]: r for r in ler("valores_cadastro_unb.csv") if r["confianca"] == "Confirmado"}
