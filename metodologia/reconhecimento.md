@@ -109,9 +109,39 @@ O acervo digital não registra o número de tombamento, e a Lista da CAL não re
 
 A situação é reversível: o item 7 da NBC TSP 37 manda reconhecer o bem a partir da data em que o custo ou o valor corrente estiver disponível, e o item 87(a) admite o custo atribuído na aplicação inicial. Com os atos de doação, até 155 registros da Triangular podem passar a "Reconhecimento sustentado pelas evidências", com o valor já registrado na camada A2 do cadastro.
 
+## Vínculo pelos atos de incorporação publicados (25/11/2026)
+
+Os atos de doação estão públicos. A Instrução DAF nº 001/2018 da UnB, em vigor nas doações de 2019 e 2020, determina que o termo de doação traga especificação, quantidade e valores dos bens (art. 4º, parágrafo único) e que obras de arte passem por comissão de avaliação especial, com critérios objetivos de valoração (art. 19, V). A doação termina com um ato que incorpora o bem ao patrimônio (art. 21), cujo extrato é publicado no Boletim de Atos Oficiais (art. 11). Cada ato traz o tombamento, o valor e o doador de cada bem, na consulta pública de publicações do SEI da UnB.
+
+Procedimento:
+
+1. `codigos/atos_bao.py` baixa os atos encontrados pela busca "obra de arte doação" com publicação de 2018 a 2021 (96 publicações: 95 atos e a própria Instrução). A busca "incorporação doados" no mesmo período (143 publicações, quase todas de outros bens) acrescentou 2 atos com obras de arte. A coleta faz pausa de 1 s entre requisições (Regras, item 17.12) e grava `dados/atos_incorporacao_bao.csv` sem CPF, CNPJ, passaporte ou RG. As páginas originais ficam num cache fora do repositório.
+2. `codigos/vinculo_bao.py` liga os registros do portal aos atos pelo nome do doador (procedência no portal) e pela ordem das datas: a doação no portal ocorre até 540 dias antes da publicação do ato, ou no mesmo ano ou no anterior quando o portal só informa o ano. O resultado está em `dados/vinculo_bao.csv`, um registro por linha, com o endereço de cada ato.
+
+Resultado: 97 atos, 253 bens, R$ 1.836.095,00 (os 95 atos da primeira busca somam 246 bens e R$ 1.756.595,00). Dos 162 registros da Triangular, 145 têm vínculo:
+
+| Tipo de vínculo | Registros | Doadores | O que se sabe | Valor |
+|---|---|---|---|---|
+| Um a um | 53 | 53 | Tombamento e valor da obra | R$ 721.700,00 |
+| Valor único | 20 | 9 | Valor individual; tombamento entre os do mesmo doador | R$ 175.900,00 |
+| Grupo | 45 | 16 | Só o total do doador | R$ 307.085,00 |
+| Quantidade diferente | 27 | 4 | Pendente: o portal tem mais obras do doador do que os atos | R$ 45.600,00 (15 bens) |
+
+Somam 73 os registros com valor individual (R$ 897.600,00). Outros 17 registros da Triangular não têm ato publicado no período: Lenora de Barros (6), Raquel Nava (4), Danielle Fonseca do Nascimento (3) e mais 4. Na direção contrária, 15 doadores dos atos não têm obra no portal: 120 bens, R$ 585.810,00, dos quais 90 do ato 217/2020 (herdeiros de Fayga Ostrower).
+
+Os atos de 2019 e 2020 especificam só "OBRA DE ARTE", sem título. Por isso o vínculo se apoia em doador, data e quantidade e recebe o grau "forte", abaixo de "confirmado", que este projeto reserva ao vínculo por identificador. Seis vínculos foram conferidos no texto do ato (doador, tombamento e valor): dois um a um, os dois registrados à mão por grafia diferente e dois feitos pelo nome mais curto do doador.
+
+Ressalvas:
+
+- O total dos 95 atos da primeira busca é próximo do da camada A2 do cadastro (R$ 1.745.385,00 para 231 obras). A coincidência das obras depende de conferir os tombamentos dos atos na Lista da CAL.
+- 10 registros dependem de grafia diferente do nome do doador, duas delas registradas no script (Claudio Felipe de Oliveira Creti e Cláudio Cretti; Luiz Renato Pera e Renato Pera). Cabe confirmar no termo de doação.
+- 10 registros têm valores abaixo de R$ 200,00. A equipe precisa decidir se são simbólicos, como o R$ 0,01 (NBC TSP 37, item 13).
+- O parecer da comissão de avaliação fica no processo do SEI e não foi examinado. A base de cada valor continua a confirmar.
+- O vínculo ainda não altera `codigos/reconhecimento.py` nem o funil; a mudança depende de decisão da equipe. Quando entrar, o valor de cada obra é o já registrado no cadastro e não deve ser somado de novo ao total.
+
 ## Reprodução
 
-`python3 codigos/reconhecimento.py` e `python3 codigos/reconhecimento_cadastro.py` (este exige os arquivos locais do cadastro). O primeiro lê `dados/inventario.csv`, `dados/metadados_completos.csv` e `dados/mensuracao.csv`; gera `dados/reconhecimento.csv` e `dados/reconhecimento_resumo.csv`).
+`python3 codigos/reconhecimento.py` e `python3 codigos/reconhecimento_cadastro.py` (este exige os arquivos locais do cadastro). O primeiro lê `dados/inventario.csv`, `dados/metadados_completos.csv` e `dados/mensuracao.csv`; gera `dados/reconhecimento.csv` e `dados/reconhecimento_resumo.csv`). O vínculo pelos atos publicados: `python3 codigos/atos_bao.py` (acessa a rede) e `python3 codigos/vinculo_bao.py`.
 
 ## Referências
 
