@@ -51,7 +51,8 @@ cultiva-unb-trio/
 │   ├── identificacao.md
 │   ├── reconhecimento.md
 │   ├── mensuracao.md
-│   └── evidenciacao.md
+│   ├── evidenciacao.md
+│   └── agente_evidencias.md      proposta de agente que coleta evidências de preço (Etapa V), não implementada
 ├── resultados/
 │   ├── indicadores/indicadores_item15.csv
 │   ├── demonstrativos/quadro_consolidado.csv e valor_agregado_por_base.csv
@@ -266,6 +267,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 24/11/2026 | Claude (Anthropic) | Verificação de duplicidades (`codigos/verificar_duplicidades.py`); retirada da seção Galeria do site; ordenação por coluna na consulta | Grupos a conferir listados por ID e número de registro, para checagem na CAL |
 | 24/11/2026 | Claude (Anthropic) | Consulta ao texto publicado da Estrutura Conceitual (R1), da NBC TSP 37 e da NBC TSP 38 (legisweb.com.br e legismap.com.br); ajuste dos modelos de reconhecimento, mensuração e evidenciação aos itens conferidos (`metodologia/fundamentacao_normativa.md`); coluna de fotos 3 × 4 no site; relatório de aderência v2 | Itens citados conferidos no texto das normas; apêndices de orientação não consultados; nenhum valor atribuído sem evidência |
 | 24/11/2026 | Claude (Anthropic) | Busca em fontes externas de preços (Bolsa de Arte, Catálogo das Artes, LeilõesBR, iArremate e busca aberta) para as obras pendentes de mensuração; registro em `metodologia/mensuracao.md`, com os caminhos de evidência a decidir e a ordem dos testes em `codigos/reconhecimento.py` | Contagens por script em `dados/mensuracao.csv`, `dados/reconhecimento.csv` e `dados/inventario.csv`; páginas abertas no navegador; nenhum valor incluído em `dados/comparaveis.csv`; código sem alteração |
+| 24/11/2026 | Claude (Anthropic) | Proposta de agente de evidências de preço (`metodologia/agente_evidencias.md`): fila por artista e família de técnica, verificação por código, revisão humana e monitor de leilões em andamento; o agente não atribui valor (itens 9.4 e 17.10) | Grupos contados por script com a função `familia_de` de `codigos/comparaveis.py`; proposta não implementada nem testada |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 
