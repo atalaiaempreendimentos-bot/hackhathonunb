@@ -1,21 +1,23 @@
 ﻿indicador,valor
-Reconhecimento sustentado pelas evidências,0
+Reconhecimento sustentado pelas evidências,71
 Não reconhecimento fundamentado,905
-Pendente de verificação,1292
+Pendente de verificação,1221
 Atende à definição de ativo: sim,522
 Atende à definição de ativo: pendente,976
 Atende à definição de ativo: não,699
-"Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)",316
+"Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)",245
 "Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13)",976
 "Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)",206
 "Enquadramento: Não satisfaz a definição de ativo (Estrutura Conceitual (R1), item 5.6)",699
+"Enquadramento: Reconhecer: bem já reconhecido no cadastro patrimonial (camada A2), identificado no portal pelo ato de incorporação publicado; mensuração inicial pelo custo atribuído registrado (NBC TSP 37, itens 6, 12, 13 e 87(a))",71
 "Funil: I. Sai na identificação: registro de evento, não é bem",699
 Funil: II. Para no reconhecimento: definição de ativo não confirmada,976
-Funil: II. Definição atendida: aguarda vínculo com bem já reconhecido no cadastro,316
+Funil: II. Definição atendida: aguarda vínculo com bem já reconhecido no cadastro,245
 "Funil: III. Definição atendida, sem mensuração confiável: nota explicativa (NBC TSP 37, item 77)",206
-Funil: IV. Reconhecido no balanço,0
+Funil: IV. Reconhecido no balanço,71
 Arte | Pendente de verificação,476
-Arte contemporânea | Pendente de verificação,162
+Arte contemporânea | Reconhecimento sustentado pelas evidências,71
+Arte contemporânea | Pendente de verificação,91
 Etnográfica | Não reconhecimento fundamentado,206
 Etnográfica | Pendente de verificação,654
 Registro de evento (não é bem) | Não reconhecimento fundamentado,699

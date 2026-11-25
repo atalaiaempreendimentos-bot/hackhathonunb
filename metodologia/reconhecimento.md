@@ -137,7 +137,9 @@ Ressalvas:
 - 10 registros dependem de grafia diferente do nome do doador, duas delas registradas no script (Claudio Felipe de Oliveira Creti e Cláudio Cretti; Luiz Renato Pera e Renato Pera). Cabe confirmar no termo de doação.
 - 10 registros têm valores abaixo de R$ 200,00. A equipe precisa decidir se são simbólicos, como o R$ 0,01 (NBC TSP 37, item 13).
 - O parecer da comissão de avaliação fica no processo do SEI e não foi examinado. A base de cada valor continua a confirmar.
-- O vínculo ainda não altera `codigos/reconhecimento.py` nem o funil; a mudança depende de decisão da equipe. Quando entrar, o valor de cada obra é o já registrado no cadastro e não deve ser somado de novo ao total.
+- 13 das obras reconhecidas são videoarte, fotografia digital ou performance, já marcadas na classificação contábil para confirmar se o bem é tangível (NBC TSP 37, item 5).
+
+Aplicação no funil (25/11/2026): os 73 registros com valor individual (um a um e valor único) recebem em `dados/mensuracao.csv` a situação "Custo atribuído registrado no ato de incorporação" (R$ 897.600,00), que `codigos/reconhecimento.py` aceita como mensuração confiável (NBC TSP 37, itens 6(b), 12, 13 e 87(a)). Os 71 que atendem à definição de ativo passam a "Reconhecimento sustentado pelas evidências" (R$ 862.600,00); os outros 2 (IDs 13984 e 19319) têm valor, mas a definição de ativo segue pendente. O ato 217/2020 (90 obras, R$ 481.100,00) e a distribuição dos atos por número de obras coincidem com a Lista da CAL, o que torna o vínculo fortemente compatível com a camada A2; a prova final é a conferência dos tombamentos. Esses valores já estão no total do cadastro: não são somados de novo nem entram no valor agregado estimado, reservado às mensurações da equipe (Regras, itens 10 e 15). Os 45 registros com vínculo por grupo e os 27 com quantidade diferente continuam pendentes; reconhecê-los pelo total do doador, como unidade de conta (NBC TSP 37, item 8), é decisão da equipe.
 
 ## Reprodução
 

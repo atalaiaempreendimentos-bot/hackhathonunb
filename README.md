@@ -72,8 +72,8 @@ O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos
 |---|---|---|
 | I. Identificar | 1.498 bens; 699 registros de evento saem | 1.026 obras de arte tombadas; 27 recentes sem registro no portal |
 | II. Reconhecer | 522 satisfazem a definição de ativo; 976 pendentes | 1.016 controladas pela UnB; 10 bens de terceiros saem |
-| III. Mensurar | 0 com mensuração própria; 316 aguardam vínculo com o cadastro; 206 sem mensuração possível | 258 com mensuração confiável; 455 com base a confirmar; 303 com R$ 0,01 |
-| IV. Evidenciar | 206 em nota (item 77); 1.292 pendentes | 258 no balanço (R$ 1.859.185,00); 303 em nota; 455 com ressalva |
+| III. Mensurar | 71 com o custo atribuído do ato de incorporação publicado; 245 aguardam vínculo com o cadastro; 206 sem mensuração possível | 258 com mensuração confiável; 455 com base a confirmar; 303 com R$ 0,01 |
+| IV. Evidenciar | 71 reconhecidos, já contados no cadastro; 206 em nota (item 77); 1.221 pendentes | 258 no balanço (R$ 1.859.185,00); 303 em nota; 455 com ressalva |
 
 Metodologia, código e resultados de cada etapa:
 
@@ -122,10 +122,10 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 | Cobertura | 100,0% do universo digital |
 | Completude cadastral | 34,1% (13 variáveis principais; só dados do portal) |
 | Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
-| Reconhecimento sustentado | 0 no acervo digital; 258 bens no cadastro patrimonial (R$ 1.859.185,00 em valores oficialmente registrados) |
-| Reconhecimento pendente | 1.292 no acervo digital (316 aguardam o vínculo com bens já reconhecidos; outros 905 com não reconhecimento fundamentado: 206 pelo item 7 da NBC TSP 37 e 699 eventos); 455 bens do cadastro com base do valor a confirmar |
-| Mensuração fundamentada | 0 |
-| Mensuração pendente | 638, dos quais 15 com faixa indicativa (nível C) |
+| Reconhecimento sustentado | 71 no acervo digital, identificados pelo ato de incorporação publicado como bens já contados no cadastro; 258 bens no cadastro patrimonial (R$ 1.859.185,00 em valores oficialmente registrados) |
+| Reconhecimento pendente | 1.221 no acervo digital (245 aguardam o vínculo com bens já reconhecidos; outros 905 com não reconhecimento fundamentado: 206 pelo item 7 da NBC TSP 37 e 699 eventos); 455 bens do cadastro com base do valor a confirmar |
+| Mensuração fundamentada | 0 pela equipe; 73 com o custo atribuído registrado no ato de incorporação publicado (R$ 897.600,00, valor oficial já contido no cadastro e não somado) |
+| Mensuração pendente | 565, dos quais 15 com faixa indicativa (nível C) |
 | Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
@@ -271,6 +271,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 24/11/2026 | Claude (Anthropic) | Busca em fontes externas de preços (Bolsa de Arte, Catálogo das Artes, LeilõesBR, iArremate e busca aberta) para as obras pendentes de mensuração; registro em `metodologia/mensuracao.md`, com os caminhos de evidência a decidir e a ordem dos testes em `codigos/reconhecimento.py` | Contagens por script em `dados/mensuracao.csv`, `dados/reconhecimento.csv` e `dados/inventario.csv`; páginas abertas no navegador; nenhum valor incluído em `dados/comparaveis.csv`; código sem alteração |
 | 24/11/2026 | Claude (Anthropic) | Proposta de agente de evidências de preço (`metodologia/agente_evidencias.md`): fila por artista e família de técnica, verificação por código, revisão humana e monitor de leilões em andamento; o agente não atribui valor (itens 9.4 e 17.10) | Grupos contados por script com a função `familia_de` de `codigos/comparaveis.py`; proposta não implementada nem testada |
 | 25/11/2026 | Claude (Anthropic) | Coleta dos atos de incorporação de obras doadas publicados no Boletim de Atos Oficiais (Instrução DAF nº 001/2018) e vínculo com os registros do portal por doador e data (`codigos/atos_bao.py`, `codigos/vinculo_bao.py`, seção em `metodologia/reconhecimento.md`): 145 dos 162 registros da Triangular vinculados, 73 com valor individual | Seis vínculos conferidos no texto do ato; três falsos positivos de outras subcoleções eliminados pela data; CPF, CNPJ, passaporte e RG ausentes das tabelas; `reconhecimento.py` e funil sem alteração, à espera de decisão da equipe |
+| 25/11/2026 | Claude (Anthropic) | Aplicação do vínculo no funil: situação "Custo atribuído registrado no ato de incorporação" em `codigos/mensuracao.py` (73 registros, R$ 897.600,00) e aceita como mensuração confiável em `codigos/reconhecimento.py` (71 reconhecidos); site, indicadores, nota explicativa e validação gerados de novo | Rodada de base sem alteração reproduziu o repositório; situações somam 2.197; valor agregado estimado continua R$ 0,00; ato 217/2020 e distribuição dos atos conferidos com a Lista da CAL; grupos (45) e quantidade diferente (27) seguem pendentes |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 

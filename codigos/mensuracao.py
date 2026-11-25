@@ -61,6 +61,13 @@ SIT_PEND = "Pendente de evidência"
 SIT_SEM = "Sem mensuração monetária fundamentada"
 SIT_FORA = "Não aplicável (não é ativo)"
 SIT_CLASS = "Pendente de classificação"
+# Valor oficial que a UnB registrou no ato de incorporação publicado no Boletim de Atos Oficiais
+# (codigos/vinculo_bao.py). Não é estimativa da equipe: fica fora do valor agregado estimado (Regras, itens 10 e 15).
+SIT_REG = "Custo atribuído registrado no ato de incorporação"
+BASE_REG = ("Custo atribuído registrado pela UnB na incorporação da doação (NBC TSP 37, itens 12 e 13; aplicação "
+            "inicial, item 87(a))")
+TEC_REG = ("Valor do ato de incorporação publicado no Boletim de Atos Oficiais, fixado com a avaliação da comissão "
+           "especial prevista para obras de arte (Instrução DAF nº 001/2018, arts. 4º, 19, V, e 21)")
 
 NORMAS = ("Fundamento: NBC TSP 37, itens 6, 7, 11 a 13 e 27; NBC TSP 38, itens 6, 10, 23 a 25 e 36 a 45; "
           "Estrutura Conceitual (R1), itens 6.7 e 6.8; Regras, item 9.")
@@ -170,6 +177,9 @@ def main():
         if e.get("id_registro"):
             evid[e["id_registro"].strip()] = e
 
+    arq_bao = os.path.join(DADOS, "vinculo_bao.csv")
+    bao = {b["id_registro"]: b for b in csv.DictReader(open(arq_bao, encoding="utf-8-sig"))} if os.path.exists(arq_bao) else {}
+
     saida, avisos = [], []
     for l in linhas:
         cat, base, tecnica, sit, nota = classificar(l)
@@ -216,6 +226,26 @@ def main():
                 r["situacao"] = SIT_SEM
                 nota = ("Evidência registrada é insuficiente para estimativa confiável (nível {}). Fonte: {}. {}"
                         .format(nivel, r["fonte"], e.get("observacao", "")))
+        b = bao.get(str(l.get("id_registro")))
+        if b and r["situacao"] != SIT_FUND:
+            ato = "{}, publicado em {}, doador {}".format(b["atos"], b["data_publicacao"], b["doador_ato"])
+            if b["tipo_vinculo"] in ("1:1", "valor único") and b["valor_individual"] != "":
+                v = float(b["valor_individual"])
+                r.update(situacao=SIT_REG, base_mensuracao=BASE_REG, tecnica=TEC_REG, nivel_evidencia="Registro oficial",
+                         valor_min=v, valor_central=v, valor_max=v, moeda="BRL", data_referencia=b["data_publicacao"],
+                         tipo_evidencia="ato de incorporação", fonte=b["fonte"], valor_exibicao=brl(v, "BRL"))
+                nota = ("Valor registrado pela UnB no ato de incorporação ({}; tombamento {}{}). Vínculo {}: {}. Bem da "
+                        "camada A2 do cadastro patrimonial: o valor já está no total oficialmente registrado e não é somado ao "
+                        "valor agregado estimado (Regras, itens 10 e 15). Base do valor: avaliação da comissão especial, no "
+                        "processo do SEI, não examinado.{}").format(
+                            ato, b["tombamento"], ", entre os do mesmo doador" if b["tipo_vinculo"] == "valor único" else "",
+                            b["tipo_vinculo"], b["confianca"],
+                            " Valor abaixo de R$ 200,00: a equipe decide se é simbólico." if v < 200 else "")
+            else:
+                nota = (nota.strip() + " Ato de incorporação publicado ({}): {} bem(ns), total de {}, para {} obra(s) do "
+                        "doador no portal; o valor individual não é identificado (vínculo: {}).").format(
+                            ato, b["bens_atos_doador"], brl(float(b["valor_grupo"]), "BRL"), b["obras_portal_doador"],
+                            b["tipo_vinculo"])
         r["nota_metodologica"] = (nota.strip() + " " + NORMAS).strip()
         saida.append(r)
 
@@ -226,8 +256,11 @@ def main():
 
     # resumo (Regras, item 15)
     resumo = []
-    for sit in (SIT_FUND, SIT_FAIXA, SIT_PEND, SIT_SEM, SIT_FORA, SIT_CLASS):
+    for sit in (SIT_FUND, SIT_REG, SIT_FAIXA, SIT_PEND, SIT_SEM, SIT_FORA, SIT_CLASS):
         resumo.append({"indicador": "Registros: " + sit, "valor": sum(1 for r in saida if r["situacao"] == sit), "observacao": ""})
+    resumo.append({"indicador": "Valor registrado nos atos de incorporação (registros vinculados)",
+                   "valor": round(sum(float(r["valor_central"]) for r in saida if r["situacao"] == SIT_REG), 2),
+                   "observacao": "Valor oficial já contido no cadastro patrimonial (camada A2); não é somado ao valor agregado estimado."})
     fund = [r for r in saida if r["situacao"] == SIT_FUND and r["valor_central"] != ""]
     por_base = {}
     for r in fund:

@@ -96,7 +96,7 @@ def main():
         ("Registros duplicados", dup.get("Registros possivelmente duplicados (indicador do item 15)", ind.get("Registros com possível duplicidade", "")),
          "Registros possivelmente duplicados: {} em provável duplicidade (Memória Institucional) e {} a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)".format(
              dup.get("Registros em provável duplicidade", "?"), dup.get("Registros a conferir", "?"))),
-        ("Reconhecimento sustentado", T["reconhecimento_sustentado"], "Registros do acervo digital com fundamentação suficiente para reconhecer; o valor e o tombamento ficam no cadastro patrimonial, sem chave comum com o portal"),
+        ("Reconhecimento sustentado", T["reconhecimento_sustentado"], "Registros do acervo digital com fundamentação suficiente para reconhecer: obras identificadas pelo ato de incorporação publicado no Boletim de Atos Oficiais como bens já reconhecidos no cadastro patrimonial (camada A2); o valor está no total do cadastro e não é somado de novo"),
         ("Reconhecimento sustentado no cadastro patrimonial", sum(int(camadas[k]["bens"]) for k in ("A1", "A2") if k in camadas),
          "Bens tombados com controle, ingresso e valor documentados (camadas A1 e A2): {} em valores oficialmente registrados, não estimados pela equipe (dados/reconhecimento_cadastro_resumo.csv)".format(
              brl(sum(float(camadas[k]["valor_registrado_rs"]) for k in ("A1", "A2") if k in camadas)))),

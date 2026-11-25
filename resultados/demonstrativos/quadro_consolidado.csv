@@ -1,7 +1,7 @@
 ﻿grupo,registros_analisados,atende_definicao_sim,atende_definicao_pendente,atende_definicao_nao,reconhecimento_sustentado,nao_reconhecimento_fundamentado,pendente_verificacao,mensuracao_fundamentada,valor_fundamentado_brl,faixa_indicativa,faixa_indicativa_soma,sem_mensuracao_monetaria,mensuracao_pendente,fora_do_escopo
 Arte,476,161,315,0,0,0,476,0,0.0,15,USD 8.700 a 29.160,0,461,0
-Arte contemporânea,162,155,7,0,0,0,162,0,0.0,0,,0,162,0
+Arte contemporânea,162,155,7,0,71,0,91,0,0.0,0,,0,89,0
 Etnográfica,860,206,654,0,0,206,654,0,0.0,0,,860,0,0
 Registro de evento (não é bem),699,0,0,699,0,699,0,0,0.0,0,,0,0,699
 A classificar,0,0,0,0,0,0,0,0,0.0,0,,0,0,0
-TOTAL,2197,522,976,699,0,905,1292,0,0.0,15,USD 8.700 a 29.160,860,623,699
+TOTAL,2197,522,976,699,71,905,1221,0,0.0,15,USD 8.700 a 29.160,860,550,699

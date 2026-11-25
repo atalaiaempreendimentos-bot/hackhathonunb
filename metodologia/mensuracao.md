@@ -48,6 +48,8 @@ Valores entram exclusivamente por `dados/evidencias_mensuracao.csv`, com fonte o
 
 Preços anunciados e estimativas não são tratados como preço de transação (item 9.2). A ausência de evidência não é substituída por estimativa arbitrária nem por valor gerado por inteligência artificial (itens 9.4 e 17.10).
 
+Fora dos níveis A a D, há uma situação própria para o valor oficial: "Custo atribuído registrado no ato de incorporação". Ela vale para as obras doadas a partir de 2019 que o ato de incorporação publicado no Boletim de Atos Oficiais identifica uma a uma, com o valor fixado pela UnB após a avaliação da comissão especial (Instrução DAF nº 001/2018, art. 19, V). São 73 registros e R$ 897.600,00 (`codigos/vinculo_bao.py`; `metodologia/reconhecimento.md`). O valor já está no total do cadastro patrimonial e não entra no valor agregado estimado, que soma só as mensurações da equipe.
+
 ## Abordagem de mercado por comparáveis (`codigos/comparaveis.py`)
 
 1. Cada transação ou estimativa de obra comparável é registrada em `dados/comparaveis.csv`, com artista, família de técnica, título, técnica, dimensões, tiragem, data, casa de leilão, tipo de preço (arrematado, estimativa ou oferta), valores, moeda, indicação de prêmio do comprador e URL da fonte.

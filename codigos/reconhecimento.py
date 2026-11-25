@@ -81,8 +81,14 @@ def main():
                    else "cadastro patrimonial não consultado")
     arq_v = os.path.join(DADOS, "valores_cadastro_unb.csv")
     cad = {r["id_registro"]: r for r in csv.DictReader(open(arq_v, encoding="utf-8-sig"))} if os.path.exists(arq_v) else {}
+    arq_b = os.path.join(DADOS, "vinculo_bao.csv")
+    bao = {r["id_registro"]: r for r in csv.DictReader(open(arq_b, encoding="utf-8-sig"))} if os.path.exists(arq_b) else {}
 
     def vinculo(i):
+        b = bao.get(i)
+        if b:
+            return ("{} pelo ato de incorporação publicado no Boletim de Atos Oficiais: {}, tombamento(s) {}, tipo {}"
+                    .format(b["confianca"].split(" (")[0], b["atos"], b["tombamento"], b["tipo_vinculo"]), "")
         c = cad.get(i)
         if not c:
             return vinculo_txt, ""
@@ -185,6 +191,11 @@ def main():
         grupo = l["grupo_sugerido"]
         if sm == "Mensuração fundamentada":
             cm, c6b, ok6b = "atendida (nível {})".format(nivel), "atendido: mensuração confiável, nível {} (NBC TSP 37, item 6(b))".format(nivel), True
+        elif sm == "Custo atribuído registrado no ato de incorporação":
+            cm = "atendida (custo atribuído registrado no ato de incorporação)"
+            c6b = ("atendido: valor registrado pela UnB no ato de incorporação publicado, após avaliação de comissão especial "
+                   "(NBC TSP 37, itens 6(b), 12, 13 e 87(a); Instrução DAF nº 001/2018, art. 19, V)")
+            ok6b = True
         elif sm == "Faixa indicativa":
             cm = "parcial (faixa indicativa, nível C)"
             c6b, ok6b = "não atendido: faixa indicativa de nível C, incerteza elevada demais (EC 6.8)", False
@@ -210,6 +221,13 @@ def main():
             just = ("Satisfaz a definição de ativo (acesso confirmado e ingresso documentado) e há mensuração confiável, "
                     "nível {}.".format(nivel))
             refs += "; NBC TSP 37, itens 12 e 13"
+            if sm == "Custo atribuído registrado no ato de incorporação":
+                enq = ("Reconhecer: bem já reconhecido no cadastro patrimonial (camada A2), identificado no portal pelo ato de "
+                       "incorporação publicado; mensuração inicial pelo custo atribuído registrado (NBC TSP 37, itens 6, 12, 13 e 87(a))")
+                just = ("Satisfaz a definição de ativo e corresponde a bem já reconhecido no cadastro patrimonial: o ato de "
+                        "incorporação publicado registra tombamento e valor ({}). O valor já está no total do cadastro e não é "
+                        "somado de novo (Regras, item 10).".format(ms.get("valor_exibicao", "")))
+                refs += " e 87(a)"
         elif definicao == "sim" and grupo in ("Arte", "Arte contemporânea"):
             classe = PEND
             enq = ("Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: "
