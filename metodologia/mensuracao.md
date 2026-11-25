@@ -66,6 +66,35 @@ Preços anunciados e estimativas não são tratados como preço de transação (
 
 Limitações: o portal não informa título, dimensões nem tiragem dessas obras, o que impede ajustes por dimensão e tiragem (Regras, item 9.2); há um único comparável por grupo; não se sabe se o preço arrematado inclui prêmio do comprador; os valores estão em dólar. Além disso, o valor corrente operacional é preço de entrada e deveria incluir prêmio e custos de transação (NBC TSP 38, item 25(a)). Por isso o resultado é faixa indicativa, sem mensuração confiável. Para as águas-fortes de Tarsila do Amaral, as gravuras de Clóvis Graciano e os desenhos de Athos Bulcão, as buscas de 23/11/2026 encontraram catálogos de leilão sem preço realizado, que não servem como evidência; essas obras seguem pendentes.
 
+### Busca em fontes externas (24/11/2026)
+
+A busca procurou transações realizadas que levassem as obras pendentes ao nível A ou B. Cobriu os artistas com mais obras pendentes e as fontes de preços de arte de acesso público. Nenhum registro passou do nível C.
+
+Só 638 registros podem receber mensuração pela abordagem de mercado: 475 da subcoleção Arte, 162 da Triangular e 1 de mobiliário. Os 860 bens de comunidades tradicionais ficam fora pelo item 4.3 das Regras; os 699 registros de evento não são ativos. Dos 638, 322 têm a definição de ativo pendente, entre eles as 14 serigrafias de Cícero Dias, 46 das 69 obras de Maciej Babinski e 29 das 50 de Milan Dusek. Para esses registros, um preço externo serviria apenas como informação de comparação. Os outros 316 atendem à definição, como as 81 obras de Zeila Navarro Swain, 23 de Babinski, 21 de Dusek e 10 de Tarsila do Amaral. O portal informa dimensões e tiragem de apenas 14 dos 638 registros, nenhum dos artistas com mais obras. O nível A só é possível para esses 14; para os demais, o teto é o nível B (três ou mais transações realizadas do mesmo artista na mesma família de técnica).
+
+| Fonte | Acesso | O que informa | Resultado da consulta | Por que não alcança o nível B |
+|---|---|---|---|---|
+| Bolsa de Arte, cotações por artista | Aberto | Estimativa e último lance | 161 lotes de Cícero Dias, nenhum de gravura, litografia ou serigrafia; a página de cotações de Maciej Babinski (endereço `maciej-babinski`) não trouxe lotes | A própria página avisa que o último lance não significa arrematação; lance não é preço de transação (Regras, item 9.2) |
+| Catálogo das Artes | Preço e fonte só para assinantes | Preço da última avaliação ou do último lance | Não consultado, por exigir assinatura | Mesmo com assinatura, o campo junta avaliação e lance, sem confirmar a venda |
+| LeilõesBR | Aberto | Lotes em pregão e lance atual | Uma obra de Babinski em pregão (Martha Burle Escritório de Arte, leilão em 26/11/2026; lance de R$ 550,00 em 24/11/2026) | Mostra só leilões em andamento; o lance ainda não é venda |
+| iArremate | Aberto | Catálogos de leilões abertos | Os lotes de leilões encerrados ficam indisponíveis para consulta | Sem histórico público de arremates |
+| Busca aberta na web (Invaluable, Art.Salon, casas de leilão internacionais) | Parcial | Estimativas e alguns preços realizados | Nenhuma venda realizada de Babinski, Dusek ou Swain; para serigrafia de Cícero Dias, apenas o lote da Bonhams já registrado em `dados/comparaveis.csv` | Menos de três transações realizadas por artista e família de técnica |
+
+Os 623 registros pendentes de evidência continuam pendentes. Os 15 com faixa indicativa continuam no nível C. O valor agregado estimado segue em R$ 0,00.
+
+Caminhos que podem produzir evidência mais forte, a decidir pela equipe:
+
+1. Documentos da própria UnB: valor de seguro nos termos de empréstimo das 10 obras cedidas a outros museus; valor declarado nos termos de doação das obras doadas.
+2. Laudo de avaliação de leiloeiro ou avaliador para uma amostra, por exemplo as obras de Tarsila do Amaral e de Zeila Navarro Swain. Tem custo.
+3. Assinatura do Catálogo das Artes, com a ressalva de que lance e avaliação não são preço de transação.
+4. Tabelas de preço de galerias ou dos próprios artistas para a subcoleção Triangular, em geral de artistas vivos. Pela regra atual, oferta é dado não observável (NBC TSP 38, item 6) e leva no máximo ao nível C; usá-la para reconhecer exige mudar a regra e justificar a mudança.
+
+Os níveis A a D são definidos hoje pelo número de transações realizadas. Um valor de seguro ou um laudo não se encaixa em nenhum deles. Antes de usar os caminhos 1 e 2, a equipe precisa definir em que nível essas evidências entram.
+
+Antes de incluir novos comparáveis, a ordem dos testes em `codigos/reconhecimento.py` precisa mudar. O teste de mensuração confiável (nível A ou B) vem antes do ramo que mantém as obras de arte pendentes de vínculo com o cadastro patrimonial. Uma obra de Swain ou de Tarsila que chegasse ao nível B passaria a "Reconhecimento sustentado pelas evidências" no acervo digital, embora o próprio código a trate como provável bem já registrado no cadastro. `codigos/evidenciacao.py` apresenta os dois valores em linhas separadas; somá-los contaria a mesma obra duas vezes. Hoje nenhum registro do portal está no nível A ou B, por isso os resultados atuais não mudam.
+
+Páginas consultadas em 24/11/2026: https://www.bolsadearte.com/artistas/cotacoes/cicero-dias/, https://www.bolsadearte.com/artistas/cotacoes/maciej-babinski/, https://www.catalogodasartes.com.br/, https://www.leiloesbr.com.br/ (busca por "babinski") e https://www.iarremate.com/.
+
 ## Incerteza
 
 Cada evidência pode trazer valor mínimo, central e máximo; o site e `dados/mensuracao_resumo.csv` mostram o intervalo e o valor agregado por base e categoria, que não representa o valor total do patrimônio da CAL (item 15).
