@@ -40,6 +40,23 @@ Classificação contábil: ativo imobilizado tangível (NBC TSP 37, item 5), cla
 
 Cada registro recebe, na coluna `funil` de `dados/reconhecimento.csv`, a etapa em que sai do fluxo: (I) registro de evento, que não é bem; (II) definição de ativo não confirmada; (II) definição atendida, à espera do vínculo com bem já reconhecido no cadastro; (III) definição atendida sem mensuração confiável, divulgada em nota pelo item 77; (IV) reconhecido no balanço. O site mostra dois funis lado a lado, um para o acervo digital e outro para o cadastro patrimonial, porque as duas fontes não têm chave comum e não podem ser somadas.
 
+### Fundamento normativo de cada passo do funil
+
+Cada saída do funil tem uma norma que a justifica. A mesma tabela aparece no site, abaixo dos funis.
+
+| Etapa | Fonte | Quem sai ou fica retido | Norma que fundamenta |
+|---|---|---|---|
+| I Identificar | Acervo digital | 699 registros de evento saem: não são bens | Ativo é recurso controlado pela entidade como resultado de evento passado (Estrutura Conceitual (R1), item 5.6). O registro de exposição ou evento não identifica um recurso individualizado nem é bem cultural de caráter museológico (Resolução Normativa Ibram nº 6/2021, art. 6º, I). |
+| I Identificar | Cadastro patrimonial | Nenhum sai; 27 recentes não têm registro no acervo digital | Os bens recentes não têm o número de registro museológico, primeiro elemento do inventário (Resolução Normativa Ibram nº 6/2021, art. 7º, § 1º, I). |
+| II Reconhecer | Acervo digital | 976 ficam pendentes: falta evidência de existência ou de controle | O controle é avaliado por indicadores (propriedade legal, acesso, meios de uso e direito ao potencial de serviços), e o recurso deve resultar de evento passado (Estrutura Conceitual (R1), itens 5.11 a 5.13). A presença no portal não basta para presumir o controle da UnB (Regras, item 8). |
+| II Reconhecer | Cadastro patrimonial | 10 bens de terceiros saem (R$ 173.015,00) | Bem de terceiro sob guarda não é controlado pela UnB (Estrutura Conceitual (R1), itens 5.11 e 5.12) e é divulgado como restrição patrimonial (Regras, item 10(i)). |
+| III Mensurar | Acervo digital | 316 aguardam o vínculo com bens já reconhecidos no cadastro; 206 etnográficos sem mensuração possível | Só se reconhece o item que pode ser mensurado com confiabilidade (NBC TSP 37, item 6(b)); o patrimônio cultural que satisfaz a definição de ativo sem mensuração confiável não é reconhecido e é divulgado (item 7). Objetos de comunidades tradicionais não são presumidos mercadoria (Regras, item 4.3), e a falta de evidência não é substituída por estimativa (item 9.4). |
+| III Mensurar | Cadastro patrimonial | 455 com base do valor a confirmar; 303 com R$ 0,01 | O valor de R$ 0,01 é custo simbólico, que não é custo atribuído (NBC TSP 37, item 13); sem mensuração confiável, aplica-se o item 7. Valor registrado de base desconhecida não demonstra mensuração confiável (item 6(b)) e deve ser confirmado ou substituído pelo custo atribuído na aplicação inicial (item 87(a)). |
+| IV Evidenciar | Acervo digital | 206 vão para a nota explicativa; 1.292 ficam listados como pendentes | Os itens não reconhecidos são divulgados com as dificuldades de mensuração e a sua relevância (NBC TSP 37, item 77); os registros pendentes constam da evidenciação (Regras, item 10(g)). |
+| IV Evidenciar | Cadastro patrimonial | 258 no balanço (R$ 1.859.185,00); 303 vão para a nota explicativa; 455 com ressalva | Reconhecidos: NBC TSP 37, item 69, e NBC TSP 38, itens 54 e 55. Não reconhecidos: NBC TSP 37, item 77. Valores em revisão: ressalva, com o ajuste da aplicação inicial em resultados acumulados (NBC TSP 37, item 87(b); Regras, item 10(h)). |
+
+Textos publicados conferidos em 24/11/2026 (`metodologia/fundamentacao_normativa.md`). A Estrutura Conceitual (R1), a NBC TSP 37 e a NBC TSP 38 vigoram a partir de 1º/01/2027 e são aplicadas antecipadamente (Regras, item 19.2).
+
 ## Resultado no acervo digital (24/11/2026, versão 2)
 
 | Grupo | Sustentado | Não reconhecimento fundamentado | Pendente |
