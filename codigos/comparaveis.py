@@ -19,7 +19,9 @@ Regras aplicadas (Regras do Hackathon, itens 9.1 a 9.4):
     nível B: 3 ou mais transações realizadas; nível C: 1 ou 2 transações, ou só estimativas/ofertas;
   - valor central = mediana das transações realizadas (ou ponto médio das estimativas, nível C);
     intervalo = menor e maior valor entre transações e estimativas (análise de incerteza, item 9.3);
-  - moedas diferentes não são misturadas: converter antes, informando taxa e fonte (ex.: PTAX/BCB).
+  - moedas diferentes não são misturadas: converter antes, informando taxa e fonte (ex.: PTAX/BCB);
+  - linhas com tipo_comparavel iniciado por "excluído" (outro período, técnica incerta) ficam registradas, com o
+    motivo, mas fora da conta.
 
 Colunas de dados/comparaveis.csv:
   artista, familia_tecnica, titulo_comparavel, tecnica_descrita, dimensoes, tiragem, ano_obra,
@@ -40,10 +42,10 @@ COLS_EVID = ["id_registro", "base_mensuracao", "tecnica", "valor_min", "valor_ce
 
 FAMILIAS = {
     "serigrafia": ["serigraf", "screenprint", "silk"],
-    "gravura em metal": ["agua-forte", "agua forte", "agua-tinta", "gravura em metal", "talho-doce", "ponta-seca", "etching", "metal"],
+    "gravura em metal": ["agua-forte", "agua forte", "agua-tinta", "gravura em metal", "talho-doce", "ponta-seca", "ponta seca", "buril", "verniz mole", "etching", "metal"],
     "litografia": ["litograf", "litogravura", "lithograph"],
     "xilogravura": ["xilograv", "woodcut"],
-    "desenho": ["nanquim", "grafite", "lapis", "carvao", "desenho", "pastel", "aquarela", "guache"],
+    "desenho": ["nanquim", "grafite", "lapis", "carvao", "desenho", "pastel", "aquarela", "guache", "bico de pena", "crayon", "caneta"],
     "pintura": ["oleo", "acrilica", "tempera"],
     "escultura": ["escultura", "bronze", "madeira entalhada"],
 }
@@ -79,6 +81,8 @@ def main():
     # agrupa comparáveis por (artista, família)
     grupos = {}
     for c in comps:
+        if norm(c.get("tipo_comparavel")).startswith("excluido"):
+            continue  # registrado com o motivo, fora da conta
         chave = (norm(c["artista"]), norm(c["familia_tecnica"]))
         grupos.setdefault(chave, []).append(c)
 
@@ -94,13 +98,19 @@ def main():
             continue
         moeda = moedas.pop()
         realizados = [num(c["valor_arrematado"]) for c in cs if c["tipo_preco"] == "arrematado" and num(c["valor_arrematado"]) is not None]
+        # só vendas do próprio artista em condição comparável (tipo_comparavel vazio ou "mesmo artista"), em casa de leilão
+        # ou galeria (não em plataforma aberta como o eBay), contam para os níveis A e B; comparáveis de artista similar,
+        # de condição não confirmada e vendas em plataforma aberta só formam faixa indicativa (nível C)
+        validos = [num(c["valor_arrematado"]) for c in cs if c["tipo_preco"] == "arrematado" and num(c["valor_arrematado"]) is not None
+                   and (c.get("tipo_comparavel") or "mesmo artista") == "mesmo artista" and "ebay" not in norm(c.get("casa_leilao"))]
+        similares = any((c.get("tipo_comparavel") or "mesmo artista") != "mesmo artista" for c in cs)
         baixos = [num(c["valor_baixo"]) for c in cs if num(c.get("valor_baixo")) is not None]
         altos = [num(c["valor_alto"]) for c in cs if num(c.get("valor_alto")) is not None]
         todos = realizados + baixos + altos
         if not todos:
             continue
         conhecidos = bool((l.get("dimensoes") or "").strip()) and bool((l.get("tiragem") or "").strip())
-        if len(realizados) >= 3:
+        if len(validos) >= 3 and not similares:
             nivel = "A" if conhecidos else "B"
         else:
             nivel = "C"
@@ -109,16 +119,30 @@ def main():
         else:
             central = (min(baixos or todos) + max(altos or todos)) / 2.0
         datas = sorted(c["data_evento"] for c in cs if c.get("data_evento"))
-        descr = "; ".join("{} ({}, {}, {}): {}{}".format(
+        descr = "; ".join("{}{} ({}, {}, {}): {}{}".format(
+            "[{}: {}] ".format(c.get("tipo_comparavel"), c.get("artista_comparavel")) if (c.get("tipo_comparavel") or "mesmo artista") != "mesmo artista" else "",
             c["titulo_comparavel"] or "sem título", c["tecnica_descrita"] or c["familia_tecnica"], c["casa_leilao"],
             c["data_evento"], "arrematado {} {}".format(moeda, c["valor_arrematado"]) if c["tipo_preco"] == "arrematado" else c["tipo_preco"],
             ", estimativa {}-{}".format(c["valor_baixo"], c["valor_alto"]) if c.get("valor_baixo") else "") for c in cs)
         lacunas = [] if conhecidos else ["dimensões e tiragem da obra da CAL não informadas no portal"]
+        if similares:
+            lacunas.append("há comparáveis de artista similar ou de obra em condição não confirmada (como tiragem em vida ou póstuma), "
+                           "que só formam faixa indicativa (nível C)")
+        if any("ebay" in norm(c.get("casa_leilao")) for c in cs if c["tipo_preco"] == "arrematado"):
+            lacunas.append("há vendas em plataforma aberta (eBay), sem verificação de autenticidade e estado, que não contam para o nível B")
+        grafias = sorted({c.get("artista_comparavel") for c in cs if (c.get("tipo_comparavel") or "mesmo artista") == "mesmo artista"
+                          and c.get("artista_comparavel") and norm(c["artista_comparavel"]) != norm(c["artista"])})
+        if grafias:
+            lacunas.append("o portal da CAL grafa o nome como \"{}\" e o mercado como \"{}\"; a identidade foi inferida pela "
+                           "procedência e pela técnica e deve ser conferida na assinatura da obra".format(l["autoria_origem"], "\", \"".join(grafias)))
         if moeda != "BRL":
             lacunas.append("valores em {}; converter para BRL pela taxa da data de referência (ex.: PTAX/BCB), registrando a fonte".format(moeda))
         if any((c.get("inclui_premio") or "") == "não informado" for c in cs if c["tipo_preco"] == "arrematado"):
             lacunas.append("o valor corrente operacional é preço de entrada e inclui os custos necessários (NBC TSP 38, item 25(a)): "
                            "confirmar se o preço arrematado inclui o prêmio do comprador")
+        if any(norm(c.get("inclui_premio")) == "nao" for c in cs if c["tipo_preco"] == "arrematado"):
+            lacunas.append("há preços de martelo, sem o prêmio do comprador, que é custo necessário da aquisição (NBC TSP 38, "
+                           "item 25(a)): o valor central pode estar subestimado")
         lacunas.append("ajustar condição, localização e restrições da obra da CAL (NBC TSP 38, itens 24 e 32)")
         obs = "{} Comparáveis: {}. Limitações: {}.".format(MARCA, descr, "; ".join(lacunas) if lacunas else "nenhuma registrada")
         novas.append({

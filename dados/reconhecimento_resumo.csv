@@ -1,21 +1,25 @@
 ﻿indicador,valor
-Reconhecimento sustentado pelas evidências,111
+Reconhecimento sustentado pelas evidências,112
 Não reconhecimento fundamentado,905
-Pendente de verificação,1181
+Pendente de verificação,1180
+Reconhecimento sustentado: pelo ato de incorporação (bens já no cadastro),111
+Reconhecimento sustentado: por mensuração da equipe (abordagem de mercado),1
 Atende à definição de ativo: sim,522
 Atende à definição de ativo: pendente,976
 Atende à definição de ativo: não,699
-"Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)",205
+"Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)",204
 "Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13)",976
 "Enquadramento: Não reconhecer: satisfaz a definição de ativo, mas não o critério de mensuração confiável do item 6(b) (NBC TSP 37, item 7)",206
 "Enquadramento: Não satisfaz a definição de ativo (Estrutura Conceitual (R1), item 5.6)",699
+"Enquadramento: Reconhecer (NBC TSP 37, item 6), com mensuração inicial pelo custo atribuído (itens 12 e 13)",1
 "Enquadramento: Reconhecer: bem já reconhecido no cadastro patrimonial (camada A2), identificado no portal pelo ato de incorporação publicado; mensuração inicial pelo custo atribuído registrado (NBC TSP 37, itens 6, 12, 13 e 87(a))",111
 "Funil: I. Sai na identificação: registro de evento, não é bem",699
 Funil: II. Para no reconhecimento: definição de ativo não confirmada,976
-Funil: II. Definição atendida: aguarda vínculo com bem já reconhecido no cadastro,205
+Funil: II. Definição atendida: aguarda vínculo com bem já reconhecido no cadastro,204
 "Funil: III. Definição atendida, sem mensuração confiável: nota explicativa (NBC TSP 37, item 77)",206
-Funil: IV. Reconhecido no balanço,111
-Arte | Pendente de verificação,476
+Funil: IV. Reconhecido no balanço,112
+Arte | Reconhecimento sustentado pelas evidências,1
+Arte | Pendente de verificação,475
 Arte contemporânea | Reconhecimento sustentado pelas evidências,111
 Arte contemporânea | Pendente de verificação,51
 Etnográfica | Não reconhecimento fundamentado,206

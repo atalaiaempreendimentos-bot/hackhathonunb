@@ -59,6 +59,21 @@ Fora dos níveis A a D, há uma situação própria para o valor oficial: "Custo
 5. Moedas não são misturadas; a conversão para BRL deve usar a taxa da data de referência (por exemplo, PTAX do Banco Central), com a fonte registrada.
 6. O resultado é gravado em `dados/evidencias_mensuracao.csv` (linhas automáticas, sem apagar as manuais) e o modelo é recalculado.
 
+Regras acrescentadas em 25/11/2026, registradas antes do uso dos resultados da busca em bases gratuitas:
+
+7. Contam para os níveis A e B só as vendas realizadas do próprio artista, em casa de leilão ou galeria, com a obra em condição comparável. As colunas `artista_comparavel` e `tipo_comparavel` registram de quem é a venda; `artista` continua sendo o artista da obra da CAL.
+8. Artista similar entra só como faixa indicativa (nível C) e só quando atende a quatro critérios: a mesma família de técnica; produção no mesmo período da obra da CAL; a mesma cena (Brasília e Centro-Oeste, ou a gravura brasileira do período); e nível de carreira comparável, sem retrospectiva em grande museu e sem recordes de leilão muito acima dos do artista da CAL. Artista que não atende aos quatro é descartado.
+9. Venda em plataforma aberta (como o eBay) é transação realizada, mas sem verificação de autenticidade e estado; também fica no nível C.
+10. Obra cuja condição não se confirma (por exemplo, tiragem em vida ou póstuma não identificada) fica no nível C, mesmo com três vendas do artista. É o caso das nove águas-fortes de Tarsila do Amaral doadas pelo Banco Central em 1997, sem título, tiragem nem dimensões no portal.
+11. Valores em moeda estrangeira são convertidos para BRL pela PTAX de venda do Banco Central na data da venda (ou no último dia útil anterior), com a taxa e a data registradas na observação.
+12. O valor do ato de incorporação publicado prevalece sobre qualquer mensuração da equipe. Na subcoleção Triangular, contrapartida provável da camada A2, que já está no balanço, a mensuração da equipe aparece só como informação e não leva ao reconhecimento, para não contar a mesma obra duas vezes (Regras, item 10).
+
+Regras acrescentadas em 25/11/2026 depois da busca, ao conferir os lotes na fonte:
+
+13. Linhas com `tipo_comparavel` iniciado por "excluído" ficam em `dados/comparaveis.csv`, com o motivo na observação, mas fora da conta: edições produzidas muito depois do ingresso da obra da CAL, de outro período e de outro mercado (NBC TSP 38, itens 24 e 32); lotes cuja técnica a própria casa descreve de duas formas.
+14. Quando o portal grafa o nome do artista de forma diferente do mercado, a identidade é inferida pela procedência e pela técnica. A evidência registra a diferença como limitação, a conferir na assinatura da obra.
+15. Fora da Triangular, a mensuração da equipe leva ao reconhecimento só quando o vínculo provável com o cadastro é um bem tombado por R$ 0,01, custo simbólico que não é custo atribuído (NBC TSP 37, item 13): o valor de mercado é a base proposta para o custo atribuído na aplicação inicial (item 87(a)) e não se soma aos valores do cadastro. Sem esse vínculo, a obra pode já estar no balanço por valor registrado; o valor da equipe fica como informação.
+
 ### Evidências registradas em 23/11/2026
 
 | Artista e técnica | Comparável | Tipo | Valores | Fonte | Obras da CAL | Nível |
@@ -93,9 +108,36 @@ Caminhos que podem produzir evidência mais forte, a decidir pela equipe:
 
 Os níveis A a D são definidos hoje pelo número de transações realizadas. Um valor de seguro ou um laudo não se encaixa em nenhum deles. Antes de usar os caminhos 1 e 2, a equipe precisa definir em que nível essas evidências entram.
 
-Antes de incluir novos comparáveis, a ordem dos testes em `codigos/reconhecimento.py` precisa mudar. O teste de mensuração confiável (nível A ou B) vem antes do ramo que mantém as obras de arte pendentes de vínculo com o cadastro patrimonial. Uma obra de Swain ou de Tarsila que chegasse ao nível B passaria a "Reconhecimento sustentado pelas evidências" no acervo digital, embora o próprio código a trate como provável bem já registrado no cadastro. `codigos/evidenciacao.py` apresenta os dois valores em linhas separadas; somá-los contaria a mesma obra duas vezes. Hoje nenhum registro do portal está no nível A ou B, por isso os resultados atuais não mudam.
+Ordem dos testes em `codigos/reconhecimento.py`, resolvida em 25/11/2026 pelas regras 12 e 15: o teste de mensuração confiável vem antes do ramo que mantém as obras de arte pendentes de vínculo com o cadastro. Uma obra que chegue ao nível A ou B pela equipe só é reconhecida quando o vínculo provável é um bem tombado por R$ 0,01; na Triangular e sem esse vínculo, o valor fica como informação. `codigos/evidenciacao.py` apresenta o valor da equipe em linha separada, sem somá-lo aos valores do cadastro.
 
 Páginas consultadas em 24/11/2026: https://www.bolsadearte.com/artistas/cotacoes/cicero-dias/, https://www.bolsadearte.com/artistas/cotacoes/maciej-babinski/, https://www.catalogodasartes.com.br/, https://www.leiloesbr.com.br/ (busca por "babinski") e https://www.iarremate.com/.
+
+### Busca em bases gratuitas nacionais e internacionais (25/11/2026)
+
+A pedido de Lucas, a busca procurou vendas realizadas em bases gratuitas, no Brasil e no exterior, inclusive de artistas similares. Cada venda usada foi conferida na página do lote em 25/11/2026. Os valores em moeda estrangeira foram convertidos pela PTAX de venda do Banco Central na data da venda (regra 11). As URLs estão em `dados/comparaveis.csv`.
+
+| Fonte | Acesso | Uso |
+|---|---|---|
+| Barnebys (preços realizados) | Aberto | Vendas de Tomás Sánchez (Skinner, Omega, Antiques Supermarket, Elite) e de Maciej Babinski (Capo); a página mostra estimativa e preço de martelo |
+| Phillips, Rago e Waddington's | Aberto, página do lote | Vendas de Tomás Sánchez |
+| Artmark (Sófia) | Aberto, página do lote | Vendas de Stoyan Tsanev |
+| Oto Reifschneider Galeria de Arte | Aberto, loja on-line | Preços de oferta de Milan Dusek |
+| LiveAuctioneers, Invaluable, eBay, MutualArt, Catálogo das Artes, LeilõesBR (leilões encerrados), Heritage, LotSearch, Dorotheum, Kunstveiling | Login, assinatura ou bloqueio | Sem uso |
+
+| Artista (grafia do portal) | Obras da CAL com evidência | Evidência | Nível |
+|---|---|---|---|
+| Tomás Sánches (Tomás Sánchez, Cuba, 1948) | 1: registro 3609, serigrafia, doação da Embaixada de Cuba em 1993 | 5 vendas realizadas, de 2016 a 2025, de serigrafias de 1985, de 1994 ou sem data: de R$ 956,86 a R$ 3.957,80; mediana de R$ 2.916,27 | B |
+| Stoyam Tzanev (Stoyan Tsanev, Bulgária, 1946–2019) | 1: registro 3597, água-forte e água-tinta, doação da Embaixada da Bulgária em 1993 | 2 vendas na Artmark em 2026, de gravuras em metal de 1979: € 1.600 e € 700 (R$ 9.659,84 e R$ 4.123,42) | C |
+| Milan Dusek | 42 gravuras em metal | Nenhuma venda; 2 preços de oferta da galeria (R$ 680,00 e R$ 4.800,00) | C |
+| Maciej Babinski | 38 gravuras em metal | 1 venda (Capo, 2015, US$ 40,00, ou R$ 103,42) | C |
+
+Tomás Sánchez. Ficaram fora da conta, registradas em `dados/comparaveis.csv` (regra 13), as duas vendas de "Meditador en la orilla", edição de 2020 da Avant Arte (Phillips, 2021, US$ 2.016; Rago, 2024, US$ 4.032), de outro período; ficou fora também a venda da Elite (2015, US$ 700), cujo lote se diz litografia no título e serigrafia na descrição. Com as edições de 2020, a mediana seria R$ 3.548,38 (sete vendas), também no nível B. Não foram usadas duas vendas de "Orilla" descritas como litografia (Omega, 2016; Ansorena, 2021, com valor convertido pela própria Barnebys) nem uma estimativa da Cutler Bay sem página do lote. Limitações: o portal não informa título, ano, dimensões nem tiragem da obra da CAL, o que impede o nível A; quatro das cinco vendas são preços de martelo, sem o prêmio do comprador (NBC TSP 38, item 25(a)), o que pode subestimar o valor; a identidade do artista foi inferida pela procedência e pela técnica (regra 14); as vendas vão de 2016 a 2025, sem atualização para a data de referência.
+
+Artista similar. Para as 81 obras de Zeila Navarro Swain (37 litografias), a busca achou vendas de artistas brasileiros do período com preço público na Barnebys: Glênio Bianchetti, Zoravia Bettiol, Augusto Rodrigues e Adir Sodré, de US$ 33,88 a US$ 425. Nenhum atende à regra 8, porque o portal não informa o ano das obras de Swain e não há como conferir o período. Ficam só como contexto, fora de `dados/comparaveis.csv`.
+
+Outros artistas. Marcello Grassmann e Wagner Hermuche têm vendas públicas, mas de famílias de técnica diferentes das obras da CAL. Para Tarsila do Amaral, só apareceu um lote misto, com obra de Alfredo Volpi, sem preço separável. Não houve venda pública de Lenora de Barros, dos demais artistas da Triangular, de Tupynambá, de Tuneu nem de Vicente Martinez.
+
+Resultado: 1 obra passa ao nível B e é reconhecida pela equipe, com valor agregado estimado de R$ 2.916,27, estimativa acadêmica que não se soma aos valores do cadastro. As obras com faixa indicativa passam de 15 para 96.
 
 ## Incerteza
 

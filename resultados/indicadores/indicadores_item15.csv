@@ -4,11 +4,11 @@ Registros recuperados,2197,Total recuperado e organizado
 Cobertura (%),100.0,Recuperados / identificados no universo digital
 Completude cadastral (%),34.1,Preenchimento médio das 13 variáveis principais
 Registros duplicados,48,Registros possivelmente duplicados: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)
-Reconhecimento sustentado,111,Registros do acervo digital com fundamentação suficiente para reconhecer: obras identificadas pelo ato de incorporação publicado no Boletim de Atos Oficiais como bens já reconhecidos no cadastro patrimonial (camada A2); o valor está no total do cadastro e não é somado de novo
+Reconhecimento sustentado,112,"Registros do acervo digital com fundamentação suficiente para reconhecer: 111 obras identificadas pelo ato de incorporação publicado no Boletim de Atos Oficiais como bens já reconhecidos no cadastro patrimonial (camada A2), cujo valor está no total do cadastro e não é somado de novo; e 1 com mensuração de nível A ou B obtida pela equipe pela abordagem de mercado, base proposta para o custo atribuído (NBC TSP 37, itens 13 e 87(a)), estimativa acadêmica que não é somada aos valores do cadastro (Regras, item 10)"
 Reconhecimento sustentado no cadastro patrimonial,258,"Bens tombados com controle, ingresso e valor documentados (camadas A1 e A2): R$ 1.859.185,00 em valores oficialmente registrados, não estimados pela equipe (dados/reconhecimento_cadastro_resumo.csv)"
-Reconhecimento pendente,1181,Necessitam de informações complementares
-Mensuração fundamentada,0,Valores com evidência nível A ou B
-Mensuração pendente,520,Sem evidência suficiente (inclui 15 com faixa indicativa)
-Valor agregado estimado,"R$ 0,00",Soma dos valores fundamentados (detalhe por base e categoria em resultados/demonstrativos/valor_agregado_por_base.csv); não é o valor total do patrimônio da CAL
+Reconhecimento pendente,1180,Necessitam de informações complementares
+Mensuração fundamentada,1,Valores com evidência nível A ou B
+Mensuração pendente,519,Sem evidência suficiente (inclui 96 com faixa indicativa)
+Valor agregado estimado,"R$ 2.916,27",Soma dos valores fundamentados (detalhe por base e categoria em resultados/demonstrativos/valor_agregado_por_base.csv); não é o valor total do patrimônio da CAL
 Rastreabilidade (%),100.0,"Registros com fonte, decisão de reconhecimento e de mensuração documentadas"
 Validação,9,Casos examinados em profundidade (mínimo de nove)

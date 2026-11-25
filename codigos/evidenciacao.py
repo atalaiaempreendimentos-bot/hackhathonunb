@@ -11,6 +11,7 @@ Os valores acadêmicos são separados do valor registrado no cadastro patrimonia
 """
 import csv
 import os
+import re
 from collections import Counter, defaultdict
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -86,6 +87,40 @@ def main():
         w = csv.DictWriter(f, fieldnames=list(linhas[0].keys())); w.writeheader(); w.writerows(linhas)
     T = linhas[-1]
 
+    # reconhecidos no acervo digital: pelo ato de incorporação (bens já no cadastro) ou pela mensuração da equipe
+    sit_de = lambda i: mens.get(i, {}).get("situacao", "")
+    sust_ids = [i for i, r in rec.items() if r["classe_reconhecimento"] == "Reconhecimento sustentado pelas evidências"]
+    sa_n = sum(1 for i in sust_ids if sit_de(i).startswith("Custo atribuído registrado"))
+    eq = [i for i in sust_ids if sit_de(i) == "Mensuração fundamentada"]
+    vcad = {r["id_registro"]: r for r in ler("valores_cadastro_unb.csv")}
+    inv_id = {r["id_registro"]: r for r in inv}
+    eq4 = []
+    for i in eq:
+        c, r = vcad.get(i, {}), inv_id.get(i, {})
+        if c.get("valor_registrado") == "0.01":
+            eq4.append("Entre esses bens tombados por R$ 0,01 está, provavelmente, a obra do registro {} do acervo digital ({}; procedência: {}; "
+                       "vínculo {} pela origem {} no cadastro). A equipe obteve para ela mensuração de nível {} pela abordagem de mercado "
+                       "(seção 6): esse valor é a base proposta para o custo atribuído na aplicação inicial (NBC TSP 37, itens 13 e 87(a)) e "
+                       "não é somado aos totais do cadastro (Regras, item 10).".format(
+                           i, r.get("autoria_origem", ""), r.get("proveniencia", ""), (c.get("confianca") or "").lower(), c.get("origem_sipat", ""),
+                           mens[i].get("nivel_evidencia", "")))
+        else:
+            eq4.append("A obra do registro {} do acervo digital ({}) não tem vínculo com o cadastro; a mensuração de nível {} obtida pela "
+                       "equipe (seção 6) é a base proposta para o custo atribuído na aplicação inicial (NBC TSP 37, item 87(a)).".format(
+                           i, r.get("autoria_origem", ""), mens[i].get("nivel_evidencia", "")))
+    ev_obs = {e["id_registro"]: e.get("observacao", "") for e in ler("evidencias_mensuracao.csv")}
+    fund_txt = []
+    for i, m in mens.items():
+        if m.get("situacao") != "Mensuração fundamentada":
+            continue
+        k = re.search(r"(\d+) transação", m.get("tecnica", ""))
+        fund_txt.append("Registro {} ({}, {}): nível {}; valor central de {} (mediana de {} transações realizadas); intervalo de {} a {}, "
+                        "entre transações e estimativas{}; demais limitações em `dados/evidencias_mensuracao.csv`.".format(
+                            i, m.get("autoria_origem", ""), inv_id.get(i, {}).get("tecnica", "") or m.get("titulo", ""), m.get("nivel_evidencia", ""),
+                            brl(m["valor_central"] or 0), k.group(1) if k else "?", brl(m["valor_min"] or 0), brl(m["valor_max"] or 0),
+                            "; o portal grafa o nome do artista de forma diferente do mercado; a identidade deve ser conferida na "
+                            "assinatura da obra" if "grafa o nome" in ev_obs.get(i, "") else ""))
+
     # indicadores obrigatórios (item 15)
     rastreaveis = sum(1 for r in inv if r["url_registro"] and r["id_registro"] in rec and r["id_registro"] in mens)
     i15 = [
@@ -96,7 +131,8 @@ def main():
         ("Registros duplicados", dup.get("Registros possivelmente duplicados (indicador do item 15)", ind.get("Registros com possível duplicidade", "")),
          "Registros possivelmente duplicados: {} em provável duplicidade (Memória Institucional) e {} a conferir no Acervo (imagem ou descrição idêntica); nenhum identificador repetido (dados/verificacao_duplicidades.csv)".format(
              dup.get("Registros em provável duplicidade", "?"), dup.get("Registros a conferir", "?"))),
-        ("Reconhecimento sustentado", T["reconhecimento_sustentado"], "Registros do acervo digital com fundamentação suficiente para reconhecer: obras identificadas pelo ato de incorporação publicado no Boletim de Atos Oficiais como bens já reconhecidos no cadastro patrimonial (camada A2); o valor está no total do cadastro e não é somado de novo"),
+        ("Reconhecimento sustentado", T["reconhecimento_sustentado"], "Registros do acervo digital com fundamentação suficiente para reconhecer: {} obras identificadas pelo ato de incorporação publicado no Boletim de Atos Oficiais como bens já reconhecidos no cadastro patrimonial (camada A2), cujo valor está no total do cadastro e não é somado de novo{}".format(
+            n(sa_n), "; e {} com mensuração de nível A ou B obtida pela equipe pela abordagem de mercado, base proposta para o custo atribuído (NBC TSP 37, itens 13 e 87(a)), estimativa acadêmica que não é somada aos valores do cadastro (Regras, item 10)".format(n(len(eq))) if eq else "")),
         ("Reconhecimento sustentado no cadastro patrimonial", sum(int(camadas[k]["bens"]) for k in ("A1", "A2") if k in camadas),
          "Bens tombados com controle, ingresso e valor documentados (camadas A1 e A2): {} em valores oficialmente registrados, não estimados pela equipe (dados/reconhecimento_cadastro_resumo.csv)".format(
              brl(sum(float(camadas[k]["valor_registrado_rs"]) for k in ("A1", "A2") if k in camadas)))),
@@ -185,7 +221,8 @@ def main():
                      else "{} aparecem".format(conc.get("Tombamentos do cadastro encontrados no portal", "?"))),
         pesfis=conc.get("Obras de arte com origem PESFIS (pessoa física)", "?"),
         atos=conc.get("Atos de ingresso distintos das obras próprias", "?"),
-        recentes=conc.get("Registros do portal com aquisição a partir de 2016", "?"))
+        recentes=conc.get("Registros do portal com aquisição a partir de 2016", "?"),
+        eq4=(" " + " ".join(eq4)) if eq4 else "", fund_txt=(" " + " ".join(fund_txt)) if fund_txt else "")
     nota = """# Minuta de nota explicativa: acervos do patrimônio cultural sob guarda da Casa da Cultura da América Latina (CAL/UnB)
 
 **Resultado acadêmico do Hackathon CULTIVA UnB 2026. Não constitui registro contábil oficial da Universidade de Brasília (Regras, item 17.13).**
@@ -227,7 +264,7 @@ Nenhum número de tombamento da Lista aparece no acervo digital. {rel_txt}Esses 
 
 ## 4 Itens do patrimônio cultural não reconhecidos [e, g, h] (NBC TSP 37, itens 7 e 77)
 
-Satisfazem a definição de ativo, mas não têm mensuração confiável e, por isso, não são reconhecidos: {b_n} bens do cadastro tombados por R$ 0,01, custo simbólico que não é custo atribuído (NBC TSP 37, item 13), e {n77} registros etnográficos do acervo digital, {gal} da Coleção Galvão e {ini} da Coleção Inicial.[^3]
+Satisfazem a definição de ativo, mas não têm mensuração confiável e, por isso, não são reconhecidos: {b_n} bens do cadastro tombados por R$ 0,01, custo simbólico que não é custo atribuído (NBC TSP 37, item 13), e {n77} registros etnográficos do acervo digital, {gal} da Coleção Galvão e {ini} da Coleção Inicial.[^3]{eq4}
 
 | Classe | Itens | (a) Dificuldades na obtenção de mensuração confiável | (b) Relevância para os objetivos da entidade |
 |---|---:|---|---|
@@ -244,9 +281,9 @@ Dificuldade comum: o acervo digital, mantido no software Tainacan, identifica as
 
 ## 6 Mensuração: base, técnicas, dados de entrada e incerteza [d, e, f, h] (NBC TSP 38, itens 54 e 55)
 
-Registros com mensuração fundamentada: {fund}. Valor agregado das mensurações fundamentadas: {vfund}. Esse montante não representa o valor total do patrimônio cultural da CAL (Regras, item 15).
+Registros com mensuração fundamentada: {fund}. Valor agregado das mensurações fundamentadas: {vfund}. Esse montante não representa o valor total do patrimônio cultural da CAL (Regras, item 15).{fund_txt}
 
-Há {faixa} obras com faixa indicativa (nível C), obtida pela abordagem de mercado (NBC TSP 38, item 42): {faixa_obs} a partir de uma única transação realizada (dados observáveis) e {faixa_nobs} a partir de estimativa de leiloeiro (dados não observáveis). Somadas por moeda, sem conversão: {fsoma}. A incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8).[^7] Como não há vínculo com o cadastro, não é possível avaliar se o valor corrente difere materialmente do valor registrado (NBC TSP 37, item 76(d)).
+Há {faixa} obras com faixa indicativa (nível C), obtida pela abordagem de mercado (NBC TSP 38, item 42): {faixa_obs} a partir de uma ou duas transações realizadas (dados observáveis) e {faixa_nobs} só com estimativas de leiloeiro ou preços de oferta de galeria (dados não observáveis). Somadas, em reais (valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação): {fsoma}. A incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8).[^7] Sem vínculo obra a obra com o cadastro, não é possível avaliar se o valor corrente difere materialmente do valor registrado (NBC TSP 37, item 76(d)).
 
 ## 7 Restrições patrimoniais, culturais e documentais [i]
 
@@ -260,11 +297,11 @@ Certificado TLS do portal vencido na data da coleta ({data}), feita sem verifica
 
 [^1]: Normas conferidas no texto publicado em 24/11/2026: NBC TSP 37, de 11/12/2025 (DOU de 17/03/2026); NBC TSP 38, de 09/04/2026 (DOU de 17/04/2026); NBC TSP Estrutura Conceitual (R1), de 13/11/2025 (DOU de 07/04/2026). Itens e fontes em `metodologia/fundamentacao_normativa.md`.
 [^2]: Identificação: extração pela API pública do Tainacan em {data} (`codigos/extrair_acervo_cal.py`); base em `dados/inventario.csv`, dicionário em `dados/dicionario_dados.md` e diagnóstico em `dados/diagnostico_qualidade.csv`.
-[^3]: Reconhecimento: matriz aplicada a todos os registros (`codigos/reconhecimento.py`, `dados/reconhecimento.csv`). Controle avaliado pelos indicadores do item 5.12 da Estrutura Conceitual (R1): propriedade legal (ingresso por doação ou transferência com data), acesso (situação "Localizado") e meios de uso (guarda museológica). A presença no portal, sozinha, não basta (Regras, item 8). Reconhecimento sustentado exige mensuração confiável (NBC TSP 37, item 6(b)): no acervo digital, nível A ou B; no cadastro, valor atribuído na incorporação. Obras de arte com definição atendida aguardam o vínculo com o cadastro, porque provavelmente já estão reconhecidas (Parecer de Reconhecimento dos Ativos da CAL v1, 24/11/2026).
+[^3]: Reconhecimento: matriz aplicada a todos os registros (`codigos/reconhecimento.py`, `dados/reconhecimento.csv`). Controle avaliado pelos indicadores do item 5.12 da Estrutura Conceitual (R1): propriedade legal (ingresso por doação ou transferência com data), acesso (situação "Localizado") e meios de uso (guarda museológica). A presença no portal, sozinha, não basta (Regras, item 8). Reconhecimento sustentado exige mensuração confiável (NBC TSP 37, item 6(b)): no acervo digital, nível A ou B; no cadastro, valor atribuído na incorporação. Obras de arte com definição atendida aguardam o vínculo com o cadastro, porque provavelmente já estão reconhecidas (Parecer de Reconhecimento dos Ativos da CAL v1, 24/11/2026). A exceção são as obras com mensuração de nível A ou B obtida pela equipe cuja provável contrapartida no cadastro está tombada por R$ 0,01: o valor de mercado é a base proposta para o custo atribuído (NBC TSP 37, itens 13 e 87(a)) e não é somado ao cadastro. Na subcoleção Triangular (provável contrapartida da Lista da CAL) e nas obras sem esse vínculo, o valor fica só como informação, para não contar a mesma obra duas vezes.
 [^4]: Mensuração: `codigos/mensuracao.py` e `metodologia/mensuracao.md`. O valor corrente operacional é o valor que a entidade pagaria pelo potencial de serviço remanescente; é preço de entrada, reflete o uso atual e inclui os custos necessários (NBC TSP 38, itens 6 e 25). Sem evidência suficiente, o registro recebe a classificação do item 9.4 das Regras, sem valor arbitrário.
 [^5]: Cadastro patrimonial por camada: `codigos/reconhecimento_cadastro.py` e `dados/reconhecimento_cadastro_resumo.csv` (a versão bem a bem fica fora do repositório público). Lista da CAL fornecida pela equipe, com {cad} bens tombados em {dt_tomb} (termo {termo}), migrados do SIPAT; conciliação agregada em `dados/conciliacao_patrimonial.csv` (`codigos/cadastro_patrimonial.py`); a versão item a item, sem dados pessoais, fica fora do repositório público até a confirmação da autorização de divulgação (Regras, item 12).
 [^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
-[^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas. Valor central: mediana das transações; intervalo: menor e maior valor. Conversão para reais só com taxa e fonte da data de referência.
+[^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas e ofertas. Só contam para A e B vendas do próprio artista em casa de leilão ou galeria; vendas em plataforma aberta, comparáveis de artista similar e obras em condição não confirmada só formam faixa indicativa; edições de outro período e lotes de técnica incerta ficam registrados, fora da conta. Valor central: mediana das transações; intervalo: menor e maior valor entre transações e estimativas. Valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação (`metodologia/mensuracao.md`).
 [^8]: Relatório de bens da UnB (obras de arte, código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026; vínculo em `dados/valores_cadastro_unb.csv` e conciliação em `resultados/conciliacao_cadastro_unb.md` (`codigos/cadastro_unb_relatorio.py`). Vínculo confirmado: número de registro do portal igual ao tombamento ou ao registro do SIPAT. Vínculo provável: procedência do portal correspondente à sigla de origem do SIPAT, com valor único no grupo. Nomes e matrículas do relatório foram descartados.
 [^9]: Correlação entre fontes: `metodologia/identificacao.md` e `dados/conciliacao_patrimonial.csv`. Os tombamentos foram procurados em todos os metadados de todos os registros do acervo digital (`codigos/cadastro_patrimonial.py`). Sobre o software: TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
 [^10]: PINTO, Tamine Alana Oliveira. **Classificação museológica e coleções etnográficas**: trajetória da Coleção Galvão da Casa da Cultura da América Latina da Universidade de Brasília. 2019. Trabalho de Conclusão de Curso (Graduação em Museologia), Universidade de Brasília, Brasília, 2019, p. 44 e 49; ENTIDADES e peles: desvendando máscaras dos povos originários: exposição do acervo da Casa da Cultura da América Latina. Brasília, DF: Ed. dos Autores, 2025. E-book. ISBN 978-65-01-60206-6.

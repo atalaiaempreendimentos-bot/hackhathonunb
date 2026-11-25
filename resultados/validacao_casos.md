@@ -21,13 +21,13 @@ Motivo da escolha: Comparável de mercado realizado (Bonhams, 2021). Registro no
 
 **Reconhecimento.** Existência: indício (catalogado com fotografia; localização atual não informada). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Pendente de verificação. Enquadramento: Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13). Faltam informações para concluir: confirmar a localização atual (inventário físico). Divulgação: Evidenciar como registro pendente de verificação (Regras, item 10(g)).
 
-**Mensuração.** Faixa indicativa: USD 600 a USD 2.040. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25). Técnica: Abordagem de mercado (NBC TSP 38, item 42): 1 transação(ões) realizada(s), 1 comparável(is) no total; dados de entrada observáveis (preços de transações de obras similares). Nível de evidência: C. Fonte: https://www.art.salon/artwork/cicero-dias_untitled_AID507301.
+**Mensuração.** Faixa indicativa: R$ 3.302,64 a R$ 11.228,98. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25). Técnica: Abordagem de mercado (NBC TSP 38, item 42): 1 transação(ões) realizada(s), 1 comparável(is) no total; dados de entrada observáveis (preços de transações de obras similares). Nível de evidência: C. Fonte: https://www.art.salon/artwork/cicero-dias_untitled_AID507301.
 
 **Lacunas documentais.** Título; Data de produção; Dimensões; Tiragem; Estado de conservação
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; medir a obra e registrar tiragem e assinatura; ampliar os comparáveis para 3 transações e converter a moeda pela taxa da data, com fonte; localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Pendente de verificação (Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13)). Mensuração: Faixa indicativa (USD 600 a USD 2.040).
+**Conclusão.** Pendente de verificação (Definição de ativo não confirmada: existência ou controle sem evidência suficiente (Estrutura Conceitual (R1), itens 5.11 a 5.13)). Mensuração: Faixa indicativa (R$ 3.302,64 a R$ 11.228,98).
 
 
 ## Caso 2: Gravura (Obra de arte)
@@ -49,13 +49,13 @@ Motivo da escolha: Comparável apenas por estimativa. Registro no portal: [CAL.1
 
 **Reconhecimento.** Existência: atendido (situação: Localizado). Controle: atendido (Doação em 25 de setembro de 1997). Classe: Pendente de verificação. Enquadramento: Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8). Satisfaz a definição de ativo (acesso confirmado e ingresso documentado). Doações de pessoas físicas e do Banco Central e transferências internas têm provável tombamento no cadastro patrimonial (origens PESFIS, BACEN ou FUB nas localidades da CAL); sem o vínculo obra a obra, não se pode concluir pelo reconhecimento nem pelo não reconhecimento. Divulgação: Evidenciar como registro pendente de vínculo com o cadastro patrimonial (Regras, item 10(g)).
 
-**Mensuração.** Faixa indicativa: USD 300 a USD 600. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25). Técnica: Abordagem de mercado (NBC TSP 38, item 42): 0 transação(ões) realizada(s), 1 comparável(is) no total; dados de entrada não observáveis (estimativas de leiloeiro). Nível de evidência: C. Fonte: https://www.invaluable.com/artist/amaral-tarsila-do-h6z52teo81/sold-at-auction-prices/.
+**Mensuração.** Faixa indicativa: R$ 1.567,08 a R$ 3.134,16. Base: Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25). Técnica: Abordagem de mercado (NBC TSP 38, item 42): 0 transação(ões) realizada(s), 1 comparável(is) no total; dados de entrada não observáveis (estimativas de leiloeiro). Nível de evidência: C. Fonte: https://www.invaluable.com/artist/amaral-tarsila-do-h6z52teo81/sold-at-auction-prices/.
 
 **Lacunas documentais.** Título; Data de produção; Dimensões; Tiragem; Estado de conservação
 
 **Procedimentos complementares.** Conferir no local a existência e o estado de conservação; medir a obra e registrar tiragem e assinatura; ampliar os comparáveis para 3 transações e converter a moeda pela taxa da data, com fonte; localizar o número de tombamento no cadastro patrimonial.
 
-**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Faixa indicativa (USD 300 a USD 600).
+**Conclusão.** Pendente de verificação (Definição de ativo atendida; provável bem já reconhecido no cadastro patrimonial, sem vínculo obra a obra: concluir após o vínculo (NBC TSP 37, itens 6 e 7; Regras, item 8)). Mensuração: Faixa indicativa (R$ 1.567,08 a R$ 3.134,16).
 
 
 ## Caso 3: Gravura (Obra de arte)

@@ -72,8 +72,8 @@ O desafio pergunta como identificar, reconhecer, mensurar e evidenciar os ativos
 |---|---|---|
 | I. Identificar | 1.498 bens; 699 registros de evento saem | 1.026 obras de arte tombadas; 27 recentes sem registro no portal |
 | II. Reconhecer | 522 satisfazem a definição de ativo; 976 pendentes | 1.016 controladas pela UnB; 10 bens de terceiros saem |
-| III. Mensurar | 111 com o custo atribuído do ato de incorporação publicado (71 com valor individual e 40 pelo grupo do doador); 205 aguardam vínculo com o cadastro; 206 sem mensuração possível | 258 com mensuração confiável; 455 com base a confirmar; 303 com R$ 0,01 |
-| IV. Evidenciar | 111 reconhecidos, já contados no cadastro; 206 em nota (item 77); 1.181 pendentes | 258 no balanço (R$ 1.859.185,00); 303 em nota; 455 com ressalva |
+| III. Mensurar | 111 com o custo atribuído do ato de incorporação publicado (71 com valor individual e 40 pelo grupo do doador); 1 com mensuração de nível B pela equipe (abordagem de mercado); 204 aguardam vínculo com o cadastro; 206 sem mensuração possível | 258 com mensuração confiável; 455 com base a confirmar; 303 com R$ 0,01 |
+| IV. Evidenciar | 112 reconhecidos: 111 já contados no cadastro e 1 pela mensuração da equipe, sem somar ao cadastro; 206 em nota (item 77); 1.180 pendentes | 258 no balanço (R$ 1.859.185,00); 303 em nota; 455 com ressalva |
 
 Metodologia, código e resultados de cada etapa:
 
@@ -81,7 +81,7 @@ Metodologia, código e resultados de cada etapa:
 flowchart LR
   I["<b>I. Identificar</b><br/>Quais bens estão documentados<br/>e com que qualidade?<br/>2.197 registros: 1.498 bens<br/>e 699 registros de evento"]
   R["<b>II. Reconhecer</b><br/>Há evidência para reconhecer<br/>como ativo da UnB?<br/>EC 5.6 a 5.13; NBC TSP 37, itens 6 e 7<br/>Portal: 522 com definição atendida<br/>Cadastro: 258 sustentados"]
-  M["<b>III. Mensurar</b><br/>Com que base e com que<br/>evidência mensurar?<br/>NBC TSP 37, itens 11 a 13; NBC TSP 38<br/>0 fundamentada, 15 faixas indicativas"]
+  M["<b>III. Mensurar</b><br/>Com que base e com que<br/>evidência mensurar?<br/>NBC TSP 37, itens 11 a 13; NBC TSP 38<br/>1 fundamentada, 96 faixas indicativas"]
   E["<b>IV. Evidenciar</b><br/>Como apresentar de forma<br/>transparente e útil?<br/>NBC TSP 37, itens 69 e 77<br/>Balanço: 258 bens, R$ 1.859.185,00<br/>Nota (item 77): 303 + 206"]
   I --> R --> M --> E
   M -. "condição de mensuração<br/>alimenta o critério 6(b)" .-> R
@@ -122,11 +122,11 @@ Ordem: Etapa I (`extrair_acervo_cal.py` e `verificar_duplicidades.py`), concilia
 | Cobertura | 100,0% do universo digital |
 | Completude cadastral | 34,1% (13 variáveis principais; só dados do portal) |
 | Registros duplicados (possíveis) | 48: 4 em provável duplicidade (Memória Institucional) e 44 a conferir no Acervo; nenhum identificador repetido |
-| Reconhecimento sustentado | 111 no acervo digital, identificados pelo ato de incorporação publicado como bens já contados no cadastro (71 com valor individual e 40 pelo grupo do doador); 258 bens no cadastro patrimonial (R$ 1.859.185,00 em valores oficialmente registrados) |
-| Reconhecimento pendente | 1.181 no acervo digital (205 aguardam o vínculo com bens já reconhecidos; outros 905 com não reconhecimento fundamentado: 206 pelo item 7 da NBC TSP 37 e 699 eventos); 455 bens do cadastro com base do valor a confirmar |
-| Mensuração fundamentada | 0 pela equipe; 73 com o custo atribuído registrado no ato de incorporação publicado (R$ 897.600,00) e 45 com o valor do grupo do doador (R$ 307.085,00 em 16 doadores, sem rateio); valores oficiais já contidos no cadastro e não somados |
-| Mensuração pendente | 520, dos quais 15 com faixa indicativa (nível C) |
-| Valor agregado estimado | R$ 0,00 (não é o valor do patrimônio da CAL) |
+| Reconhecimento sustentado | 112 no acervo digital: 111 identificados pelo ato de incorporação publicado como bens já contados no cadastro (71 com valor individual e 40 pelo grupo do doador) e 1 pela mensuração da equipe (abordagem de mercado, nível B); 258 bens no cadastro patrimonial (R$ 1.859.185,00 em valores oficialmente registrados) |
+| Reconhecimento pendente | 1.180 no acervo digital (204 aguardam o vínculo com bens já reconhecidos; outros 905 com não reconhecimento fundamentado: 206 pelo item 7 da NBC TSP 37 e 699 eventos); 455 bens do cadastro com base do valor a confirmar |
+| Mensuração fundamentada | 1 pela equipe (serigrafia de Tomás Sánchez, registro 3609, nível B: R$ 2.916,27); 73 com o custo atribuído registrado no ato de incorporação publicado (R$ 897.600,00) e 45 com o valor do grupo do doador (R$ 307.085,00 em 16 doadores, sem rateio); valores oficiais já contidos no cadastro e não somados |
+| Mensuração pendente | 519, dos quais 96 com faixa indicativa (nível C) |
+| Valor agregado estimado | R$ 2.916,27, estimativa acadêmica da equipe (não é o valor do patrimônio da CAL e não se soma aos valores do cadastro) |
 | Rastreabilidade | 100,0% |
 | Validação | 9 casos |
 
@@ -273,6 +273,7 @@ python3 codigos/extrair_acervo_cal.py --saida dados --offline --mapa dados/mapea
 | 25/11/2026 | Claude (Anthropic) | Coleta dos atos de incorporação de obras doadas publicados no Boletim de Atos Oficiais (Instrução DAF nº 001/2018) e vínculo com os registros do portal por doador e data (`codigos/atos_bao.py`, `codigos/vinculo_bao.py`, seção em `metodologia/reconhecimento.md`): 145 dos 162 registros da Triangular vinculados, 73 com valor individual | Seis vínculos conferidos no texto do ato; três falsos positivos de outras subcoleções eliminados pela data; CPF, CNPJ, passaporte e RG ausentes das tabelas; `reconhecimento.py` e funil sem alteração, à espera de decisão da equipe |
 | 25/11/2026 | Claude (Anthropic) | Aplicação do vínculo no funil: situação "Custo atribuído registrado no ato de incorporação" em `codigos/mensuracao.py` (73 registros, R$ 897.600,00) e aceita como mensuração confiável em `codigos/reconhecimento.py` (71 reconhecidos); site, indicadores, nota explicativa e validação gerados de novo | Rodada de base sem alteração reproduziu o repositório; situações somam 2.197; valor agregado estimado continua R$ 0,00; ato 217/2020 e distribuição dos atos conferidos com a Lista da CAL; grupos (45) e quantidade diferente (27) seguem pendentes |
 | 25/11/2026 | Claude (Anthropic) | Reconhecimento dos vínculos por grupo, a pedido de Lucas: situação "Custo atribuído registrado no ato de incorporação, por grupo" (45 registros, 16 doadores, R$ 307.085,00, sem rateio); 40 passam a reconhecidos, total de 111 | Rodada de base reproduziu o repositório; situações e funil somam 2.197; valor agregado estimado continua R$ 0,00; 27 com quantidade diferente seguem pendentes |
+| 25/11/2026 | Claude (Anthropic) | Comparáveis em bases gratuitas nacionais e internacionais, a pedido de Lucas, inclusive por artista similar: preços realizados públicos na Barnebys, Phillips, Rago, Waddington's e Artmark e preços de oferta da galeria Oto Reifschneider; 13 linhas novas em `dados/comparaveis.csv`, em reais pela PTAX de venda do Banco Central; regras de artista similar, plataforma aberta, condição não confirmada e linhas excluídas em `codigos/comparaveis.py` e `metodologia/mensuracao.md`; a serigrafia de Tomás Sánchez (registro 3609) passa ao nível B e é reconhecida pela equipe, sem somar ao cadastro; 96 obras com faixa indicativa | Cada venda conferida na página do lote; o valor central é o preço de uma venda real (nenhum valor gerado por IA); edições de 2020 e lote de técnica incerta registrados e fora da conta; similares de Swain descartados pelo critério de período; situações e funil somam 2.197; identidade de "Tomás Sánches" e "Stoyam Tzanev" inferida pela procedência, a conferir na assinatura; links a conferir pela equipe |
 | 23/11/2026 | Claude (Anthropic) | Matriz de reconhecimento, validação de casos, evidenciação (nota explicativa, quadro consolidado, indicadores), leitor de Numbers, conciliação com o cadastro patrimonial, metodologia, minutas do relatório e da apresentação, notas metodológicas no site e relatório de aderência às Regras | Regras de decisão a revisar pela equipe; parágrafos das normas a conferir; nenhum valor atribuído sem evidência |
 | 23/11/2026 | Claude (Anthropic) | Versões 1.1.x do extrator (links das fotos, metadados completos, galeria), scripts `baixar_acervo_1565*.py`, tarefas do VS Code e diagnóstico das obras sem foto | Coletas executadas pela equipe em 23/11/2026: 2.197 registros em 3 coleções; 1.497 obras e 1.245 fotos da coleção 1565, sem falhas |
 

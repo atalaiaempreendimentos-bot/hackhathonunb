@@ -230,7 +230,7 @@ def main():
                 nota = ("Evidência registrada é insuficiente para estimativa confiável (nível {}). Fonte: {}. {}"
                         .format(nivel, r["fonte"], e.get("observacao", "")))
         b = bao.get(str(l.get("id_registro")))
-        if b and r["situacao"] != SIT_FUND:
+        if b:  # o valor oficial do ato prevalece sobre qualquer mensuração da equipe
             ato = "{}, publicado em {}, doador {}".format(b["atos"], b["data_publicacao"], b["doador_ato"])
             if b["tipo_vinculo"] in ("1:1", "valor único") and b["valor_individual"] != "":
                 v = float(b["valor_individual"])

@@ -40,7 +40,10 @@ Versão 2 (24/11/2026), conforme o Parecer de Reconhecimento dos Ativos da CAL v
   6. Obra de arte ou de arte contemporânea que satisfaz a definição de ativo, sem mensuração própria: "Pendente de
      verificação" (vínculo), porque é provável que corresponda a bem já reconhecido no cadastro patrimonial (Triangular:
      Lista da CAL, doações de 2019 e 2020; Arte: origens PESFIS, BACEN ou FUB). Concluir "não reconhecer" pelo item 7
-     contrariaria o cadastro (versão 1 aplicava o item 7).
+     contrariaria o cadastro (versão 1 aplicava o item 7). Acrescentado em 25/11/2026: com mensuração de nível A ou B obtida pela equipe (abordagem
+     de mercado), a obra é reconhecida só quando o vínculo provável com o cadastro é um bem tombado por R$ 0,01, custo
+     simbólico: o valor de mercado é a base proposta para o custo atribuído (NBC TSP 37, itens 13 e 87(a)), sem somar ao
+     cadastro. Na Triangular e sem esse vínculo, o valor fica como informação, para não contar a mesma obra duas vezes.
   7. Coleção Galvão: de propriedade da UnB (1977), devolvida em 2002 por rescisão do acordo de guarda (PINTO, 2019);
      registros "Emprestado" têm empréstimo de saída a outros museus (ENTIDADES e peles, 2025), indicador de acesso
      (EC 5.12(b)). Não tombada: item 7.
@@ -189,8 +192,27 @@ def main():
         definicao = "sim" if (ex_ok and ct_ok) else "pendente"
         sm, nivel = ms.get("situacao", ""), ms.get("nivel_evidencia", "")
         grupo = l["grupo_sugerido"]
-        if sm == "Mensuração fundamentada":
-            cm, c6b, ok6b = "atendida (nível {})".format(nivel), "atendido: mensuração confiável, nível {} (NBC TSP 37, item 6(b))".format(nivel), True
+        simbolico = (cad.get(i) or {}).get("valor_registrado") == "0.01"
+        if sm == "Mensuração fundamentada" and l["subcolecao"] == "Triangular":
+            # contrapartida provável da camada A2, já no balanço: o valor de mercado da equipe não reconhece de novo
+            cm = "atendida pela equipe (nível {}), só como informação".format(nivel)
+            c6b = ("não usado para reconhecer: a obra provavelmente já está no balanço pelo cadastro (camada A2); reconhecê-la "
+                   "pelo valor de mercado contaria a mesma obra duas vezes (Regras, item 10)")
+            ok6b = False
+        elif sm == "Mensuração fundamentada" and not simbolico:
+            # sem vínculo com bem tombado por R$ 0,01, a obra pode já estar no balanço por valor registrado (origens PESFIS,
+            # BACEN ou FUB): o valor de mercado da equipe fica como informação até o vínculo
+            cm = "atendida pela equipe (nível {}), só como informação".format(nivel)
+            c6b = ("não usado para reconhecer: sem vínculo com bem tombado por R$ 0,01, a obra pode já estar no balanço por "
+                   "valor registrado; reconhecê-la pelo valor de mercado poderia contar a mesma obra duas vezes (Regras, item 10)")
+            ok6b = False
+        elif sm == "Mensuração fundamentada":
+            # contrapartida provável tombada por R$ 0,01, custo simbólico que não é custo atribuído (NBC TSP 37, item 13):
+            # o valor de mercado da equipe é a base proposta para o custo atribuído na aplicação inicial (item 87(a))
+            cm = "atendida (nível {})".format(nivel)
+            c6b = ("atendido: mensuração confiável, nível {}, base proposta para o custo atribuído de bem tombado por R$ 0,01 "
+                   "(NBC TSP 37, itens 6(b), 13 e 87(a)); não se soma aos valores do cadastro (Regras, item 10)".format(nivel))
+            ok6b = True
         elif sm == "Custo atribuído registrado no ato de incorporação":
             cm = "atendida (custo atribuído registrado no ato de incorporação)"
             c6b = ("atendido: valor registrado pela UnB no ato de incorporação publicado, após avaliação de comissão especial "
@@ -299,6 +321,11 @@ def main():
     resumo = []
     for c in (SUST, NAO, PEND):
         resumo.append({"indicador": c, "valor": sum(1 for r in saida if r["classe_reconhecimento"] == c)})
+    sit = lambda r: mens.get(r["id_registro"], {}).get("situacao", "")
+    resumo.append({"indicador": "Reconhecimento sustentado: pelo ato de incorporação (bens já no cadastro)",
+                   "valor": sum(1 for r in saida if r["classe_reconhecimento"] == SUST and sit(r).startswith("Custo atribuído registrado"))})
+    resumo.append({"indicador": "Reconhecimento sustentado: por mensuração da equipe (abordagem de mercado)",
+                   "valor": sum(1 for r in saida if r["classe_reconhecimento"] == SUST and sit(r) == "Mensuração fundamentada")})
     for c in ("sim", "pendente", "não"):
         resumo.append({"indicador": "Atende à definição de ativo: " + c, "valor": sum(1 for r in saida if r["atende_definicao_ativo"] == c)})
     for e in sorted({r["enquadramento_normativo"] for r in saida}):
