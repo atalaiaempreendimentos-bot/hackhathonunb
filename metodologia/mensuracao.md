@@ -42,8 +42,8 @@ Valores entram exclusivamente por `dados/evidencias_mensuracao.csv`, com fonte o
 | Nível | Evidência | Dados de entrada (NBC TSP 38, item 6) | Situação resultante |
 |---|---|---|---|
 | A | 3 ou mais transações realizadas de obras similares e obra da CAL com dimensões e tiragem conhecidas | Observáveis | Mensuração fundamentada (permite reconhecer) |
-| B | 3 ou mais transações realizadas, com ajustes relevantes | Observáveis | Mensuração fundamentada (permite reconhecer) |
-| C | 1 ou 2 transações, ou só estimativas e ofertas | Observáveis escassos ou não observáveis | Faixa indicativa: não reconhecer (Estrutura Conceitual (R1), item 6.8) |
+| B | 3 ou mais transações realizadas, com ajustes relevantes; ou 2 ou mais preços de entrada do próprio artista, vendas realizadas ou preços pedidos por galeria (regra 16, acrescentada em 25/11/2026) | Observáveis; o preço pedido por galeria é preço de entrada, não transação | Mensuração fundamentada (permite reconhecer) |
+| C | Um único preço de entrada, ou só estimativas | Observáveis escassos ou não observáveis | Faixa indicativa: não reconhecer (Estrutura Conceitual (R1), item 6.8) |
 | D | Insuficiente | Inexistentes | Sem mensuração monetária fundamentada |
 
 Preços anunciados e estimativas não são tratados como preço de transação (item 9.2). A ausência de evidência não é substituída por estimativa arbitrária nem por valor gerado por inteligência artificial (itens 9.4 e 17.10).
@@ -54,7 +54,7 @@ Fora dos níveis A a D, há uma situação própria para o valor oficial: "Custo
 
 1. Cada transação ou estimativa de obra comparável é registrada em `dados/comparaveis.csv`, com artista, família de técnica, título, técnica, dimensões, tiragem, data, casa de leilão, tipo de preço (arrematado, estimativa ou oferta), valores, moeda, indicação de prêmio do comprador e URL da fonte.
 2. O script associa os comparáveis às obras da CAL do mesmo artista e da mesma família de técnica (serigrafia, gravura em metal, litografia, xilogravura, desenho, pintura, escultura).
-3. Nível A: 3 ou mais transações realizadas e obra da CAL com dimensões e tiragem conhecidas; nível B: 3 ou mais transações realizadas; nível C: 1 ou 2 transações, ou só estimativas e ofertas.
+3. Nível A: 3 ou mais transações realizadas e obra da CAL com dimensões e tiragem conhecidas; nível B: 3 ou mais transações realizadas; nível C: 1 ou 2 transações, ou só estimativas e ofertas. A regra 16 amplia o nível B.
 4. Valor central: mediana das transações realizadas (nível C sem transação: ponto médio das estimativas). Intervalo: menor e maior valor entre transações e estimativas.
 5. Moedas não são misturadas; a conversão para BRL deve usar a taxa da data de referência (por exemplo, PTAX do Banco Central), com a fonte registrada.
 6. O resultado é gravado em `dados/evidencias_mensuracao.csv` (linhas automáticas, sem apagar as manuais) e o modelo é recalculado.
@@ -73,6 +73,10 @@ Regras acrescentadas em 25/11/2026 depois da busca, ao conferir os lotes na font
 13. Linhas com `tipo_comparavel` iniciado por "excluído" ficam em `dados/comparaveis.csv`, com o motivo na observação, mas fora da conta: edições produzidas muito depois do ingresso da obra da CAL, de outro período e de outro mercado (NBC TSP 38, itens 24 e 32); lotes cuja técnica a própria casa descreve de duas formas.
 14. Quando o portal grafa o nome do artista de forma diferente do mercado, a identidade é inferida pela procedência e pela técnica. A evidência registra a diferença como limitação, a conferir na assinatura da obra.
 15. Fora da Triangular, a mensuração da equipe leva ao reconhecimento só quando o vínculo provável com o cadastro é um bem tombado por R$ 0,01, custo simbólico que não é custo atribuído (NBC TSP 37, item 13): o valor de mercado é a base proposta para o custo atribuído na aplicação inicial (item 87(a)) e não se soma aos valores do cadastro. Sem esse vínculo, a obra pode já estar no balanço por valor registrado; o valor da equipe fica como informação.
+
+Regra acrescentada em 25/11/2026 a pedido de Lucas, para aplicar só o que as normas exigem (a NBC TSP 37, item 6(b), pede mensuração confiável, sem fixar número de vendas):
+
+16. O nível B também se alcança com dois ou mais preços de entrada do próprio artista na mesma família de técnica. Preço de entrada é a venda realizada em casa de leilão ou galeria ou o preço pedido por galeria: o valor corrente operacional é o preço que a UnB pagaria por obra equivalente (NBC TSP 38, item 25). O preço pedido não é transação (Regras, item 9.2); fica registrado como oferta, com a limitação de que pode ficar acima do preço de venda. Estimativa de leiloeiro não é preço. Com um único preço, a obra fica no nível C. O valor central é a mediana dos preços de entrada. Passam ao nível B Stoyan Tsanev (duas vendas) e Milan Dusek (dois preços de galeria); Maciej Babinski e Cícero Dias (uma venda cada) e Tarsila do Amaral (só estimativa) continuam no nível C.
 
 ### Evidências registradas em 23/11/2026
 
@@ -127,8 +131,8 @@ A pedido de Lucas, a busca procurou vendas realizadas em bases gratuitas, no Bra
 | Artista (grafia do portal) | Obras da CAL com evidência | Evidência | Nível |
 |---|---|---|---|
 | Tomás Sánches (Tomás Sánchez, Cuba, 1948) | 1: registro 3609, serigrafia, doação da Embaixada de Cuba em 1993 | 5 vendas realizadas, de 2016 a 2025, de serigrafias de 1985, de 1994 ou sem data: de R$ 956,86 a R$ 3.957,80; mediana de R$ 2.916,27 | B |
-| Stoyam Tzanev (Stoyan Tsanev, Bulgária, 1946–2019) | 1: registro 3597, água-forte e água-tinta, doação da Embaixada da Bulgária em 1993 | 2 vendas na Artmark em 2026, de gravuras em metal de 1979: € 1.600 e € 700 (R$ 9.659,84 e R$ 4.123,42) | C |
-| Milan Dusek | 42 gravuras em metal | Nenhuma venda; 2 preços de oferta da galeria (R$ 680,00 e R$ 4.800,00) | C |
+| Stoyam Tzanev (Stoyan Tsanev, Bulgária, 1946–2019) | 1: registro 3597, água-forte e água-tinta, doação da Embaixada da Bulgária em 1993 | 2 vendas na Artmark em 2026, de gravuras em metal de 1979: € 1.600 e € 700 (R$ 9.659,84 e R$ 4.123,42) | B pela regra 16 (era C) |
+| Milan Dusek | 42 gravuras em metal | Nenhuma venda; 2 preços de oferta da galeria (R$ 680,00 e R$ 4.800,00) | B pela regra 16 (era C) |
 | Maciej Babinski | 38 gravuras em metal | 1 venda (Capo, 2015, US$ 40,00, ou R$ 103,42) | C |
 
 Tomás Sánchez. Ficaram fora da conta, registradas em `dados/comparaveis.csv` (regra 13), as duas vendas de "Meditador en la orilla", edição de 2020 da Avant Arte (Phillips, 2021, US$ 2.016; Rago, 2024, US$ 4.032), de outro período; ficou fora também a venda da Elite (2015, US$ 700), cujo lote se diz litografia no título e serigrafia na descrição. Com as edições de 2020, a mediana seria R$ 3.548,38 (sete vendas), também no nível B. Não foram usadas duas vendas de "Orilla" descritas como litografia (Omega, 2016; Ansorena, 2021, com valor convertido pela própria Barnebys) nem uma estimativa da Cutler Bay sem página do lote. Limitações: o portal não informa título, ano, dimensões nem tiragem da obra da CAL, o que impede o nível A; quatro das cinco vendas são preços de martelo, sem o prêmio do comprador (NBC TSP 38, item 25(a)), o que pode subestimar o valor; a identidade do artista foi inferida pela procedência e pela técnica (regra 14); as vendas vão de 2016 a 2025, sem atualização para a data de referência.
@@ -138,6 +142,8 @@ Artista similar. Para as 81 obras de Zeila Navarro Swain (37 litografias), a bus
 Outros artistas. Marcello Grassmann e Wagner Hermuche têm vendas públicas, mas de famílias de técnica diferentes das obras da CAL. Para Tarsila do Amaral, só apareceu um lote misto, com obra de Alfredo Volpi, sem preço separável. Não houve venda pública de Lenora de Barros, dos demais artistas da Triangular, de Tupynambá, de Tuneu nem de Vicente Martinez.
 
 Resultado: 1 obra passa ao nível B e é reconhecida pela equipe, com valor agregado estimado de R$ 2.916,27, estimativa acadêmica que não se soma aos valores do cadastro. As obras com faixa indicativa passam de 15 para 96.
+
+Com a regra 16, Stoyan Tsanev (1 obra) e Milan Dusek (42) também passam ao nível B: são 44 mensurações fundamentadas e valor agregado estimado de R$ 124.887,90, dos quais R$ 115.080,00 vêm das obras de Dusek, pela mediana de dois preços de galeria. Só a obra de Tomás Sánchez leva ao reconhecimento; as outras 43 ficam como informação até o vínculo com o cadastro ou a confirmação da definição de ativo (regra 15). As faixas indicativas passam a 53.
 
 ## Incerteza
 

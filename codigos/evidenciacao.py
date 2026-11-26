@@ -110,16 +110,42 @@ def main():
                            i, r.get("autoria_origem", ""), mens[i].get("nivel_evidencia", "")))
     ev_obs = {e["id_registro"]: e.get("observacao", "") for e in ler("evidencias_mensuracao.csv")}
     fund_txt = []
+    grupos_f = defaultdict(list)
     for i, m in mens.items():
-        if m.get("situacao") != "Mensuração fundamentada":
-            continue
+        if m.get("situacao") == "Mensuração fundamentada":
+            grupos_f[m.get("autoria_origem", "")].append(i)
+    for autor, ids in sorted(grupos_f.items(), key=lambda t: (-len(t[1]), t[0])):
+        m = mens[ids[0]]
         k = re.search(r"(\d+) transação", m.get("tecnica", ""))
-        fund_txt.append("Registro {} ({}, {}): nível {}; valor central de {} (mediana de {} transações realizadas); intervalo de {} a {}, "
-                        "entre transações e estimativas{}; demais limitações em `dados/evidencias_mensuracao.csv`.".format(
-                            i, m.get("autoria_origem", ""), inv_id.get(i, {}).get("tecnica", "") or m.get("titulo", ""), m.get("nivel_evidencia", ""),
-                            brl(m["valor_central"] or 0), k.group(1) if k else "?", brl(m["valor_min"] or 0), brl(m["valor_max"] or 0),
-                            "; o portal grafa o nome do artista de forma diferente do mercado; a identidade deve ser conferida na "
-                            "assinatura da obra" if "grafa o nome" in ev_obs.get(i, "") else ""))
+        g = re.search(r"(\d+) preço\(s\) pedido", m.get("tecnica", ""))
+        nk = int(k.group(1)) if k else 0
+        base = ("mediana de {} vendas realizadas".format(nk) if nk else
+                "mediana de {} preços pedidos por galeria".format(g.group(1) if g else "?"))
+        centrais = sorted({float(mens[x]["valor_central"] or 0) for x in ids})
+        if len(centrais) == 1:
+            vc = "de " + brl(centrais[0]) + (" por obra" if len(ids) > 1 else "")
+        else:
+            vc = "de {} a {}".format(brl(centrais[0]), brl(centrais[-1]))
+        if len(ids) == 1:
+            quem = "registro {}, {}".format(ids[0], inv_id.get(ids[0], {}).get("tecnica", ""))
+        else:
+            quem = "{} registros".format(n(len(ids)))
+        txt = "{} ({}): nível {}; valor central {} ({}); intervalo de {} a {}".format(
+            autor, quem, m.get("nivel_evidencia", ""), vc, base, brl(m["valor_min"] or 0), brl(m["valor_max"] or 0))
+        if len(ids) > 1:
+            txt += "; soma de {}".format(brl(sum(float(mens[x]["valor_central"] or 0) for x in ids)))
+        if "grafa o nome" in ev_obs.get(ids[0], ""):
+            txt += "; o portal grafa o nome do artista de forma diferente do mercado, a conferir na assinatura da obra"
+        if g and not nk:
+            txt += "; preço pedido por galeria não é venda; sem as dimensões das obras, a diferença entre os preços não se ajusta"
+        fund_txt.append(txt + ".")
+    nf = sum(len(v) for v in grupos_f.values())
+    if nf > len(eq):
+        fund_txt.append("Das {} mensurações fundamentadas, {} {} ao reconhecimento; as outras ficam como informação até o vínculo com o "
+                        "cadastro ou a confirmação da definição de ativo (regra 15 de `metodologia/mensuracao.md`).".format(
+                            n(nf), n(len(eq)), "leva" if len(eq) == 1 else "levam"))
+    if fund_txt:
+        fund_txt.append("Demais limitações em `dados/evidencias_mensuracao.csv`.")
 
     # indicadores obrigatórios (item 15)
     rastreaveis = sum(1 for r in inv if r["url_registro"] and r["id_registro"] in rec and r["id_registro"] in mens)
@@ -283,7 +309,7 @@ Dificuldade comum: o acervo digital, mantido no software Tainacan, identifica as
 
 Registros com mensuração fundamentada: {fund}. Valor agregado das mensurações fundamentadas: {vfund}. Esse montante não representa o valor total do patrimônio cultural da CAL (Regras, item 15).{fund_txt}
 
-Há {faixa} obras com faixa indicativa (nível C), obtida pela abordagem de mercado (NBC TSP 38, item 42): {faixa_obs} a partir de uma ou duas transações realizadas (dados observáveis) e {faixa_nobs} só com estimativas de leiloeiro ou preços de oferta de galeria (dados não observáveis). Somadas, em reais (valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação): {fsoma}. A incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8).[^7] Sem vínculo obra a obra com o cadastro, não é possível avaliar se o valor corrente difere materialmente do valor registrado (NBC TSP 37, item 76(d)).
+Há {faixa} obras com faixa indicativa (nível C), obtida pela abordagem de mercado (NBC TSP 38, item 42): {faixa_obs} a partir de vendas insuficientes para o nível B (dados observáveis) e {faixa_nobs} só com estimativas de leiloeiro ou com um único preço pedido por galeria (dados não observáveis). Somadas, em reais (valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação): {fsoma}. A incerteza é elevada demais para reconhecimento (Estrutura Conceitual (R1), item 6.8).[^7] Sem vínculo obra a obra com o cadastro, não é possível avaliar se o valor corrente difere materialmente do valor registrado (NBC TSP 37, item 76(d)).
 
 ## 7 Restrições patrimoniais, culturais e documentais [i]
 
@@ -301,7 +327,7 @@ Certificado TLS do portal vencido na data da coleta ({data}), feita sem verifica
 [^4]: Mensuração: `codigos/mensuracao.py` e `metodologia/mensuracao.md`. O valor corrente operacional é o valor que a entidade pagaria pelo potencial de serviço remanescente; é preço de entrada, reflete o uso atual e inclui os custos necessários (NBC TSP 38, itens 6 e 25). Sem evidência suficiente, o registro recebe a classificação do item 9.4 das Regras, sem valor arbitrário.
 [^5]: Cadastro patrimonial por camada: `codigos/reconhecimento_cadastro.py` e `dados/reconhecimento_cadastro_resumo.csv` (a versão bem a bem fica fora do repositório público). Lista da CAL fornecida pela equipe, com {cad} bens tombados em {dt_tomb} (termo {termo}), migrados do SIPAT; conciliação agregada em `dados/conciliacao_patrimonial.csv` (`codigos/cadastro_patrimonial.py`); a versão item a item, sem dados pessoais, fica fora do repositório público até a confirmação da autorização de divulgação (Regras, item 12).
 [^6]: Constituição Federal de 1988, art. 207: as universidades obedecem ao princípio de indissociabilidade entre ensino, pesquisa e extensão. O potencial de serviços do patrimônio cultural está previsto nos itens 5.8 e 5.9 da Estrutura Conceitual (R1).
-[^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações; C: 1 ou 2 transações, ou só estimativas e ofertas. Só contam para A e B vendas do próprio artista em casa de leilão ou galeria; vendas em plataforma aberta, comparáveis de artista similar e obras em condição não confirmada só formam faixa indicativa; edições de outro período e lotes de técnica incerta ficam registrados, fora da conta. Valor central: mediana das transações; intervalo: menor e maior valor entre transações e estimativas. Valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação (`metodologia/mensuracao.md`).
+[^7]: Comparáveis do mesmo artista e da mesma família de técnica, com fonte (`dados/comparaveis.csv`, `codigos/comparaveis.py`). Nível A: 3 ou mais transações e obra com dimensões e tiragem conhecidas; B: 3 ou mais transações, ou 2 ou mais preços de entrada do próprio artista (vendas realizadas ou preços pedidos por galeria); C: um único preço, ou só estimativas. Só contam para A e B vendas do próprio artista em casa de leilão ou galeria; vendas em plataforma aberta, comparáveis de artista similar e obras em condição não confirmada só formam faixa indicativa; edições de outro período e lotes de técnica incerta ficam registrados, fora da conta. Valor central: mediana dos preços de entrada; intervalo: menor e maior valor entre transações e estimativas. Valores em moeda estrangeira convertidos pela PTAX de venda do Banco Central na data de cada transação (`metodologia/mensuracao.md`).
 [^8]: Relatório de bens da UnB (obras de arte, código de material 5244000000001), fornecido pela professora da disciplina em 24/11/2026; vínculo em `dados/valores_cadastro_unb.csv` e conciliação em `resultados/conciliacao_cadastro_unb.md` (`codigos/cadastro_unb_relatorio.py`). Vínculo confirmado: número de registro do portal igual ao tombamento ou ao registro do SIPAT. Vínculo provável: procedência do portal correspondente à sigla de origem do SIPAT, com valor único no grupo. Nomes e matrículas do relatório foram descartados.
 [^9]: Correlação entre fontes: `metodologia/identificacao.md` e `dados/conciliacao_patrimonial.csv`. Os tombamentos foram procurados em todos os metadados de todos os registros do acervo digital (`codigos/cadastro_patrimonial.py`). Sobre o software: TAINACAN. **Tainacan**: uma plataforma de repositórios flexível e poderosa para WordPress. [S. l.], 2026. Disponível em: https://tainacan.org/. Acesso em: 24 nov. 2026.
 [^10]: PINTO, Tamine Alana Oliveira. **Classificação museológica e coleções etnográficas**: trajetória da Coleção Galvão da Casa da Cultura da América Latina da Universidade de Brasília. 2019. Trabalho de Conclusão de Curso (Graduação em Museologia), Universidade de Brasília, Brasília, 2019, p. 44 e 49; ENTIDADES e peles: desvendando máscaras dos povos originários: exposição do acervo da Casa da Cultura da América Latina. Brasília, DF: Ed. dos Autores, 2025. E-book. ISBN 978-65-01-60206-6.

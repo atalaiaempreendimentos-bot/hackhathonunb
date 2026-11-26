@@ -16,8 +16,9 @@ Regras aplicadas (Regras do Hackathon, itens 9.1 a 9.4):
   - base: custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens
     10 e 23 a 25); técnica: abordagem de mercado (NBC TSP 38, item 42);
   - nível A: 3 ou mais transações realizadas e a obra da CAL com dimensões e tiragem conhecidas;
-    nível B: 3 ou mais transações realizadas; nível C: 1 ou 2 transações, ou só estimativas/ofertas;
-  - valor central = mediana das transações realizadas (ou ponto médio das estimativas, nível C);
+    nível B: 3 ou mais transações realizadas, ou 2 ou mais preços de entrada do próprio artista (vendas realizadas ou
+    preços pedidos por galeria; regra 16 da metodologia, 25/11/2026); nível C: um único preço, ou só estimativas;
+  - valor central = mediana dos preços de entrada (ou ponto médio das estimativas, nível C);
     intervalo = menor e maior valor entre transações e estimativas (análise de incerteza, item 9.3);
   - moedas diferentes não são misturadas: converter antes, informando taxa e fonte (ex.: PTAX/BCB);
   - linhas com tipo_comparavel iniciado por "excluído" (outro período, técnica incerta) ficam registradas, com o
@@ -104,6 +105,11 @@ def main():
         validos = [num(c["valor_arrematado"]) for c in cs if c["tipo_preco"] == "arrematado" and num(c["valor_arrematado"]) is not None
                    and (c.get("tipo_comparavel") or "mesmo artista") == "mesmo artista" and "ebay" not in norm(c.get("casa_leilao"))]
         similares = any((c.get("tipo_comparavel") or "mesmo artista") != "mesmo artista" for c in cs)
+        # regra 16: preço pedido por galeria do próprio artista é preço de entrada (o que a UnB pagaria; NBC TSP 38, item 25),
+        # embora não seja transação (Regras, item 9.2); dois ou mais preços de entrada levam ao nível B
+        ofertas = [num(c["valor_baixo"]) for c in cs if c["tipo_preco"] == "oferta" and num(c.get("valor_baixo")) is not None
+                   and (c.get("tipo_comparavel") or "mesmo artista") == "mesmo artista"]
+        entrada = validos + ofertas
         baixos = [num(c["valor_baixo"]) for c in cs if num(c.get("valor_baixo")) is not None]
         altos = [num(c["valor_alto"]) for c in cs if num(c.get("valor_alto")) is not None]
         todos = realizados + baixos + altos
@@ -112,18 +118,21 @@ def main():
         conhecidos = bool((l.get("dimensoes") or "").strip()) and bool((l.get("tiragem") or "").strip())
         if len(validos) >= 3 and not similares:
             nivel = "A" if conhecidos else "B"
+        elif len(entrada) >= 2 and not similares:
+            nivel = "B"
         else:
             nivel = "C"
-        if realizados:
-            central = statistics.median(realizados)
+        if realizados or ofertas:
+            central = statistics.median(realizados + ofertas)
         else:
             central = (min(baixos or todos) + max(altos or todos)) / 2.0
         datas = sorted(c["data_evento"] for c in cs if c.get("data_evento"))
         descr = "; ".join("{}{} ({}, {}, {}): {}{}".format(
             "[{}: {}] ".format(c.get("tipo_comparavel"), c.get("artista_comparavel")) if (c.get("tipo_comparavel") or "mesmo artista") != "mesmo artista" else "",
             c["titulo_comparavel"] or "sem título", c["tecnica_descrita"] or c["familia_tecnica"], c["casa_leilao"],
-            c["data_evento"], "arrematado {} {}".format(moeda, c["valor_arrematado"]) if c["tipo_preco"] == "arrematado" else c["tipo_preco"],
-            ", estimativa {}-{}".format(c["valor_baixo"], c["valor_alto"]) if c.get("valor_baixo") else "") for c in cs)
+            c["data_evento"], "arrematado {} {}".format(moeda, c["valor_arrematado"]) if c["tipo_preco"] == "arrematado" else
+            ("preço pedido {} {}".format(moeda, c["valor_baixo"]) if c["tipo_preco"] == "oferta" else c["tipo_preco"]),
+            ", estimativa {}-{}".format(c["valor_baixo"], c["valor_alto"]) if c.get("valor_baixo") and c["tipo_preco"] != "oferta" else "") for c in cs)
         lacunas = [] if conhecidos else ["dimensões e tiragem da obra da CAL não informadas no portal"]
         if similares:
             lacunas.append("há comparáveis de artista similar ou de obra em condição não confirmada (como tiragem em vida ou póstuma), "
@@ -143,13 +152,20 @@ def main():
         if any(norm(c.get("inclui_premio")) == "nao" for c in cs if c["tipo_preco"] == "arrematado"):
             lacunas.append("há preços de martelo, sem o prêmio do comprador, que é custo necessário da aquisição (NBC TSP 38, "
                            "item 25(a)): o valor central pode estar subestimado")
+        if ofertas:
+            lacunas.append("há preços pedidos por galeria, não vendas: o preço pedido pode ficar acima do preço de venda; sem as "
+                           "dimensões da obra da CAL, a diferença entre os preços não se ajusta (NBC TSP 38, itens 24 e 32)")
+        if nivel == "B" and len(validos) < 3:
+            lacunas.append("nível B pela regra 16 da metodologia: {} preços de entrada, menos de três vendas realizadas".format(len(entrada)))
         lacunas.append("ajustar condição, localização e restrições da obra da CAL (NBC TSP 38, itens 24 e 32)")
         obs = "{} Comparáveis: {}. Limitações: {}.".format(MARCA, descr, "; ".join(lacunas) if lacunas else "nenhuma registrada")
         novas.append({
             "id_registro": l["id_registro"],
             "base_mensuracao": "Custo atribuído pelo valor corrente operacional (NBC TSP 37, itens 12 e 27; NBC TSP 38, itens 10 e 23 a 25)",
-            "tecnica": "Abordagem de mercado (NBC TSP 38, item 42): {} transação(ões) realizada(s), {} comparável(is) no total; dados de entrada {}".format(
-                len(realizados), len(cs), "observáveis (preços de transações de obras similares)" if realizados else "não observáveis (estimativas de leiloeiro)"),
+            "tecnica": "Abordagem de mercado (NBC TSP 38, item 42): {} transação(ões) realizada(s){}, {} comparável(is) no total; dados de entrada {}".format(
+                len(realizados), ", {} preço(s) pedido(s) por galeria".format(len(ofertas)) if ofertas else "", len(cs),
+                "observáveis (preços de transações de obras similares)" if realizados else
+                ("preços pedidos por galeria, preço de entrada (NBC TSP 38, item 25)" if ofertas else "não observáveis (estimativas de leiloeiro)")),
             "valor_min": round(min(todos), 2), "valor_central": round(central, 2), "valor_max": round(max(todos), 2),
             "moeda": moeda, "data_referencia": datas[-1] if datas else "",
             "tipo_evidencia": "transacao" if realizados else "oferta",
